@@ -1,4 +1,4 @@
-package source;
+package logico;
 
 public class Main {
 	int j = 0;

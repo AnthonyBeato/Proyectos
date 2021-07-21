@@ -3,14 +3,18 @@ package logico;
 import java.util.ArrayList;
 
 public class Combo {
-
+	
+	private String code;
 	private ArrayList<Component> components;
 	private float discount;
+	public static int counter = 100;
 	
-	public Combo(ArrayList<Component> components, float discount) {
+	public Combo(String code, ArrayList<Component> components, float discount) {
 		super();
+		this.code = code;
 		this.components = components;
 		this.discount = discount;
+		counter++;
 	}
 
 	public ArrayList<Component> getComponents() {

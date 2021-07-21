@@ -10,6 +10,7 @@ public abstract class Component {
 	protected String brand;
 	protected int min_amount;
 	protected int max_amount;
+	public static int counter = 1000;
 	
 	public Component(String serial, int available, float price, String brand, int min_amount, int max_amount) {
 		super();
@@ -19,6 +20,7 @@ public abstract class Component {
 		this.brand = brand;
 		this.min_amount = min_amount;
 		this.max_amount = max_amount;
+		counter++;
 	}
 
 	public String getSerial() {
@@ -77,14 +79,9 @@ public abstract class Component {
 		 * amount of objects drops below the minimum (see setAvailable above).
 		 * private because it must only be called by this class automatically. */
 		
-		// Work in progress.
-		/* Missing: order's code (supposed to be automatically generated). 
-		 * 			Setting a Distributor.*/
-		
-		String code = null;
+		String code = "PO-"+PurchaseOrder.counter;
 		Date date = new Date();
-		Distributor distributor = null;
-		PurchaseOrder order = new PurchaseOrder(code, date, distributor, this, this.max_amount);
+		PurchaseOrder order = new PurchaseOrder(code, date, this, this.max_amount);
 		Store.getInstance().addOrder(order);
 	}
 	

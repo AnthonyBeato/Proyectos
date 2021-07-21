@@ -6,6 +6,7 @@ public abstract class User {
 	protected String username;
 	protected String password;
 	protected String name;		//Person's name and surname
+	public static int counter = 100;
 	
 	public User(String id, String username, String password, String name) {
 		super();
@@ -13,6 +14,7 @@ public abstract class User {
 		this.username = username;
 		this.password = password;
 		this.name = name;
+		counter++;
 	}
 	
 	public String getId() {

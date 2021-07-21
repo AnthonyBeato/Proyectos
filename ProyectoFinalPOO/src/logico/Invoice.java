@@ -10,6 +10,7 @@ public class Invoice {
 	private Seller seller;
 	private Customer customer;
 	private ArrayList<Component> components;	// List of components sold.
+	public static int counter = 1000;
 	
 	public Invoice(String code, Date date, Seller seller, Customer customer, ArrayList<Component> components) {
 		// Constructor with a given list of components.
@@ -19,6 +20,7 @@ public class Invoice {
 		this.seller = seller;
 		this.customer = customer;
 		this.components = components;
+		counter++;
 	}
 
 	public Invoice(String code, Date date, Seller seller, Customer customer) {
@@ -29,6 +31,7 @@ public class Invoice {
 		this.seller = seller;
 		this.customer = customer;
 		this.components = new ArrayList<Component>();
+		counter++;
 	}
 
 	public String getCode() {

@@ -6,7 +6,7 @@ public class PurchaseOrder {
 	
 	private String code;		// Identification number.
 	private Date date;
-	private Distributor distributor;
+	private Distributor distributor = null;	// Admin chooses this later;
 	private Component component;
 	private int amount;			// Amount of objects ordered, e.g. 10 HDDs.
 	
@@ -14,15 +14,16 @@ public class PurchaseOrder {
 	 								is true, it means it has been approved, 
 	 								and if it's false, it is yet to be approved.
 	 								Approving an order is the admin's job.*/
+	public static int counter = 1000;
 
-	public PurchaseOrder(String code, Date date, Distributor distributor, Component component, int amount) {
+	public PurchaseOrder(String code, Date date, Component component, int amount) {
 		super();
 		this.code = code;
 		this.date = date;
-		this.distributor = distributor;
 		this.component = component;
 		this.amount = amount;
 		this.done = false;		// done starts false by default.
+		counter++;
 	}
 
 	public String getCode() {

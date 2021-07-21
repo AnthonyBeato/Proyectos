@@ -8,6 +8,7 @@ public class Distributor {
 	private String name;
 	private int delivery_time;
 	private ArrayList<Component> components;
+	public static int counter = 100;
 	
 	public Distributor(String id, String name, int delivery_time, ArrayList<Component> components) {
 		super();
@@ -15,6 +16,7 @@ public class Distributor {
 		this.name = name;
 		this.delivery_time = delivery_time;
 		this.components = components;
+		counter++;
 	}
 
 	public String getId() {

@@ -1,5 +1,7 @@
 package logico;
 
+import java.util.Date;
+
 public abstract class Component {
 
 	protected String serial;
@@ -33,6 +35,9 @@ public abstract class Component {
 
 	public void setAvailable(int available) {
 		this.available = available;
+		if(this.available < min_amount) {
+			generate_order();
+		}
 	}
 
 	public float getPrice() {
@@ -65,6 +70,23 @@ public abstract class Component {
 
 	public void setMax_amount(int max_amount) {
 		this.max_amount = max_amount;
+	}
+	
+	private void generate_order() {
+		/* Automatically generates a purchase order if available
+		 * amount of objects drops below the minimum (see setAvailable above).
+		 * private because it must only be called by this class automatically. */
+		
+		// Work in progress.
+		/* Missing: order's code (supposed to be automatically generated). 
+		 * 			Inserting order into Controller Class Store.
+		 * 			Setting a Distributor.*/
+		
+		String code = null;
+		Date date = new Date();
+		Distributor distributor = null;
+		PurchaseOrder order = new PurchaseOrder(code, date, distributor, this, this.max_amount);
+		// *Insert order into Store's registry.
 	}
 	
 	

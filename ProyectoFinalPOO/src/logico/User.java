@@ -47,15 +47,5 @@ public abstract class User {
 		this.name = name;
 	}
 	
-	public boolean validate(String username, String password) {
-		/* Given a username and a password, checks if they match the user's.
-		 * Returns true if they do; false if they don't. */
-		
-		boolean matches = false;
-		if(this.username.equals(username) && this.password.equals(password)) {
-			matches = true;
-		}
-		return matches;
-	}
 
 }

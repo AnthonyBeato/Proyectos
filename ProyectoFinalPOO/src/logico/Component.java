@@ -79,14 +79,13 @@ public abstract class Component {
 		
 		// Work in progress.
 		/* Missing: order's code (supposed to be automatically generated). 
-		 * 			Inserting order into Controller Class Store.
 		 * 			Setting a Distributor.*/
 		
 		String code = null;
 		Date date = new Date();
 		Distributor distributor = null;
 		PurchaseOrder order = new PurchaseOrder(code, date, distributor, this, this.max_amount);
-		// *Insert order into Store's registry.
+		Store.getInstance().addOrder(order);
 	}
 	
 	

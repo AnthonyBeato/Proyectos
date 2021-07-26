@@ -9,27 +9,30 @@ public class Invoice {
 	private Date date;
 	private Seller seller;
 	private Customer customer;
+	private boolean paid;						// This is false if customer paid with credit. Any user may update this attribute.
 	private ArrayList<Component> components;	// List of components sold.
 	public static int counter = 1000;
 	
-	public Invoice(String code, Date date, Seller seller, Customer customer, ArrayList<Component> components) {
+	public Invoice(String code, Date date, Seller seller, Customer customer, boolean paid, ArrayList<Component> components) {
 		// Constructor with a given list of components.
 		super();
 		this.code = code;
 		this.date = date;
 		this.seller = seller;
 		this.customer = customer;
+		this.paid = paid;
 		this.components = components;
 		counter++;
 	}
 
-	public Invoice(String code, Date date, Seller seller, Customer customer) {
+	public Invoice(String code, Date date, Seller seller, Customer customer, boolean paid) {
 		// Constructor without components (to be added separately).
 		super();
 		this.code = code;
 		this.date = date;
 		this.seller = seller;
 		this.customer = customer;
+		this.paid = paid;
 		this.components = new ArrayList<Component>();
 		counter++;
 	}
@@ -79,8 +82,16 @@ public class Invoice {
 		components.add(component);
 	}
 	
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+
 	public float get_total() {
-		/* Calculates the total amount to be payed 
+		/* Calculates the total amount to be paid 
 		 * for every component. */
 		
 		float total = 0;

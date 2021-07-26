@@ -2,9 +2,9 @@ package logico;
 
 public class Customer {
 	
-	private String id;
-	private String name;
-	private float credit;
+	private String id;			// Identity card number
+	private String name;		// Name and surname
+	private float credit;		// Arbitrarily set by user who creates Customer.
 	
 	public Customer(String id, String name, float credit) {
 		super();

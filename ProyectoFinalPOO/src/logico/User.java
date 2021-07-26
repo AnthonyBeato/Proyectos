@@ -1,7 +1,10 @@
 package logico;
 
-public abstract class User {
+import java.io.Serializable;
+
+public abstract class User implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	protected String id;
 	protected String username;
 	protected String password;
@@ -18,11 +21,11 @@ public abstract class User {
 	}
 	
 	public String getId() {
-		return id;
+		return id; 
 	}
 	
 	public void setId(String id) {
-		this.id = id;
+		this.id = id; 
 	}
 	
 	public String getUsername() {

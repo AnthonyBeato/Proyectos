@@ -16,6 +16,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
+
+import logico.Administrator;
+import logico.Store;
+import logico.User;
+
 import java.awt.SystemColor;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -25,6 +30,15 @@ import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.FileSystemNotFoundException;
+import java.util.ResourceBundle.Control;
 
 public class Login extends JFrame {
 
@@ -40,6 +54,39 @@ public class Login extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				FileInputStream enterprise;
+				FileOutputStream enterprise2;
+				ObjectInputStream enterpriseRead;
+				ObjectOutputStream enterpriseWrite;
+				try {
+					enterprise = new FileInputStream("enterprise.dat");
+					enterpriseRead = new ObjectInputStream(enterprise);
+					Store temp = (Store)enterpriseRead.readObject();
+					Store.setStore(temp); //
+					enterprise.close(); 
+					enterpriseRead.close();
+				} catch (FileNotFoundException e) {
+					try {
+						enterprise2 = new FileOutputStream("enterprise.dat");
+						enterpriseWrite = new ObjectOutputStream(enterprise2);
+						Administrator aux = new Administrator(""+Administrator.counter, "Admin", "Admin", "Administrator", 1); 
+						System.out.println("Se creo el admin");
+						//User aux = new User(User.counter,"Admin","Admin","Administrador");;
+						Store.getInstance().addUser(aux);
+						enterpriseWrite.writeObject(Store.getInstance());
+						enterprise2.close();
+						enterpriseWrite.close();
+					}catch (FileNotFoundException e1) {
+					}catch(IOException e1) {  
+						
+					}
+				} catch (IOException e) {
+					
+				} catch (ClassNotFoundException e) {
+					
+					e.printStackTrace();
+				}
+				
 				try {
 					Login frame = new Login();
 					frame.setUndecorated(true);
@@ -149,9 +196,14 @@ public class Login extends JFrame {
 //				String password = String.valueOf(txtPassword.getPassword());
 //				
 //				if(!(txtUsuario.getText() == "" && password == "")) {
+				String pass = String.valueOf(txtPassword.getPassword());
+				System.out.println("Se guardo la contrasenia");
+				if (Store.getInstance().validate(txtUsuario.getText(), pass)) {
 					Dashboard aux = new Dashboard();
 					aux.setVisible(true);
 					dispose();
+					System.out.println("Se ingreso");
+				}
 //				}else {
 //				    JOptionPane.showMessageDialog(null, "Revisa los campos para poder ingresar", "Error!",
 //				            JOptionPane.ERROR_MESSAGE);

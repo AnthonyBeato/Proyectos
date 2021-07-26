@@ -3,10 +3,20 @@ package Visual;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logico.Store;
+
 import java.awt.Color;
 
 public class Dashboard extends JFrame {
@@ -32,8 +42,25 @@ public class Dashboard extends JFrame {
 
 	/**
 	 * Create the frame.
-	 */
+	 */ 
 	public Dashboard() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				FileOutputStream enterprise2;
+				ObjectOutputStream enterpriseWrite;
+				try {
+					enterprise2 = new FileOutputStream("enterprise.dat");
+					enterpriseWrite = new ObjectOutputStream(enterprise2);
+					enterpriseWrite.writeObject(Store.getInstance());
+				} catch(FileNotFoundException e1) {
+					e1.printStackTrace();
+				}catch(IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		dim = getToolkit().getScreenSize();

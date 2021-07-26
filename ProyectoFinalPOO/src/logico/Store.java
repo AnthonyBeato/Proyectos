@@ -1,9 +1,11 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Store {
+public class Store implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private ArrayList<User> users;
 	private ArrayList<Component> components;
 	private ArrayList<Invoice> invoices;
@@ -138,6 +140,14 @@ public class Store {
 	
 	public void addOrder(PurchaseOrder order) {
 		orders.add(order);
+	}
+	
+	public static Store getStore() {
+		return store;
+	}
+
+	public static void setStore(Store store) { 
+		Store.store = store;
 	}
 	
 	

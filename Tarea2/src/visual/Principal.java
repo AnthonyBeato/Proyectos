@@ -28,7 +28,7 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Principal frame = new Principal();
+					Principal frame = new Principal(); 
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

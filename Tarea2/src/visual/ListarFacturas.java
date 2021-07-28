@@ -22,6 +22,10 @@ import javax.swing.ListSelectionModel;
 
 public class ListarFacturas extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private DefaultTableModel model;

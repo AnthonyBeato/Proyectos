@@ -1,9 +1,14 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Controladora {
+public class Controladora implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Queso> misQuesos;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Cliente> misClientes;

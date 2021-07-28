@@ -194,9 +194,7 @@ public class Login extends JFrame {
 		JButton btnNewButton = new JButton("Ingresar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				String password = String.valueOf(txtPassword.getPassword());
-//				
-//				if(!(txtUsuario.getText() == "" && password == "")) {
+
 				String pass = String.valueOf(txtPassword.getPassword());
 				System.out.println("Se guardo la contrasenia");
 				if (Store.getInstance().validate(txtUsuario.getText(), pass)) {
@@ -205,11 +203,7 @@ public class Login extends JFrame {
 					dispose();
 					System.out.println("Se ingreso");
 				}
-//				}else {
-//				    JOptionPane.showMessageDialog(null, "Revisa los campos para poder ingresar", "Error!",
-//				            JOptionPane.ERROR_MESSAGE);
-//				}
-//				
+
 			}
 		});
 		btnNewButton.setForeground(Color.WHITE);
@@ -221,12 +215,6 @@ public class Login extends JFrame {
 		btnNewButton.setBounds(294, 386, 314, 36);
 		panel.add(btnNewButton);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\ji_rq\\git\\Proyectos\\ProyectoFinalPOO\\src\\Img\\Logo.png"));
-		lblNewLabel_1.setBounds(241, 25, 448, 295);
-		
-		ImageIcon ico = new ImageIcon(getClass().getResource("C:\\Users\\ji_rq\\git\\Proyectos\\ProyectoFinalPOO\\src\\Img\\Logo.png"));
-		//ImageIcon img = new ImageIcon(ico.);
-		panel.add(lblNewLabel_1);
+
 	}
 }

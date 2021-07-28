@@ -42,7 +42,7 @@ public class Dashboard extends JFrame {
 
 	/**
 	 * Create the frame.
-	 */ 
+	 */
 	public Dashboard() {
 		addWindowListener(new WindowAdapter() {
 			@Override

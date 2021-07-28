@@ -21,7 +21,7 @@ public abstract class Component {
 		this.min_amount = min_amount;
 		this.max_amount = max_amount;
 		counter++;
-	} 
+	}  
 
 	public String getSerial() {
 		return serial;

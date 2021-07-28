@@ -31,7 +31,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class RegPedido extends JDialog {
 
@@ -251,15 +259,53 @@ public class RegPedido extends JDialog {
 				}
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						// Esto es para conseguir la fecha actual y convertirla en una String dia-mes-año.
+						Date fecha = new Date();
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+						String fecha2 = formatter.format(fecha);
+						File archivo;
+						BufferedWriter writer;
+						
+						String code = "";		// Inicializada aquí arriba para poder ser utilizada en el bloque de creación de archivo.
+						Queso quesoAux = null;			// Igual aquí.
+						
 						if(selected == null) {
 							Cliente cliente = new Cliente(txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCedula.getText());
 							Factura factura = new Factura(cliente);
+
 							if(!listModelVendidos.isEmpty()) {
 								for (int i = 0; i < listModelVendidos.getSize(); i++) {
-									String code = listModelVendidos.getElementAt(i);
-									Queso quesoAux = Controladora.getInstance().buscarQuesoByID(code.substring(0, code.indexOf('|')-1));
+									code = listModelVendidos.getElementAt(i);
+									quesoAux = Controladora.getInstance().buscarQuesoByID(code.substring(0, code.indexOf('|')-1));
 									factura.insertarQueso(quesoAux);
 								}
+								
+								// Desde aquí creación de archivo.
+								archivo = new File("factura/"+fecha2+".txt");
+								float total = 0;
+								try {
+									writer = new BufferedWriter(new FileWriter(archivo));
+									writer.write("Cliente: "+txtNombre.getText());
+									writer.newLine();
+									writer.newLine();
+									writer.write("Quesos: ");
+									if(!listModelVendidos.isEmpty()) {
+										for (int i = 0; i < listModelVendidos.getSize(); i++) {
+											writer.newLine();
+											writer.write(code+"\t"+quesoAux.volumen()+"\t"+quesoAux.getPrecioUnitario());
+											total += quesoAux.getPrecioUnitario();
+										}
+									}
+									writer.newLine();
+									writer.newLine();
+									writer.write("Total: "+total);
+									writer.close();
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								// Fin de creación de archivo.
+								
 								Controladora.getInstance().insertarFactura(factura);
 								Controladora.getInstance().crearCliente(cliente);
 								System.out.println(factura.getClientes().getNombre()+" "+factura.getMisQuesos().get(0).getCodigo());

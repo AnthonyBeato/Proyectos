@@ -39,6 +39,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.FileSystemNotFoundException;
 import java.util.ResourceBundle.Control;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
 
@@ -219,5 +220,13 @@ public class Login extends JFrame {
 		btnNewButton.setFont(new Font("Yu Gothic UI", Font.BOLD, 16));
 		btnNewButton.setBounds(294, 386, 314, 36);
 		panel.add(btnNewButton);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\ji_rq\\git\\Proyectos\\ProyectoFinalPOO\\src\\Img\\Logo.png"));
+		lblNewLabel_1.setBounds(241, 25, 448, 295);
+		
+		ImageIcon ico = new ImageIcon(getClass().getResource("C:\\Users\\ji_rq\\git\\Proyectos\\ProyectoFinalPOO\\src\\Img\\Logo.png"));
+		//ImageIcon img = new ImageIcon(ico.);
+		panel.add(lblNewLabel_1);
 	}
 }

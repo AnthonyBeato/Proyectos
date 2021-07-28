@@ -18,6 +18,15 @@ import javax.swing.border.EmptyBorder;
 import logico.Store;
 
 import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Cursor;
+import javax.swing.JSeparator;
+import javax.swing.JLayeredPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JProgressBar;
 
 public class Dashboard extends JFrame {
 
@@ -69,8 +78,78 @@ public class Dashboard extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+		
+		JPanel panelLateral = new JPanel();
+		panelLateral.setBackground(new Color(102, 102, 255));
+		panelLateral.setBounds(-16, -11, 255, 842);
+		panel.add(panelLateral);
+		panelLateral.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Menu");
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+		lblNewLabel.setBounds(37, 145, 56, 24);
+		panelLateral.add(lblNewLabel);
+		
+		JLabel lblEmpleados = new JLabel("Empleados");
+		lblEmpleados.setForeground(Color.WHITE);
+		lblEmpleados.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+		lblEmpleados.setBounds(37, 180, 99, 24);
+		panelLateral.add(lblEmpleados);
+		
+		JLabel lblCerrarSesion = new JLabel("Cerrar Sesion");
+		lblCerrarSesion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblCerrarSesion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				Login aux = new Login();
+				aux.setUndecorated(true);
+				aux.setVisible(true);
+			}
+		});
+		lblCerrarSesion.setForeground(Color.WHITE);
+		lblCerrarSesion.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+		lblCerrarSesion.setBounds(37, 779, 147, 24);
+		panelLateral.add(lblCerrarSesion);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(230, 230, 250));
+		panel_1.setBounds(237, 0, 1457, 831);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("Menu");
+		lblNewLabel_1.setForeground(Color.GRAY);
+		lblNewLabel_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 18));
+		lblNewLabel_1.setBounds(26, 11, 136, 29);
+		panel_1.add(lblNewLabel_1);
+		
+		JSeparator separator = new JSeparator();
+		separator.setForeground(Color.LIGHT_GRAY);
+		separator.setBounds(0, 51, 1457, 2);
+		panel_1.add(separator);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBounds(26, 94, 391, 170);
+		panel_1.add(panel_2);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
+		panel_3.setBounds(520, 94, 391, 170);
+		panel_1.add(panel_3);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(Color.WHITE);
+		panel_4.setBounds(1010, 94, 391, 170);
+		panel_1.add(panel_4);
 	}
-
 }

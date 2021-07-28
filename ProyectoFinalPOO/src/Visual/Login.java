@@ -39,6 +39,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.FileSystemNotFoundException;
 import java.util.ResourceBundle.Control;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
 
@@ -193,9 +194,7 @@ public class Login extends JFrame {
 		JButton btnNewButton = new JButton("Ingresar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				String password = String.valueOf(txtPassword.getPassword());
-//				
-//				if(!(txtUsuario.getText() == "" && password == "")) {
+
 				String pass = String.valueOf(txtPassword.getPassword());
 				System.out.println("Se guardo la contrasenia");
 				if (Store.getInstance().validate(txtUsuario.getText(), pass)) {
@@ -204,11 +203,7 @@ public class Login extends JFrame {
 					dispose();
 					System.out.println("Se ingreso");
 				}
-//				}else {
-//				    JOptionPane.showMessageDialog(null, "Revisa los campos para poder ingresar", "Error!",
-//				            JOptionPane.ERROR_MESSAGE);
-//				}
-//				
+
 			}
 		});
 		btnNewButton.setForeground(Color.WHITE);
@@ -219,5 +214,7 @@ public class Login extends JFrame {
 		btnNewButton.setFont(new Font("Yu Gothic UI", Font.BOLD, 16));
 		btnNewButton.setBounds(294, 386, 314, 36);
 		panel.add(btnNewButton);
+		
+
 	}
 }

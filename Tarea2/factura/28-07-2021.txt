@@ -1,7 +1,7 @@
-Cliente: Pedro
+Cliente: Francisco
 
 Quesos: 
-Q-3 | Esférico	0.0	0.0
-Q-3 | Esférico	0.0	0.0
+Q-1 | Cilíndrico hueco	0.0	3.0
+Q-1 | Cilíndrico hueco	0.0	3.0
 
-Total: 0.0
+Total: 6.0

@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.Controladora;
+import logico.Queso;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -48,6 +49,7 @@ public class Principal extends JFrame {
 					empresaRead = new ObjectInputStream(empresa);
 					Controladora temp = (Controladora)empresaRead.readObject();
 					Controladora.setControladora(temp);
+					Queso.codQueso = Controladora.getInstance().getMisQuesos().size() + 1;
 					empresa.close();
 					empresaRead.close();
 				} catch (FileNotFoundException e) {

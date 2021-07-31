@@ -27,13 +27,13 @@ public class Cilindrico extends Queso {
 	public void setRadioCilindrico(int radioCilindrico) {
 		this.radioCilindrico = radioCilindrico;
 	}
-
+	
+	public int area() {
+		return (int) (Math.PI*Math.pow(radioCilindrico, 2));
+	}
+	
 	public float volumen() {
 		
 		return (longitud*area());
-	}
-
-	public int area() {
-		return (int) (Math.PI*Math.pow(radioCilindrico, 2));
 	}
 }

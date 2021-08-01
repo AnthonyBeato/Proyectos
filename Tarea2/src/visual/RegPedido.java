@@ -295,8 +295,9 @@ public class RegPedido extends JDialog {
 									writer.write("Quesos: ");
 									if(!listModelVendidos.isEmpty()) {
 										for (int i = 0; i < listModelVendidos.getSize(); i++) {
+											code = listModelVendidos.getElementAt(i);
+											quesoAux = Controladora.getInstance().buscarQuesoByID(code.substring(0, code.indexOf('|')-1));
 											writer.newLine();
-											System.out.println("El volumen es"+quesoAux.volumen());
 											writer.write(code+"\t"+quesoAux.volumen()+"\t"+quesoAux.getPrecioUnitario());
 											total += quesoAux.getPrecioUnitario();
 										}

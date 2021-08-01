@@ -102,7 +102,7 @@ public class ListarFacturas extends JDialog {
 			rows[0] = Controladora.getInstance().getMisFacturas().get(i).getClientes().getCedula();
 			rows[1] = Controladora.getInstance().getMisFacturas().get(i).getClientes().getNombre();
 			rows[2] = Controladora.getInstance().getMisFacturas().get(i).getMisQuesos().size();
-			rows[3] = Controladora.getInstance().getMisFacturas().get(i).getMisQuesos().get(i).precioTotal();
+			rows[3] = Controladora.getInstance().getMisFacturas().get(i).precioFactura();
 			model.addRow(rows);
 		}
 		

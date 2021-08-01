@@ -43,7 +43,7 @@ public class Factura implements Serializable{
 	public float precioFactura() {
 		int precio = 0;
 		for (Queso queso : misQuesos) {
-			precio += queso.getPrecioUnitario();
+			precio += queso.precioTotal();
 		}
 		return precio; 
 	}

@@ -1,8 +1,7 @@
-Cliente: Antonio
+Cliente:  Pedro
 
 Quesos: 
-Q-1 | Esférico	392699.1	14.0
-Q-2 | Cilíndrico	6283.1855	14.0
-Q-3 | Cilíndrico hueco	351858.38	23.0
+Q-2 | Cilíndrico	1539.3804	13.0
+Q-3 | Cilíndrico hueco	933.053	10.0
 
-Total: 51.0
+Total: 23.0

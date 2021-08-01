@@ -41,7 +41,7 @@ public class RegQueso extends JDialog {
 	private JSpinner spnRadioInteriorCIlindricoHueco;
 	private JSpinner spnRadioExteriorCilindroHueco;
 	private JSpinner spnLongitud;
-	private JPanel panelEsferico;
+	private JPanel panelEsferico; 
 	private JPanel panelCilindro;
 	private JPanel panelCilindroHueco;
 	private JLabel lblLongitud;
@@ -240,20 +240,20 @@ public class RegQueso extends JDialog {
 							String codigo = txtCodigoQueso.getText();
 							
 							if(rdbtnEsferico.isSelected()) {
-								int radio = new Integer(spnRadioEsferico.getValue().toString());
+								float radio = new Float(spnRadioEsferico.getValue().toString());
 								aux = new Esfera(precioBase, precioUnitario, codigo, radio);
 							}
 							
 							if(rdbtnCilindrico.isSelected()) {
-								int radio = new Integer(spnRadioCilindro.getValue().toString());
-								int longitud = new Integer(spnLongitud.getValue().toString());
+								float radio = new Float(spnRadioCilindro.getValue().toString());
+								float longitud = new Float(spnLongitud.getValue().toString());
 								aux = new Cilindrico(precioBase, precioUnitario, codigo, longitud, radio);
 							}
 							
 							if(rdbtnCilndricoHueco.isSelected()) {
-								int radioExterior = new Integer(spnRadioExteriorCilindroHueco.getValue().toString());
+								float radioExterior = new Float(spnRadioExteriorCilindroHueco.getValue().toString());
 								float radioInterior = new Float(spnRadioInteriorCIlindricoHueco.getValue().toString());
-								int longitud = new Integer(spnLongitudCilindricoHueco.getValue().toString());
+								float longitud = new Float(spnLongitudCilindricoHueco.getValue().toString());
 								aux = new CilindricoHueco(precioBase, precioUnitario, codigo, longitud, 0, radioInterior, radioExterior);
 							}
 							Controladora.getInstance().insertarQueso(aux); 
@@ -265,16 +265,16 @@ public class RegQueso extends JDialog {
 							selected.setPrecioBase(Float.valueOf(spnPrecioBase.getValue().toString()));
 							selected.setPrecioUnitario(Float.valueOf(spnPrecioUnitario.getValue().toString()));
 							if (selected instanceof Esfera) {
-								((Esfera)selected).setRadioEsfera(Integer.valueOf(spnRadioEsferico.getValue().toString()));	
+								((Esfera)selected).setRadioEsfera(Float.valueOf(spnRadioEsferico.getValue().toString()));	
 							}
 							if(selected instanceof Cilindrico) {
-								((Cilindrico)selected).setRadioCilindrico(Integer.valueOf(spnRadioCilindro.getValue().toString()));
-								((Cilindrico)selected).setLongitud(Integer.valueOf(spnLongitud.getValue().toString()));	
+								((Cilindrico)selected).setRadioCilindrico(Float.valueOf(spnRadioCilindro.getValue().toString()));
+								((Cilindrico)selected).setLongitud(Float.valueOf(spnLongitud.getValue().toString()));	
 							}
 							if(selected instanceof CilindricoHueco) {
-								((CilindricoHueco)selected).setRadioCilindricoHueco(Integer.valueOf(spnRadioExteriorCilindroHueco.getValue().toString()));
+								((CilindricoHueco)selected).setRadioCilindricoHueco(Float.valueOf(spnRadioExteriorCilindroHueco.getValue().toString()));
 								((CilindricoHueco)selected).setRadioInterior(Float.valueOf(spnRadioInteriorCIlindricoHueco.getValue().toString()));
-								((CilindricoHueco)selected).setLongitud(Integer.valueOf(spnLongitudCilindricoHueco.getValue().toString()));	
+								((CilindricoHueco)selected).setLongitud(Float.valueOf(spnLongitudCilindricoHueco.getValue().toString()));	
 							}
 							Controladora.getInstance().modificarQueso(selected);
 							ListarQuesos.loadQuesos(0);
@@ -306,15 +306,15 @@ public class RegQueso extends JDialog {
 			spnPrecioUnitario.setValue(new Float(selected.getPrecioUnitario()));
 			txtCodigoQueso.setText(selected.getCodigo());
 			if(selected instanceof Esfera) {
-				spnRadioEsferico.setValue(new Integer(((Esfera)selected).getRadioEsfera()).intValue());
+				spnRadioEsferico.setValue(new Float(((Esfera)selected).getRadioEsfera()));
 			}
 			if (selected instanceof Cilindrico && !(selected instanceof CilindricoHueco)) {
-				spnRadioCilindro.setValue(new Integer(((Cilindrico)selected).getRadioCilindrico()).intValue());
-				spnLongitud.setValue(new Integer(((Cilindrico)selected).getLongitud()).intValue());	
+				spnRadioCilindro.setValue(new Float(((Cilindrico)selected).getRadioCilindrico()));
+				spnLongitud.setValue(new Float(((Cilindrico)selected).getLongitud()));	
 			}
 			if(selected instanceof CilindricoHueco && !(selected instanceof Cilindrico)) {
-				spnLongitudCilindricoHueco.setValue(new Integer(((CilindricoHueco)selected).getLongitud()).intValue());
-				spnRadioExteriorCilindroHueco.setValue(new Integer(((CilindricoHueco)selected).getRadioCilindricoHueco()).intValue());
+				spnLongitudCilindricoHueco.setValue(new Float(((CilindricoHueco)selected).getLongitud()));
+				spnRadioExteriorCilindroHueco.setValue(new Float(((CilindricoHueco)selected).getRadioCilindricoHueco()));
 				spnRadioInteriorCIlindricoHueco.setValue(new Float(((CilindricoHueco)selected).getRadioInterior()));		
 			}
 		}

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import logico.Cliente;
 import logico.Controladora;
 import logico.Queso;
 
@@ -31,6 +32,10 @@ import java.awt.event.ActionEvent;
 
 public class Principal extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Dimension dim;
 
@@ -50,6 +55,7 @@ public class Principal extends JFrame {
 					Controladora temp = (Controladora)empresaRead.readObject();
 					Controladora.setControladora(temp);
 					Queso.codQueso = Controladora.getInstance().getMisQuesos().size() + 1;
+					Cliente.codCliente = Controladora.getInstance().getMisClientes().size() + 1;
 					empresa.close();
 					empresaRead.close();
 				} catch (FileNotFoundException e) {
@@ -148,7 +154,7 @@ public class Principal extends JFrame {
 				RegPedido regpedido = new RegPedido(null);
 				regpedido.setModal(true);
 				regpedido.setVisible(true);
-			}
+			} 
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		

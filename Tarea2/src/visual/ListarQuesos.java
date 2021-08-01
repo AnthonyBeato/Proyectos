@@ -47,7 +47,7 @@ public class ListarQuesos extends JDialog {
 	JComboBox cbxTipoQueso;
 	private Queso selected = null;
 
-	/**
+	/** 
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {

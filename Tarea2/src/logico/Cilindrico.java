@@ -2,35 +2,35 @@ package logico;
 
 public class Cilindrico extends Queso {
 
-	private int longitud;
-	private int radioCilindrico;
+	private float longitud;
+	private float radioCilindrico;
 
-	public Cilindrico(float precioBase, float precioUnitario, String nombre, int longitud, int radioCilindrico) {
+	public Cilindrico(float precioBase, float precioUnitario, String nombre, float longitud, float radioCilindrico) {
 		super(precioBase, precioUnitario, nombre);
 		this.longitud = longitud; 
 		this.radioCilindrico = radioCilindrico;
 	}
 
 
-	public int getLongitud() {
+	public float getLongitud() {
 		return longitud;
 	}
 
-	public void setLongitud(int longitud) {
+	public void setLongitud(float longitud) {
 		this.longitud = longitud;
 	}
 
-	public int getRadioCilindrico() {
+	public float getRadioCilindrico() {
 		return radioCilindrico;
 	}
 
-	public void setRadioCilindrico(int radioCilindrico) {
+	public void setRadioCilindrico(float radioCilindrico) {
 		this.radioCilindrico = radioCilindrico;
 	}
 	
-	public int area() {
-		return (int) (Math.PI*Math.pow(radioCilindrico, 2));
-	}
+	public float area() {
+		return (float) (Math.PI*Math.pow(radioCilindrico, 2));
+	} 
 	
 	public float volumen() {
 		

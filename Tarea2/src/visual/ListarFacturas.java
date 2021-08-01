@@ -89,7 +89,7 @@ public class ListarFacturas extends JDialog {
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				buttonPane.add(cancelButton); 
 			}
 		}
 		loadTable();

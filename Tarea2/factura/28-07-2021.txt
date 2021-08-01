@@ -1,7 +1,0 @@
-Cliente: Francisco
-
-Quesos: 
-Q-1 | Cilíndrico hueco	0.0	3.0
-Q-1 | Cilíndrico hueco	0.0	3.0
-
-Total: 6.0

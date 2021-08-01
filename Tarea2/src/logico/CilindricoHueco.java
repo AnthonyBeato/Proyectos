@@ -3,10 +3,10 @@ package logico;
 public class CilindricoHueco extends Cilindrico {
 
 	private float radioInterior;
-	private int radioCilindricoHueco;	
+	private float radioCilindricoHueco;	
 
-	public CilindricoHueco(float precioBase, float precioUnitario, String codigo, int longitud, int radioCilindrico,
-			float radioInterior, int radioCilindricoHueco) {
+	public CilindricoHueco(float precioBase, float precioUnitario, String codigo, float longitud, float radioCilindrico,
+			float radioInterior, float radioCilindricoHueco) {
 		super(precioBase, precioUnitario, codigo, longitud, radioCilindrico);
 		this.radioInterior = radioInterior;
 		this.radioCilindricoHueco = radioCilindricoHueco;
@@ -25,22 +25,16 @@ public class CilindricoHueco extends Cilindrico {
 
 
 
-	public int getRadioCilindricoHueco() {
+	public float getRadioCilindricoHueco() {
 		return radioCilindricoHueco;
 	}
 
 
 
-	public void setRadioCilindricoHueco(int radioCilindricoHueco) {
+	public void setRadioCilindricoHueco(float radioCilindricoHueco) {
 		this.radioCilindricoHueco = radioCilindricoHueco;
 	}
 
-
-
-	public int area() {
-		return (int) (Math.PI*radios());
-	}
-	
 	public float radios() {
 		if (radioCilindricoHueco > radioInterior) {
 			return (float)((Math.pow(radioCilindricoHueco, 2)) - (Math.pow(radioInterior, 2)));
@@ -48,4 +42,9 @@ public class CilindricoHueco extends Cilindrico {
 		
 		return 0;
 	}
+
+	public float area() { 
+		return (float) (Math.PI*radios());
+	}
+
 }

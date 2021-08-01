@@ -291,11 +291,12 @@ public class RegPedido extends JDialog {
 									writer = new BufferedWriter(new FileWriter(archivo));
 									writer.write("Cliente: "+txtNombre.getText());
 									writer.newLine();
-									writer.newLine();
+									writer.newLine(); 
 									writer.write("Quesos: ");
 									if(!listModelVendidos.isEmpty()) {
 										for (int i = 0; i < listModelVendidos.getSize(); i++) {
 											writer.newLine();
+											System.out.println("El volumen es"+quesoAux.volumen());
 											writer.write(code+"\t"+quesoAux.volumen()+"\t"+quesoAux.getPrecioUnitario());
 											total += quesoAux.getPrecioUnitario();
 										}

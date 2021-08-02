@@ -12,7 +12,7 @@ public class Servidor extends Thread {
 	
 	public static void main (String args[]) 
 	{
-		Controladora.getInstance().FileRespaldo("factura/factura.txt", args[0]);
+		//Controladora.getInstance().FileRespaldo("factura/factura.txt", args[0]);
 		ServerSocket server = null;
 		try {
 			server = new ServerSocket(7000);
@@ -21,17 +21,17 @@ public class Servidor extends Thread {
 		    System.exit(1);
 		}
 		
-		while(true) {
-			try {
-				Socket socket = server.accept();
-				System.out.println("Conexion aceptada de: "+socket.getInetAddress());
-				Flujo flujo = new Flujo(socket);
-				Thread t = new Thread(flujo);
-				t.start();
-			} catch (IOException ioe) {
-				System.out.println("Error: "+ioe);
-			}
+		
+		try {
+			Socket socket = server.accept();
+			System.out.println("Conexion aceptada de: "+socket.getInetAddress());
+			Flujo flujo = new Flujo(socket);
+			Thread t = new Thread(flujo);
+			t.start();
+		} catch (IOException ioe) {
+			System.out.println("Error: "+ioe);
 		}
+		
 	} 
 
 }

@@ -130,7 +130,7 @@ public class DashboardHome extends JFrame {
 		});
 		lblNewLabel_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(46, 755, 154, 27);
+		lblNewLabel_1.setBounds(46, 771, 154, 27);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Administraci\u00F3n");
@@ -192,6 +192,13 @@ public class DashboardHome extends JFrame {
 	
 		panel.add(IconoLabel);
 		
+		JLabel lblNewLabel_2_2_1 = new JLabel("Usuario | Administrador");
+		lblNewLabel_2_2_1.setForeground(new Color(102, 102, 255));
+		lblNewLabel_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_2_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 14));
+		lblNewLabel_2_2_1.setBounds(46, 740, 154, 27);
+		panel.add(lblNewLabel_2_2_1);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(247, 0, 1457, 841);
 		contentPane.add(panel_1);
@@ -221,7 +228,7 @@ public class DashboardHome extends JFrame {
 		
 		JPanel panelClienteSuperior = new JPanel();
 		panelClienteSuperior.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		panelClienteSuperior.setBackground(new Color(30, 144, 255));
+		panelClienteSuperior.setBackground(new Color(102, 102, 255));
 		panelClienteSuperior.setBounds(52, 125, 272, 57);
 		panel_1.add(panelClienteSuperior);
 		panelClienteSuperior.setLayout(null);
@@ -253,7 +260,7 @@ public class DashboardHome extends JFrame {
 		JPanel panelComponentesSuperior = new JPanel();
 		panelComponentesSuperior.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		panelComponentesSuperior.setBackground(new Color(102, 102, 255));
-		panelComponentesSuperior.setBounds(416, 125, 272, 57);
+		panelComponentesSuperior.setBounds(406, 125, 272, 57);
 		panel_1.add(panelComponentesSuperior);
 		panelComponentesSuperior.setLayout(null);
 		
@@ -267,7 +274,7 @@ public class DashboardHome extends JFrame {
 		JPanel panelComponentesDatos = new JPanel();
 		panelComponentesDatos.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		panelComponentesDatos.setBackground(Color.WHITE);
-		panelComponentesDatos.setBounds(416, 182, 272, 89);
+		panelComponentesDatos.setBounds(406, 182, 272, 89);
 		panel_1.add(panelComponentesDatos);
 		panelComponentesDatos.setLayout(null);
 		
@@ -283,7 +290,7 @@ public class DashboardHome extends JFrame {
 		
 		JPanel panelUsuariosSuperior = new JPanel();
 		panelUsuariosSuperior.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		panelUsuariosSuperior.setBackground(new Color(255, 0, 51));
+		panelUsuariosSuperior.setBackground(new Color(102, 102, 255));
 		panelUsuariosSuperior.setBounds(782, 125, 272, 57);
 		panel_1.add(panelUsuariosSuperior);
 		panelUsuariosSuperior.setLayout(null);
@@ -314,7 +321,7 @@ public class DashboardHome extends JFrame {
 		
 		JPanel panelFacturasSuperior = new JPanel();
 		panelFacturasSuperior.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		panelFacturasSuperior.setBackground(new Color(51, 204, 102));
+		panelFacturasSuperior.setBackground(new Color(102, 102, 255));
 		panelFacturasSuperior.setBounds(1136, 125, 272, 57);
 		panel_1.add(panelFacturasSuperior);
 		panelFacturasSuperior.setLayout(null);
@@ -342,6 +349,18 @@ public class DashboardHome extends JFrame {
 		lblNewLabel_3_1_3.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 18));
 		lblNewLabel_3_1_3.setBounds(152, 27, 110, 40);
 		panelFacturaDatos.add(lblNewLabel_3_1_3);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBounds(52, 366, 626, 413);
+		panel_1.add(panel_2);
+		
+		JPanel panel_2_1 = new JPanel();
+		panel_2_1.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panel_2_1.setBackground(Color.WHITE);
+		panel_2_1.setBounds(782, 366, 626, 413);
+		panel_1.add(panel_2_1);
 		
 		
 		final DateTimeFormatter formateador = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");

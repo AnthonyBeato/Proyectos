@@ -17,6 +17,7 @@ import logico.Controladora;
 import logico.Esfera;
 import logico.Factura;
 import logico.Queso;
+import logico.Servidor;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -35,6 +36,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -315,7 +318,19 @@ public class RegPedido extends JDialog {
 								
 								// FUNCION DE RESPALDO DE FACTURA
 								
-								Controladora.getInstance().FileRespaldo("factura/"+nameSourceFactura, "Respaldo/Respaldo-"+nameSourceFactura);
+								// Controladora.getInstance().FileRespaldo("factura/"+nameSourceFactura, "Respaldo/Respaldo-"+nameSourceFactura);
+								/*try {
+									Socket sfd = new Socket("127.0.0.1",7000);
+								} catch (UnknownHostException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}*/
+								String[] args = new String[1];
+								args[0] = nameSourceFactura;
+								Servidor.main(args);
 								
 								// FIN DE FUNCION
 								

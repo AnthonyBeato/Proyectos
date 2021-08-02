@@ -11,9 +11,9 @@ public class Servidor extends Thread {
 	
 	public static void main (String args[]) 
 	{
-		
+		Controladora.getInstance().FileRespaldo("factura/"+args[0], "Respaldo/Respaldo-"+args[0]);
 		ServerSocket server = null;
-		try {
+		/*try {
 			server = new ServerSocket(7000);
 		} catch (IOException ioe) {
 			System.out.println("Comunicación rechazada."+ioe);
@@ -26,7 +26,7 @@ public class Servidor extends Thread {
 			} catch (IOException ioe) {
 				System.out.println("Error: "+ioe);
 			}
-		}
+		}*/
 	}
 
 }

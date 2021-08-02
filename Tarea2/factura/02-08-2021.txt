@@ -1,7 +1,0 @@
-Cliente:  Juan
-
-Quesos: 
-Q-1 | Esférico	392.6991	11.0
-Q-2 | Cilíndrico	1539.3804	13.0
-
-Total: 24.0

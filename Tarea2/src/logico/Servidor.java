@@ -14,7 +14,7 @@ public class Servidor extends Thread {
 	{
 		Controladora.getInstance().FileRespaldo("factura/factura.txt", args[0]);
 		ServerSocket server = null;
-		/*try {
+		try {
 			server = new ServerSocket(7000);
 		} catch (IOException ioe) {
 			System.out.println("Comunicación rechazada."+ioe);
@@ -24,10 +24,14 @@ public class Servidor extends Thread {
 		while(true) {
 			try {
 				Socket socket = server.accept();
+				System.out.println("Conexion aceptada de: "+socket.getInetAddress());
+				Flujo flujo = new Flujo(socket);
+				Thread t = new Thread(flujo);
+				t.start();
 			} catch (IOException ioe) {
 				System.out.println("Error: "+ioe);
 			}
-		}*/
+		}
 	} 
 
 }

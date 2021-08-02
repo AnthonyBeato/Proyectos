@@ -1,5 +1,6 @@
 package logico;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,7 +12,7 @@ public class Servidor extends Thread {
 	
 	public static void main (String args[]) 
 	{
-		Controladora.getInstance().FileRespaldo("factura/"+args[0], "Respaldo/Respaldo-"+args[0]);
+		Controladora.getInstance().FileRespaldo("factura/factura.txt", args[0]);
 		ServerSocket server = null;
 		/*try {
 			server = new ServerSocket(7000);

@@ -289,7 +289,7 @@ public class RegPedido extends JDialog {
 								
 								// Desde aquí creación de archivo.
 								String nameSourceFactura = fecha2+".txt";
-								archivo = new File("factura/"+ nameSourceFactura);
+								archivo = new File("factura/factura.txt");
 								float total = 0;
 								try {
 									writer = new BufferedWriter(new FileWriter(archivo));

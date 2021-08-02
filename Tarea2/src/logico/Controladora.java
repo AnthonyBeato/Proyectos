@@ -1,5 +1,9 @@
 package logico;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -203,6 +207,31 @@ public class Controladora implements Serializable{
 	public void modificarCliente(Cliente selected) {
 		int aux = buscarIndexOfClienteByCodigo(selected.getCedula());
 		misClientes.set(aux, selected);
+	}
+	
+	public void FileRespaldo( String sourceFactura, String destinationFactura) {
+		System.out.println("Desde: " + sourceFactura);
+		System.out.println("Hacia: " + destinationFactura);
+		
+		try {
+			File inFile = new File(sourceFactura);
+			File outFile = new File(destinationFactura);
+			
+			FileInputStream in = new FileInputStream(inFile);
+			FileOutputStream out = new FileOutputStream(outFile);
+			
+			int c;
+			while ((c = in.read()) != -1) {
+				out.write(c);
+			}
+			
+			in.close();
+			out.close();
+			
+			
+		} catch (IOException e) {
+			System.out.println("Error en salida/entrada");
+		}
 	}
 	
 	

@@ -285,7 +285,8 @@ public class RegPedido extends JDialog {
 								}
 								
 								// Desde aquí creación de archivo.
-								archivo = new File("factura/"+fecha2+".txt");
+								String nameSourceFactura = fecha2+".txt";
+								archivo = new File("factura/"+ nameSourceFactura);
 								float total = 0;
 								try {
 									writer = new BufferedWriter(new FileWriter(archivo));
@@ -311,6 +312,13 @@ public class RegPedido extends JDialog {
 									e1.printStackTrace();
 								}
 								// Fin de creación de archivo.
+								
+								// FUNCION DE RESPALDO DE FACTURA
+								
+								Controladora.getInstance().FileRespaldo("factura/"+nameSourceFactura, "Respaldo/Respaldo-"+nameSourceFactura);
+								
+								// FIN DE FUNCION
+								
 								
 								Controladora.getInstance().insertarFactura(factura);
 								Controladora.getInstance().crearCliente(cliente);

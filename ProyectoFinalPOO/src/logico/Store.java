@@ -99,11 +99,7 @@ public class Store implements Serializable{
 		Store.loggedUser = loggedUser;
 	}
 	
-	public boolean validate(String username, String password) {
-		/* Given a username and a password, checks if they match the user's.
-		 * Returns true if they do; false if they don't. 
-		 * If true, sets loggedUser to the current user.*/
-		
+	public boolean validate(String username, String password) {		
 		boolean matches = false;
 		for (User user : users) {
 			if(user.getUsername().equals(username) && user.getPassword().equals(password)) {

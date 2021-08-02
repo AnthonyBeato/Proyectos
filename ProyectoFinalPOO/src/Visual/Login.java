@@ -140,7 +140,7 @@ public class Login extends JFrame {
 		JLabel lblNewLabel = new JLabel("TechShop");
 		lblNewLabel.setForeground(new Color(102, 102, 255));
 		lblNewLabel.setFont(new Font("Yu Gothic Medium", Font.PLAIN, 21));
-		lblNewLabel.setBounds(20, 13, 107, 36);
+		lblNewLabel.setBounds(20, 18, 107, 36);
 		panel.add(lblNewLabel);
 
 		JLabel label = new JLabel("|");
@@ -196,9 +196,8 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				String pass = String.valueOf(txtPassword.getPassword());
-				System.out.println("Se guardo la contrasenia");
 				if (Store.getInstance().validate(txtUsuario.getText(), pass)) {
-					Dashboard aux = new Dashboard();
+					DashboardHome aux = new DashboardHome();
 					aux.setVisible(true);
 					dispose();
 					System.out.println("Se ingreso");

@@ -13,6 +13,7 @@ public class Servidor extends Thread {
 	public static void main (String args[]) 
 	{
 		//Controladora.getInstance().FileRespaldo("factura/factura.txt", args[0]);
+		System.out.println("Entro");
 		ServerSocket server = null;
 		try {
 			server = new ServerSocket(7000);

@@ -1,6 +1,6 @@
-Cliente:  Tomy
+Cliente:  Luis
 
 Quesos: 
-Q-1 | Esférico	201.06194	3.0
+Q-1 | Esférico	12867.964	12.0
 
-Total: 3.0
+Total: 12.0

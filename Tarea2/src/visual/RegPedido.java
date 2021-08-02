@@ -328,9 +328,9 @@ public class RegPedido extends JDialog {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}														*/
-								String[] args = new String[1];
+								/*String[] args = new String[1];
 								args[0] = nameSourceFactura; 
-								Servidor.main(args);
+								Servidor.main(args); */
 								//Servidor server = new Servidor();
 								//  				usar a server aqui.
 								

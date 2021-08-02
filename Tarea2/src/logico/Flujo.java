@@ -27,6 +27,7 @@ public class Flujo extends Thread
 
  public void run()
  {
+    System.out.println("Llego al inicio");
 	Date fecha = new Date();
 	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 	String fecha2 = formatter.format(fecha);
@@ -53,7 +54,7 @@ public class Flujo extends Thread
 		
 		in.close();
 		out.close();
-		
+		System.out.println("Llego hasta el final del flujo");
 		
 	} catch (IOException e) {
 		System.out.println("Error en salida/entrada");

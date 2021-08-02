@@ -209,7 +209,7 @@ public class Controladora implements Serializable{
 		misClientes.set(aux, selected);
 	}
 	
-	public void FileRespaldo( String sourceFactura, String destinationFactura) {
+	/*public void FileRespaldo( String sourceFactura, String destinationFactura) {
 		System.out.println("Desde: " + sourceFactura);
 		System.out.println("Hacia: " + destinationFactura);
 		
@@ -232,7 +232,7 @@ public class Controladora implements Serializable{
 		} catch (IOException e) {
 			System.out.println("Error en salida/entrada");
 		}
-	}
+	} */
 	
 	
 	 

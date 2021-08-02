@@ -269,7 +269,7 @@ public class RegPedido extends JDialog {
 						// Esto es para conseguir la fecha actual y convertirla en una String dia-mes-año.
 						Date fecha = new Date();
 						SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-						String fecha2 = formatter.format(fecha);
+						String fecha2 = formatter.format(fecha); 
 						File archivo;
 						BufferedWriter writer;
 						
@@ -313,7 +313,7 @@ public class RegPedido extends JDialog {
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
-								}
+								} 
 								// Fin de creación de archivo.
 								
 								// FUNCION DE RESPALDO DE FACTURA
@@ -327,10 +327,12 @@ public class RegPedido extends JDialog {
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
-								}*/
+								}														*/
 								String[] args = new String[1];
-								args[0] = nameSourceFactura;
+								args[0] = nameSourceFactura; 
 								Servidor.main(args);
+								//Servidor server = new Servidor();
+								//  				usar a server aqui.
 								
 								// FIN DE FUNCION
 								

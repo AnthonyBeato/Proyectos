@@ -32,7 +32,7 @@ public class Flujo extends Thread
 	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 	String fecha2 = formatter.format(fecha);
 	
-	String nameSourceFactura = "resplado/"+fecha2+".txt";
+	String nameSourceFactura = "respaldo/"+fecha2+".txt";
 	
 	String sourceFactura = "factura/factura.txt";
 	String destinationFactura = nameSourceFactura;

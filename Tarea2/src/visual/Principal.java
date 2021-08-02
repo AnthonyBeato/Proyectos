@@ -11,7 +11,9 @@ import javax.swing.border.TitledBorder;
 
 import logico.Cliente;
 import logico.Controladora;
+import logico.Flujo;
 import logico.Queso;
+import logico.Servidor;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -27,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ResourceBundle.Control;
 import java.awt.event.ActionEvent;
 
@@ -96,6 +99,7 @@ public class Principal extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
+
 				try {
 					empresa2 = new  FileOutputStream("empresa.dat");
 					empresaWrite = new ObjectOutputStream(empresa2);

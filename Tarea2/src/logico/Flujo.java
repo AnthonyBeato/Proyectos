@@ -2,6 +2,7 @@ package logico;
 
 import java.net.*;
 import java.text.SimpleDateFormat;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.*;
 
@@ -62,5 +63,7 @@ public class Flujo extends Thread
 		
 	 
  }
+ 
+	 
 
 }

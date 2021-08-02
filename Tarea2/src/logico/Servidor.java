@@ -10,7 +10,7 @@ public class Servidor extends Thread {
 	
 	public static Vector entradas = new Vector();
 	
-	public static void main (String args[]) 
+	public static void main (String args[])  
 	{
 		//Controladora.getInstance().FileRespaldo("factura/factura.txt", args[0]);
 		System.out.println("Entro");
@@ -22,7 +22,7 @@ public class Servidor extends Thread {
 		    System.exit(1);
 		}
 		
-		
+		while (true) {
 		try {
 			Socket socket = server.accept();
 			System.out.println("Conexion aceptada de: "+socket.getInetAddress());
@@ -32,7 +32,7 @@ public class Servidor extends Thread {
 		} catch (IOException ioe) {
 			System.out.println("Error: "+ioe);
 		}
-		
+		}
 	} 
 
 }

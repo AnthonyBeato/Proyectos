@@ -596,7 +596,7 @@ public class DashboardHome extends JFrame {
 		btnNewCliente.setBounds(1300, 70, 120, 28);
 		panelUsuarios.add(btnNewCliente);
 		
-		btnModificarCliente = new JButton("Modificar Cliente");
+		btnModificarCliente = new JButton("Modificar");
 		btnModificarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnModificarCliente.setForeground(Color.WHITE);
 		btnModificarCliente.setBackground(new Color(102, 102, 255));
@@ -606,7 +606,7 @@ public class DashboardHome extends JFrame {
 		btnModificarCliente.setBounds(1145, 70, 130, 28);
 		panelUsuarios.add(btnModificarCliente);
 		
-		btnEliminarCliente = new JButton("Eliminar Cliente");
+		btnEliminarCliente = new JButton("Eliminar");
 		btnEliminarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnEliminarCliente.setForeground(Color.WHITE);
 		btnEliminarCliente.setBackground(new Color(102, 102, 255));

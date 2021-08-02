@@ -106,6 +106,6 @@ public class ListarFacturas extends JDialog {
 			model.addRow(rows);
 		}
 		
-	}
+	} 
 
 }

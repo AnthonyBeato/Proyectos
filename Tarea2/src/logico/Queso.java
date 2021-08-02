@@ -63,5 +63,5 @@ public abstract class Queso implements Serializable{
 		
 		return precio;
 	}
-	
+	 
 }

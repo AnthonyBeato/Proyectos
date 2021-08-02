@@ -156,6 +156,6 @@ public class ListarClientes extends JDialog {
 		}
 		btnEliminar.setEnabled(false);
 		btnModificar.setEnabled(false);
-	}
+	} 
 
 }

@@ -250,6 +250,6 @@ public class ListarQuesos extends JDialog {
 		//btnModificar.setEnabled(false);
 	}
 
-		
+		 
 }
 

@@ -194,6 +194,6 @@ public class Principal extends JFrame {
 		flowLayout.setVgap(10);
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		contentPane.add(panel_1, BorderLayout.SOUTH);
-	}
+	} 
 
 }

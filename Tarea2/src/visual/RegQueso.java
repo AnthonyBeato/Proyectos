@@ -331,5 +331,5 @@ public class RegQueso extends JDialog {
 		spnLongitudCilindricoHueco.setValue(0);
 		spnRadioExteriorCilindroHueco.setValue(0);
 		spnRadioInteriorCIlindricoHueco.setValue(0);		
-	}
+	} 
 }

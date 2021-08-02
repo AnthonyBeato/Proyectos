@@ -48,4 +48,4 @@ public class Factura implements Serializable{
 		return precio; 
 	}
 	
-}
+} 

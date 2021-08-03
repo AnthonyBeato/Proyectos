@@ -842,6 +842,13 @@ public class DashboardHome extends JFrame {
 		panelComponentes.add(btnModificarComponente);
 		
 		btnNewComponente = new JButton("Nuevo Componente");
+		btnNewComponente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CustomerRegistry customer_reg = new CustomerRegistry(null);
+				customer_reg.setVisible(true);
+				// user_reg.setModal(true);
+			}
+		});
 		btnNewComponente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewComponente.setForeground(Color.WHITE);
 		btnNewComponente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -907,11 +914,11 @@ public class DashboardHome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showConfirmDialog(null, "Desea eliminar el cliente:"+selected_customer.getId(), "Eliminar cliente", JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
-					Store.getInstance().deleteCostumer(selected_customer);
+					Store.getInstance().deleteCustomer(selected_customer);
 					load_customers();
-					btnEliminarCliente.setEnabled(false);
-					btnModificarCliente.setEnabled(false);
 				}
+				btnEliminarCliente.setEnabled(false);
+				btnModificarCliente.setEnabled(false);
 			}
 		});
 		btnEliminarCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -925,6 +932,12 @@ public class DashboardHome extends JFrame {
 		panelClientes.add(btnEliminarCliente);
 		
 		btnModificarCliente = new JButton("Modificar");
+		btnModificarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CustomerRegistry aux = new CustomerRegistry(selected_customer);
+				aux.setVisible(true);
+			}
+		});
 		btnModificarCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnModificarCliente.setForeground(Color.WHITE);
 		btnModificarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));

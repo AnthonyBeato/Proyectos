@@ -27,6 +27,7 @@ public class CustomerRegistry extends JDialog {
 	private JTextField txtNombres;
 	private JSpinner spnCredito;
 	private JSpinner spnEdad;
+	private Customer selected = null;
 
 	/**
 	 * Launch the application.
@@ -37,7 +38,12 @@ public class CustomerRegistry extends JDialog {
 	 * Create the dialog.
 	 */
 	public CustomerRegistry(Customer customer) {
-		setTitle("Registrar cliente");
+		selected = customer;
+		if(selected == null) {
+			setTitle("Registrar cliente");
+		}else {
+			setTitle("Modificar cliente");
+		}
 		setBounds(100, 100, 525, 295);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -95,13 +101,28 @@ public class CustomerRegistry extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnRegistrar = new JButton("Registrar");
+				JButton btnRegistrar = new JButton("");
+				if(selected == null) {
+					btnRegistrar.setText("Registrar");
+				}else {
+					btnRegistrar.setText("Modificar");
+				}
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Customer aux = new Customer(txtID.getText(), txtNombres.getText(), Integer.valueOf(spnCredito.getValue().toString()), Integer.valueOf(spnEdad.getValue().toString()));
-						Store.getInstance().addCustomer(aux);
-						JOptionPane.showMessageDialog(null, "Cliente registrado satisfactoriamente.", "Registro de cliente", JOptionPane.INFORMATION_MESSAGE);
-						clean();
+						if (selected == null) {
+							Customer aux = new Customer(txtID.getText(), txtNombres.getText(), Float.valueOf(spnCredito.getValue().toString()), Integer.valueOf(spnEdad.getValue().toString()));
+							Store.getInstance().addCustomer(aux);
+							JOptionPane.showMessageDialog(null, "Cliente registrado satisfactoriamente.", "Registro de cliente", JOptionPane.INFORMATION_MESSAGE);
+							clean();
+						}else {
+							selected.setId(txtID.getText());
+							selected.setName(txtNombres.getText());
+							selected.setAge(Integer.valueOf(spnEdad.getValue().toString()));
+							selected.setCredit(Float.valueOf(spnCredito.getValue().toString()));
+							Store.getInstance().modificarCustomer(selected);
+							DashboardHome.load_customers();
+							dispose();
+						}
 					}
 
 				});
@@ -120,8 +141,16 @@ public class CustomerRegistry extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadCustomers();
 	}
 	
+	private void loadCustomers() {
+		txtID.setText(selected.getId());
+		txtNombres.setText(selected.getName());
+		spnCredito.setValue(new Float(selected.getCredit()));
+		spnEdad.setValue(new Integer(selected.getAge()));
+	}
+
 	private void clean() {
 		txtID.setText("");
 		txtNombres.setText("");

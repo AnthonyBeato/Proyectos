@@ -201,6 +201,11 @@ public class Login extends JFrame {
 					aux.setVisible(true);
 					dispose();
 					System.out.println("Se ingreso");
+				}else {
+					JOptionPane.showMessageDialog(null, "No se pudo ingresar, intenta revisar tus datos!",
+						      "Error!", JOptionPane.ERROR_MESSAGE);
+					txtUsuario.setText("");
+					txtPassword.setText("");
 				}
 
 			}

@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -43,6 +44,7 @@ public class UserRegistry extends JDialog {
 	 * Create the dialog.
 	 */
 	public UserRegistry(User user) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DashboardHome.class.getResource("/Img/logo800x800.png")));
 		selected = user;
 		if(selected == null) {
 			setTitle("Registrar Usuario");

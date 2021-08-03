@@ -77,6 +77,14 @@ public class DashboardHome extends JFrame {
 	private static JButton btnEliminarUsuario;
 	private JButton btnNewUsuario;
 	private User selected_user = null;
+	private JLabel TiendaOPC;
+	private JPanel panelTienda;
+	private JLabel labelTituloTienda;
+	private JLabel labelLoggedUser;
+	private JLabel ContadorComponentes;
+	private JLabel ContadorClientes;
+	private JLabel ContadorUsuarios;
+	private JLabel ContadorFacturas;
 
 	/**
 	 * Launch the application.
@@ -194,12 +202,14 @@ public class DashboardHome extends JFrame {
 				panelClientes.setVisible(false);
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
+				panelTienda.setVisible(false);
 				
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 			}
 		});
 		AdministracionOPC.setForeground(new Color(102, 102, 255));
@@ -219,12 +229,14 @@ public class DashboardHome extends JFrame {
 				panelClientes.setVisible(false);
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(true);
+				panelTienda.setVisible(false);
 				
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 			}
 		});
 		FacturasOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -243,12 +255,14 @@ public class DashboardHome extends JFrame {
 				panelClientes.setVisible(true);
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
+				panelTienda.setVisible(false);
 				
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
+				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 			}
 		});
 		ClientesOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -267,12 +281,14 @@ public class DashboardHome extends JFrame {
 				panelClientes.setVisible(false);
 				panelComponentes.setVisible(true);
 				panelFacturas.setVisible(false);
+				panelTienda.setVisible(false);
 				
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 			}
 		});
 		ComponentesOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -282,6 +298,10 @@ public class DashboardHome extends JFrame {
 		MenuLateral.add(ComponentesOPC);
 
 		UsuariosOPC = new JLabel("Usuarios");
+		if(!(Store.getLoggedUser() instanceof Administrator)) {
+			UsuariosOPC.setVisible(false);
+			UsuariosOPC.setEnabled(false);
+		}
 		UsuariosOPC.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -291,18 +311,20 @@ public class DashboardHome extends JFrame {
 				panelClientes.setVisible(false);
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
+				panelTienda.setVisible(false);
 				
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 			}
 		});
 		UsuariosOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		UsuariosOPC.setHorizontalAlignment(SwingConstants.CENTER);
 		UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
-		UsuariosOPC.setBounds(46, 288, 154, 27);
+		UsuariosOPC.setBounds(46, 478, 154, 27);
 		MenuLateral.add(UsuariosOPC);
 
 		MenuOPC = new JLabel("Men\u00FA");
@@ -315,12 +337,14 @@ public class DashboardHome extends JFrame {
 				panelClientes.setVisible(false);
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
+				panelTienda.setVisible(false);
 				
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 			}
 		});
 		MenuOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -346,12 +370,43 @@ public class DashboardHome extends JFrame {
 
 		MenuLateral.add(IconoLabel);
 
-		JLabel lblNewLabel_2_2_1 = new JLabel("Usuario | Administrador");
-		lblNewLabel_2_2_1.setForeground(new Color(102, 102, 255));
-		lblNewLabel_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_2_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 14));
-		lblNewLabel_2_2_1.setBounds(46, 740, 154, 27);
-		MenuLateral.add(lblNewLabel_2_2_1);
+		if((Store.getLoggedUser() instanceof Administrator)) {
+			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Administrador");
+		}else {
+			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Vendedor");
+		}
+		
+		labelLoggedUser.setForeground(new Color(102, 102, 255));
+		labelLoggedUser.setHorizontalAlignment(SwingConstants.CENTER);
+		labelLoggedUser.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 14));
+		labelLoggedUser.setBounds(46, 740, 154, 27);
+		MenuLateral.add(labelLoggedUser);
+		
+		TiendaOPC = new JLabel("Tienda");
+		TiendaOPC.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				panelUsuarios.setVisible(false);
+				panelMenu.setVisible(false);
+				panelAdministracion.setVisible(false);
+				panelClientes.setVisible(false);
+				panelComponentes.setVisible(false);
+				panelFacturas.setVisible(false);
+				panelTienda.setVisible(true);
+				
+				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
+			}
+		});
+		TiendaOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		TiendaOPC.setHorizontalAlignment(SwingConstants.CENTER);
+		TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+		TiendaOPC.setBounds(46, 288, 154, 27);
+		MenuLateral.add(TiendaOPC);
 
 		panelMenu = new JPanel();
 		panelMenu.setBounds(247, 0, 1457, 841);
@@ -401,10 +456,10 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelClienteDatos);
 		panelClienteDatos.setLayout(null);
 
-		JLabel lblNewLabel_3 = new JLabel(""+Store.getInstance().getCustomers().size()); //Contador de atendidos
-		lblNewLabel_3.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
-		lblNewLabel_3.setBounds(152, 0, 90, 51);
-		panelClienteDatos.add(lblNewLabel_3);
+		ContadorClientes = new JLabel(""+Store.getInstance().getCustomers().size()); //Contador de atendidos
+		ContadorClientes.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
+		ContadorClientes.setBounds(152, 0, 90, 51);
+		panelClienteDatos.add(ContadorClientes);
 
 		JLabel lblNewLabel_3_1 = new JLabel("Atendidos");
 		lblNewLabel_3_1.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 18));
@@ -454,10 +509,10 @@ public class DashboardHome extends JFrame {
 		Customer aux2 = new Customer("001", "Pedro", 100);
 		Store.getInstance().addCustomer(aux2);
 		
-		JLabel lblNewLabel_3_2 = new JLabel(""+Store.getInstance().getComponents().size()); 		//Contador de componentes
-		lblNewLabel_3_2.setBounds(152, 0, 90, 51);
-		panelComponentesDatos.add(lblNewLabel_3_2);
-		lblNewLabel_3_2.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
+		ContadorComponentes = new JLabel(""+Store.getInstance().getComponents().size()); 		//Contador de componentes
+		ContadorComponentes.setBounds(152, 0, 90, 51);
+		panelComponentesDatos.add(ContadorComponentes);
+		ContadorComponentes.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
 
 		JLabel lblNewLabel_3_1_1 = new JLabel("Disponibles");
 		lblNewLabel_3_1_1.setBounds(152, 27, 110, 40);
@@ -485,10 +540,10 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelUsuariosDatos);
 		panelUsuariosDatos.setLayout(null);
 
-		JLabel lblNewLabel_3_3 = new JLabel(""+Store.getInstance().getUsers().size()); 			//Contador de usuarios
-		lblNewLabel_3_3.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
-		lblNewLabel_3_3.setBounds(152, 0, 90, 51);
-		panelUsuariosDatos.add(lblNewLabel_3_3);
+		ContadorUsuarios = new JLabel(""+Store.getInstance().getUsers().size()); 			//Contador de usuarios
+		ContadorUsuarios.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
+		ContadorUsuarios.setBounds(152, 0, 90, 51);
+		panelUsuariosDatos.add(ContadorUsuarios);
 
 		JLabel lblNewLabel_3_1_2 = new JLabel("Registrados");
 		lblNewLabel_3_1_2.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 18));
@@ -524,10 +579,10 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelFacturaDatos);
 		panelFacturaDatos.setLayout(null);
 
-		JLabel lblNewLabel_3_4 = new JLabel(""+Store.getInstance().getInvoices().size());  			//Contador de facturas
-		lblNewLabel_3_4.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
-		lblNewLabel_3_4.setBounds(152, 0, 90, 51);
-		panelFacturaDatos.add(lblNewLabel_3_4);
+		ContadorFacturas = new JLabel(""+Store.getInstance().getInvoices().size());  			//Contador de facturas
+		ContadorFacturas.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
+		ContadorFacturas.setBounds(152, 0, 90, 51);
+		panelFacturaDatos.add(ContadorFacturas);
 
 		JLabel lblNewLabel_3_1_3 = new JLabel("Generadas");
 		lblNewLabel_3_1_3.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 18));
@@ -662,6 +717,22 @@ public class DashboardHome extends JFrame {
 		panelAdministracion.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelAdministracion);
 		panelAdministracion.setLayout(null);
+		
+		panelTienda = new JPanel();
+		panelTienda.setLayout(null);
+		panelTienda.setBounds(247, 0, 1457, 841);
+		contentPane.add(panelTienda);
+		
+		labelTituloTienda = new JLabel("TIENDA");
+		labelTituloTienda.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloTienda.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloTienda.setBounds(0, 0, 100, 40);
+		panelTienda.add(labelTituloTienda);
+		
+		JSeparator separator_1_1 = new JSeparator();
+		separator_1_1.setForeground(new Color(211, 211, 211));
+		separator_1_1.setBounds(0, 40, 1457, 11);
+		panelTienda.add(separator_1_1);
 
 		
 //		HILO PARA USAR UN RELOJ ACTUALIZADO
@@ -680,6 +751,27 @@ public class DashboardHome extends JFrame {
 		};
 		Thread hilo = new Thread(runnable);
 		hilo.start();
+		
+//		HILO PARA REFRESCAR CONTADORES
+
+		Runnable runnableContadores = new Runnable() {
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(1000);
+						ContadorComponentes.setText(""+Store.getInstance().getComponents().size());
+						ContadorClientes.setText(""+Store.getInstance().getCustomers().size());
+						ContadorFacturas.setText(""+Store.getInstance().getInvoices().size());
+						ContadorUsuarios.setText(""+Store.getInstance().getUsers().size());
+						etiquetaReloj.setText(formateador.format(LocalDateTime.now()));
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		Thread hiloContadores = new Thread(runnableContadores);
+		hiloContadores.start();
 		
 		load_users();
 	}

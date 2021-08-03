@@ -457,10 +457,12 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelClienteDatos);
 		panelClienteDatos.setLayout(null);
 
-		ContadorClientes = new JLabel(""+Store.getInstance().getCustomers().size()); //Contador de atendidos
+		ContadorClientes = new JLabel(""+Store.getInstance().getCustomers().size()); //Contador de clientes atendidos 
 		ContadorClientes.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
 		ContadorClientes.setBounds(152, 0, 90, 51);
 		panelClienteDatos.add(ContadorClientes);
+		
+		System.out.println("La cantidad de clientes es de "+Store.getInstance().getCustomers().size());
 
 		JLabel lblNewLabel_3_1 = new JLabel("Atendidos");
 		lblNewLabel_3_1.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 18));
@@ -506,9 +508,6 @@ public class DashboardHome extends JFrame {
 		lblVistaGeneral_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
 		lblVistaGeneral_1_1.setBounds(10, 11, 252, 35);
 		panelComponentesSuperior.add(lblVistaGeneral_1_1);
-		
-		Customer aux2 = new Customer("001", "Pedro", 100);
-		Store.getInstance().addCustomer(aux2);
 		
 		ContadorComponentes = new JLabel(""+Store.getInstance().getComponents().size()); 		//Contador de componentes
 		ContadorComponentes.setBounds(152, 0, 90, 51);

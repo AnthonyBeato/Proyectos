@@ -1,7 +1,13 @@
 package logico;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;			// Identity card number
 	private String name;		// Name and surname
 	private float credit;		// Arbitrarily set by user who creates Customer.

@@ -29,6 +29,8 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import logico.Customer;
+import logico.RAM;
 import logico.Store;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
@@ -383,7 +385,7 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelClienteDatos);
 		panelClienteDatos.setLayout(null);
 
-		JLabel lblNewLabel_3 = new JLabel("22");
+		JLabel lblNewLabel_3 = new JLabel(""+Store.getInstance().getCustomers().size()); //Contador de atendidos
 		lblNewLabel_3.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
 		lblNewLabel_3.setBounds(152, 0, 90, 51);
 		panelClienteDatos.add(lblNewLabel_3);
@@ -432,8 +434,11 @@ public class DashboardHome extends JFrame {
 		lblVistaGeneral_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
 		lblVistaGeneral_1_1.setBounds(10, 11, 252, 35);
 		panelComponentesSuperior.add(lblVistaGeneral_1_1);
-
-		JLabel lblNewLabel_3_2 = new JLabel("10");
+		
+		Customer aux2 = new Customer("001", "Pedro", 100);
+		Store.getInstance().addCustomer(aux2);
+		
+		JLabel lblNewLabel_3_2 = new JLabel(""+Store.getInstance().getComponents().size()); 		//Contador de componentes
 		lblNewLabel_3_2.setBounds(152, 0, 90, 51);
 		panelComponentesDatos.add(lblNewLabel_3_2);
 		lblNewLabel_3_2.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
@@ -464,7 +469,7 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelUsuariosDatos);
 		panelUsuariosDatos.setLayout(null);
 
-		JLabel lblNewLabel_3_3 = new JLabel("3");
+		JLabel lblNewLabel_3_3 = new JLabel(""+Store.getInstance().getUsers().size()); 			//Contador de usuarios
 		lblNewLabel_3_3.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
 		lblNewLabel_3_3.setBounds(152, 0, 90, 51);
 		panelUsuariosDatos.add(lblNewLabel_3_3);
@@ -503,7 +508,7 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelFacturaDatos);
 		panelFacturaDatos.setLayout(null);
 
-		JLabel lblNewLabel_3_4 = new JLabel("22");
+		JLabel lblNewLabel_3_4 = new JLabel(""+Store.getInstance().getInvoices().size());  			//Contador de facturas
 		lblNewLabel_3_4.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
 		lblNewLabel_3_4.setBounds(152, 0, 90, 51);
 		panelFacturaDatos.add(lblNewLabel_3_4);

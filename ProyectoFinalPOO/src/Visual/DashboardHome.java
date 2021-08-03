@@ -50,6 +50,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class DashboardHome extends JFrame {
 
@@ -98,6 +99,9 @@ public class DashboardHome extends JFrame {
 	private JButton btnEliminarComponente;
 	private JButton btnModificarComponente;
 	private JButton btnNewComponente;
+	private JTextField txtBuscadorCliente;
+	private JTextField txtCedula;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -221,6 +225,7 @@ public class DashboardHome extends JFrame {
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 17));
 			}
 		});
 		AdministracionOPC.setForeground(new Color(102, 102, 255));
@@ -248,6 +253,7 @@ public class DashboardHome extends JFrame {
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 16));
 			}
 		});
 		FacturasOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -274,6 +280,7 @@ public class DashboardHome extends JFrame {
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
 				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 16));
 			}
 		});
 		ClientesOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -300,6 +307,7 @@ public class DashboardHome extends JFrame {
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 16));
 			}
 		});
 		ComponentesOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -330,6 +338,7 @@ public class DashboardHome extends JFrame {
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 16));
 			}
 		});
 		UsuariosOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -356,6 +365,7 @@ public class DashboardHome extends JFrame {
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 16));
 			}
 		});
 		MenuOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -412,6 +422,7 @@ public class DashboardHome extends JFrame {
 				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
+				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 16));
 			}
 		});
 		TiendaOPC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -614,14 +625,44 @@ public class DashboardHome extends JFrame {
 		JPanel grafica1 = new JPanel();
 		grafica1.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		grafica1.setBackground(Color.WHITE);
-		grafica1.setBounds(52, 366, 626, 413);
+		grafica1.setBounds(52, 426, 626, 353);
 		panelMenu.add(grafica1);
+		grafica1.setLayout(null);
 
 		JPanel grafica2 = new JPanel();
 		grafica2.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		grafica2.setBackground(Color.WHITE);
-		grafica2.setBounds(782, 366, 626, 413);
+		grafica2.setBounds(782, 426, 626, 353);
 		panelMenu.add(grafica2);
+		grafica2.setLayout(null);
+		
+		JPanel panelGraficoSuperior1 = new JPanel();
+		panelGraficoSuperior1.setLayout(null);
+		panelGraficoSuperior1.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panelGraficoSuperior1.setBackground(new Color(102, 102, 255));
+		panelGraficoSuperior1.setBounds(52, 366, 626, 63);
+		panelMenu.add(panelGraficoSuperior1);
+		
+		JLabel Grafico1 = new JLabel("Grafico 1");
+		Grafico1.setHorizontalAlignment(SwingConstants.CENTER);
+		Grafico1.setForeground(Color.WHITE);
+		Grafico1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
+		Grafico1.setBounds(10, 11, 606, 41);
+		panelGraficoSuperior1.add(Grafico1);
+		
+		JPanel panelGraficoSuperior2 = new JPanel();
+		panelGraficoSuperior2.setLayout(null);
+		panelGraficoSuperior2.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panelGraficoSuperior2.setBackground(new Color(102, 102, 255));
+		panelGraficoSuperior2.setBounds(782, 366, 626, 63);
+		panelMenu.add(panelGraficoSuperior2);
+		
+		JLabel Grafico2 = new JLabel("Grafico 2");
+		Grafico2.setHorizontalAlignment(SwingConstants.CENTER);
+		Grafico2.setForeground(Color.WHITE);
+		Grafico2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
+		Grafico2.setBounds(10, 11, 606, 41);
+		panelGraficoSuperior2.add(Grafico2);
 
 		panelUsuarios = new JPanel();
 		panelUsuarios.setBounds(247, 0, 1457, 841);
@@ -959,6 +1000,51 @@ public class DashboardHome extends JFrame {
 		separator_1_1.setForeground(new Color(211, 211, 211));
 		separator_1_1.setBounds(0, 40, 1457, 11);
 		panelTienda.add(separator_1_1);
+		
+		JLabel labelSearch = new JLabel("Buscar Cliente:");
+		labelSearch.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
+		labelSearch.setHorizontalAlignment(SwingConstants.CENTER);
+		labelSearch.setBounds(23, 74, 158, 40);
+		panelTienda.add(labelSearch);
+		
+		txtBuscadorCliente = new JTextField();
+		txtBuscadorCliente.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		txtBuscadorCliente.setBounds(167, 85, 150, 23);
+		panelTienda.add(txtBuscadorCliente);
+		txtBuscadorCliente.setColumns(10);
+		
+		JPanel panelFormularioCliente = new JPanel();
+		panelFormularioCliente.setBorder(new TitledBorder(null, "Formulario Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelFormularioCliente.setBounds(25, 125, 1410, 100);
+		panelTienda.add(panelFormularioCliente);
+		panelFormularioCliente.setLayout(null);
+		{
+			JLabel labelCedula = new JLabel("Cedula:");
+			labelCedula.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+			labelCedula.setHorizontalAlignment(SwingConstants.CENTER);
+			labelCedula.setBounds(8, 30, 158, 40);	
+			panelFormularioCliente.add(labelCedula);
+			
+			txtCedula = new JTextField();
+			txtCedula.setEditable(false);
+			txtCedula.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+			txtCedula.setBounds(140, 39, 150, 23);
+			panelFormularioCliente.add(txtCedula);
+			txtCedula.setColumns(10);
+		}
+		
+		JLabel label = new JLabel("Cedula:");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		label.setBounds(0, 0, 158, 40);
+		panelFormularioCliente.add(label);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		textField.setEditable(false);
+		textField.setColumns(10);
+		textField.setBounds(0, 0, 150, 23);
+		panelFormularioCliente.add(textField);
 
 //		HILO PARA USAR UN RELOJ ACTUALIZADO
 		final DateTimeFormatter formateador = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");

@@ -8,11 +8,20 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import logico.Administrator;
+import logico.Seller;
+import logico.Store;
+import logico.User;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.JRadioButton;
 import javax.swing.SpinnerNumberModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UserRegistry extends JDialog {
 
@@ -28,25 +37,21 @@ public class UserRegistry extends JDialog {
 	private JSpinner spn_comision;
 	private JPanel pnl_administrador;
 	private JSpinner spn_years;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			UserRegistry dialog = new UserRegistry();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private User selected = null;
 
 	/**
 	 * Create the dialog.
 	 */
-	public UserRegistry() {
+	public UserRegistry(User user) {
+		selected = user;
+		if(selected == null) {
+			setTitle("Registrar Usuario");
+		}
+		else {
+			setTitle("Modificar Usuario");
+		}
 		setBounds(100, 100, 528, 490);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -71,6 +76,7 @@ public class UserRegistry extends JDialog {
 			panel_1.add(lblNewLabel);
 			
 			txt_id = new JTextField();
+			txt_id.setText("U-"+User.counter);
 			txt_id.setEditable(false);
 			txt_id.setBounds(66, 36, 116, 22);
 			panel_1.add(txt_id);
@@ -106,11 +112,29 @@ public class UserRegistry extends JDialog {
 			panel.add(panel_2);
 			
 			rdb_vendedor = new JRadioButton("Vendedor");
+			rdb_vendedor.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					rdb_vendedor.setSelected(true);
+					rdb_administrador.setSelected(false);
+					
+					pnl_vendedor.setVisible(true);
+					pnl_administrador.setVisible(false);
+				}
+			});
 			rdb_vendedor.setSelected(true);
 			rdb_vendedor.setBounds(84, 28, 97, 25);
 			panel_2.add(rdb_vendedor);
 			
 			rdb_administrador = new JRadioButton("Administrador");
+			rdb_administrador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					rdb_administrador.setSelected(true);
+					rdb_vendedor.setSelected(false);
+					
+					pnl_administrador.setVisible(true);
+					pnl_vendedor.setVisible(false);
+				}
+			});
 			rdb_administrador.setBounds(265, 28, 127, 25);
 			panel_2.add(rdb_administrador);
 			
@@ -151,15 +175,93 @@ public class UserRegistry extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btn_registrar = new JButton("Registrar");
+				if(selected == null) {
+					btn_registrar.setText("Registrar");
+				} else {
+					btn_registrar.setText("Modificar");
+				}
+				btn_registrar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(selected == null) {
+							User user = null;
+							String id = txt_id.getText();
+							String username = txt_username.getText();
+							String password = txt_password.getText();
+							String name = txt_nombre.getText();
+							
+							if(rdb_vendedor.isSelected()) {
+								float commission = Float.valueOf(spn_comision.getValue().toString());
+								user = new Seller(id, username, password, name, 0, commission);
+							}
+							
+							else if(rdb_administrador.isSelected()) {
+								int years = Integer.valueOf(spn_years.getValue().toString());
+								user = new Administrator(id, username, password, name, years);
+							}
+							
+							Store.getInstance().addUser(user);
+							JOptionPane.showMessageDialog(null, "Usuario registrado satisfactoriamente.", "Registro de usuario", JOptionPane.INFORMATION_MESSAGE);
+							clean();
+						}
+						else {
+							selected.setId(txt_id.getText());
+							selected.setUsername(txt_username.getText());
+							selected.setPassword(txt_password.getText());
+							selected.setName(txt_nombre.getText());
+							
+							if(selected instanceof Seller) {
+								((Seller) selected).setCommission(Float.valueOf(spn_comision.getValue().toString()));
+							}
+							
+							else if(selected instanceof Administrator) {
+								((Administrator) selected).setYears(Integer.valueOf(spn_years.getValue().toString()));
+							}
+						}
+						// DashboardHome.load_users();
+						dispose();
+					}
+				});
 				btn_registrar.setActionCommand("OK");
 				buttonPane.add(btn_registrar);
 				getRootPane().setDefaultButton(btn_registrar);
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		load_user();
+	}
+	
+	private void load_user() {
+		if(selected != null) {
+			txt_id.setText(selected.getId());
+			txt_username.setText(selected.getUsername());
+			txt_password.setText(selected.getPassword());
+			txt_nombre.setText(selected.getName());
+			if(selected instanceof Seller) {
+				spn_comision.setValue(((Seller) selected).getCommission());
+			}
+			else if(selected instanceof Administrator) {
+				spn_years.setValue(((Administrator) selected).getYears());
+			}
+		}
+	}
+
+	private void clean() {
+		txt_id.setText("U-"+User.counter);
+		txt_username.setText("");
+		txt_password.setText("");
+		txt_nombre.setText("");
+		spn_comision.setValue(0);
+		spn_years.setValue(0);
+		
 	}
 }

@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -37,6 +38,7 @@ import logico.RAM;
 
 import logico.Store;
 import logico.User;
+import javax.swing.JList;
 
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
@@ -46,11 +48,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.JRadioButton;
 
 public class DashboardHome extends JFrame {
 
@@ -71,6 +75,12 @@ public class DashboardHome extends JFrame {
 
 	private static Object rows[];
 
+	private JList<String> list_almacen;
+	private JList<String> list_carrito;
+	
+	private DefaultListModel<String> listModelAlmacen;
+	private DefaultListModel<String> listModelCarrito;
+	
 	private JTable table_users;
 	private JTable table_invoices;
 	private JTable table_customers;
@@ -101,7 +111,13 @@ public class DashboardHome extends JFrame {
 	private JButton btnNewComponente;
 	private JTextField txtBuscadorCliente;
 	private JTextField txtCedula;
-	private JTextField textField;
+	private JTextField txtNombre;
+	private JTextField txtEdad;
+	private JTextField txtCredito;
+	private JButton btnRemover;
+	private JButton btnAgregar;
+	private JButton btnFacturar;
+	private JRadioButton rdbtnCredito;
 
 	/**
 	 * Launch the application.
@@ -1033,19 +1049,153 @@ public class DashboardHome extends JFrame {
 			txtCedula.setColumns(10);
 		}
 		
-		JLabel label = new JLabel("Cedula:");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
-		label.setBounds(0, 0, 158, 40);
-		panelFormularioCliente.add(label);
+		JLabel labelNombre = new JLabel("Nombre:");
+		labelNombre.setHorizontalAlignment(SwingConstants.CENTER);
+		labelNombre.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		labelNombre.setBounds(300, 30, 158, 40);
+		panelFormularioCliente.add(labelNombre);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBounds(0, 0, 150, 23);
-		panelFormularioCliente.add(textField);
+		txtNombre = new JTextField();
+		txtNombre.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		txtNombre.setEditable(false);
+		txtNombre.setColumns(10);
+		txtNombre.setBounds(432, 39, 150, 23);
+		panelFormularioCliente.add(txtNombre);
+		
+		JLabel labelEdad = new JLabel("Edad:");
+		labelEdad.setHorizontalAlignment(SwingConstants.CENTER);
+		labelEdad.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		labelEdad.setBounds(600, 30, 158, 40);
+		panelFormularioCliente.add(labelEdad);
+		
+		txtEdad = new JTextField();
+		txtEdad.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		txtEdad.setEditable(false);
+		txtEdad.setColumns(10);
+		txtEdad.setBounds(724, 39, 150, 23);
+		panelFormularioCliente.add(txtEdad);
+		
+		JLabel labelCredito = new JLabel("Credito:");
+		labelCredito.setHorizontalAlignment(SwingConstants.CENTER);
+		labelCredito.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		labelCredito.setBounds(900, 30, 158, 40);
+		panelFormularioCliente.add(labelCredito);
+		
+		txtCredito = new JTextField();
+		txtCredito.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		txtCredito.setEditable(false);
+		txtCredito.setColumns(10);
+		txtCredito.setBounds(1016, 39, 150, 23);
+		panelFormularioCliente.add(txtCredito);
+		
+		JButton btnRegistrarCliente = new JButton("Registrar Cliente");
+		btnRegistrarCliente.setForeground(Color.WHITE);
+		btnRegistrarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnRegistrarCliente.setEnabled(false);
+		btnRegistrarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnRegistrarCliente.setBackground(new Color(102, 102, 255));
+		btnRegistrarCliente.setAlignmentX(0.5f);
+		btnRegistrarCliente.setBounds(1230, 34, 130, 28);
+		panelFormularioCliente.add(btnRegistrarCliente);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(25, 350, 550, 400);
+		panelTienda.add(scrollPane);
 
+		
+		list_almacen = new JList<String>();
+		list_almacen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = list_almacen.getSelectedIndex();
+				if(index != -1) {
+					btnAgregar.setEnabled(true);
+				}
+			}
+		});
+		list_almacen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listModelAlmacen = new DefaultListModel<String>();
+		list_almacen.setModel(listModelAlmacen);
+		scrollPane.setViewportView(list_almacen);
+		
+		JLabel lblProductosEnAlmacen = new JLabel("Productos en Almacen");
+		lblProductosEnAlmacen.setHorizontalAlignment(SwingConstants.CENTER);
+		lblProductosEnAlmacen.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblProductosEnAlmacen.setBounds(25, 315, 165, 40);
+		panelTienda.add(lblProductosEnAlmacen);
+		
+		btnAgregar = new JButton(">>>");
+		btnAgregar.setEnabled(false);
+		btnAgregar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAgregar.setForeground(Color.WHITE);
+		btnAgregar.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+		btnAgregar.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnAgregar.setBackground(new Color(102, 102, 255));
+		btnAgregar.setAlignmentX(0.5f);
+		btnAgregar.setBounds(650, 500, 120, 28);
+		panelTienda.add(btnAgregar);
+		
+		btnRemover = new JButton("<<<");
+		btnRemover.setEnabled(false);
+		btnRemover.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRemover.setForeground(Color.WHITE);
+		btnRemover.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+		btnRemover.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnRemover.setBackground(new Color(102, 102, 255));
+		btnRemover.setAlignmentX(0.5f);
+		btnRemover.setBounds(650, 600, 120, 28);
+		panelTienda.add(btnRemover);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_1.setBounds(885, 350, 550, 400);
+		panelTienda.add(scrollPane_1);
+		
+		list_carrito = new JList<String>();
+		list_carrito.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = list_carrito.getSelectedIndex();
+				if(index != -1) {
+					btnRemover.setEnabled(true);
+				}
+			}
+		});
+		list_carrito.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listModelCarrito = new DefaultListModel<String>();
+		list_carrito.setModel(listModelCarrito);
+		scrollPane_1.setViewportView(list_carrito);
+		
+		JLabel lblProductosEnCarrito = new JLabel("Carrito de compras");
+		lblProductosEnCarrito.setHorizontalAlignment(SwingConstants.CENTER);
+		lblProductosEnCarrito.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblProductosEnCarrito.setBounds(885, 315, 165, 40);
+		panelTienda.add(lblProductosEnCarrito);
+		
+		btnFacturar = new JButton("Facturar");
+		btnFacturar.setForeground(Color.WHITE);
+		btnFacturar.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 14));
+		btnFacturar.setEnabled(false);
+		btnFacturar.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnFacturar.setBackground(new Color(102, 102, 255));
+		btnFacturar.setAlignmentX(0.5f);
+		btnFacturar.setBounds(1315, 785, 120, 28);
+		panelTienda.add(btnFacturar);
+		
+		rdbtnCredito = new JRadioButton("Compra a Credito");
+		rdbtnCredito.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		rdbtnCredito.setBounds(1150, 785, 145, 28);
+		panelTienda.add(rdbtnCredito);
+		
+		
+		
+		
+		
+		
+		
 //		HILO PARA USAR UN RELOJ ACTUALIZADO
 		final DateTimeFormatter formateador = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
 		Runnable runnable = new Runnable() {

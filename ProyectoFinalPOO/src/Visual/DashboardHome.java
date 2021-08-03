@@ -40,6 +40,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DashboardHome extends JFrame {
 
@@ -587,6 +589,13 @@ public class DashboardHome extends JFrame {
 		panelUsuarios.add(labelTituloUsuarios);
 		
 		btnNewCliente = new JButton("Nuevo Cliente");
+		btnNewCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserRegistry user_reg = new UserRegistry(null);
+				user_reg.setVisible(true);
+				user_reg.setModal(true);
+			}
+		});
 		btnNewCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnNewCliente.setForeground(Color.WHITE);
 		btnNewCliente.setBackground(new Color(102, 102, 255));

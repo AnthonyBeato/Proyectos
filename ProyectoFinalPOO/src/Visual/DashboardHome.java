@@ -94,6 +94,7 @@ public class DashboardHome extends JFrame {
 	private static JButton btnEliminarUsuario;
 	private JButton btnNewUsuario;
 	private User selected_user = null;
+	private Customer selected_customer = null;
 	private JLabel TiendaOPC;
 	private JPanel panelTienda;
 	private JLabel labelTituloTienda;
@@ -879,7 +880,6 @@ public class DashboardHome extends JFrame {
 				model_customers = new DefaultTableModel();
 				model_customers.setColumnIdentifiers(headers);
 				table_customers = new JTable();
-				table_customers.setModel(model_customers);
 				table_customers.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -890,6 +890,9 @@ public class DashboardHome extends JFrame {
 								btnModificarCliente.setEnabled(true);
 //								String id = (String)(model_invoices.getValueAt(index, 0));
 //								selected_user = Store.getInstance().search_user(id);
+								String id = (String)(model_customers.getValueAt(index, 0));
+								selected_customer = Store.getInstance().search_customer(id);
+								System.out.println(selected_customer.getName());
 						}
 					}
 				});
@@ -1243,6 +1246,7 @@ public class DashboardHome extends JFrame {
 		hiloContadores.start();
 
 		load_users();
+		load_customers();
 	}
 
 	public static void load_users() {
@@ -1261,6 +1265,23 @@ public class DashboardHome extends JFrame {
 
 			model_users.addRow(rows);
 		}
+		btnEliminarUsuario.setEnabled(false);
+		btnModificarUsuario.setEnabled(false);
+	}
+	
+	public static void load_customers() {
+		model_customers.setRowCount(0);
+		rows = new Object[model_customers.getColumnCount()];
+		for (Customer customers : Store.getInstance().getCustomers()) {
+			rows[0] = customers.getId();
+			rows[1] = customers.getName();
+			rows[2] = customers.getCredit();
+			rows[3] = customers.getAge();
+			rows[4] = "Cliente";
+		}
+		model_customers.addRow(rows);
+		
+		
 		btnEliminarUsuario.setEnabled(false);
 		btnModificarUsuario.setEnabled(false);
 	}

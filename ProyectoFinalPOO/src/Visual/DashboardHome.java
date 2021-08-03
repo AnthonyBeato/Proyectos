@@ -29,7 +29,6 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-
 import logico.Administrator;
 import logico.Seller;
 
@@ -68,11 +67,18 @@ public class DashboardHome extends JFrame {
 	private JLabel ComponentesOPC;
 	private JLabel AdministracionOPC;
 	private JLabel UsuariosOPC;
-	
+
 	private static Object rows[];
-	
+
 	private JTable table_users;
+	private JTable table_invoices;
+	private JTable table_customers;
+	private JTable table_components;
+
 	private static DefaultTableModel model_users;
+	private static DefaultTableModel model_invoices;
+	private static DefaultTableModel model_customers;
+	private static DefaultTableModel model_components;
 	private static JButton btnModificarUsuario;
 	private static JButton btnEliminarUsuario;
 	private JButton btnNewUsuario;
@@ -85,6 +91,10 @@ public class DashboardHome extends JFrame {
 	private JLabel ContadorClientes;
 	private JLabel ContadorUsuarios;
 	private JLabel ContadorFacturas;
+	private JButton btnConfirmarPago;
+	private JButton btnEliminarCliente;
+	private JButton btnModificarCliente;
+	private JButton btnNewCliente;
 
 	/**
 	 * Launch the application.
@@ -102,7 +112,7 @@ public class DashboardHome extends JFrame {
 					panelClientes.setVisible(false);
 					panelComponentes.setVisible(false);
 					panelFacturas.setVisible(false);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -115,16 +125,14 @@ public class DashboardHome extends JFrame {
 	 */
 	public DashboardHome() {
 		setTitle("TechShop | Control");
-		
 
-		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DashboardHome.class.getResource("/Img/logo800x800.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				FileOutputStream enterprise2;
 				ObjectOutputStream enterpriseWrite;
-				//Store.setLoggedUser(null);
+				// Store.setLoggedUser(null);
 				try {
 					enterprise2 = new FileOutputStream("enterprise.dat");
 					enterpriseWrite = new ObjectOutputStream(enterprise2);
@@ -189,7 +197,7 @@ public class DashboardHome extends JFrame {
 		MenuLateral.add(lblNewLabel_1);
 
 		AdministracionOPC = new JLabel("Administraci\u00F3n");
-		if(!(Store.getLoggedUser() instanceof Administrator)) {
+		if (!(Store.getLoggedUser() instanceof Administrator)) {
 			AdministracionOPC.setVisible(false);
 			AdministracionOPC.setEnabled(false);
 		}
@@ -203,7 +211,7 @@ public class DashboardHome extends JFrame {
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelTienda.setVisible(false);
-				
+
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
@@ -230,7 +238,7 @@ public class DashboardHome extends JFrame {
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(true);
 				panelTienda.setVisible(false);
-				
+
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
@@ -256,7 +264,7 @@ public class DashboardHome extends JFrame {
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelTienda.setVisible(false);
-				
+
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
@@ -282,7 +290,7 @@ public class DashboardHome extends JFrame {
 				panelComponentes.setVisible(true);
 				panelFacturas.setVisible(false);
 				panelTienda.setVisible(false);
-				
+
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
@@ -298,7 +306,7 @@ public class DashboardHome extends JFrame {
 		MenuLateral.add(ComponentesOPC);
 
 		UsuariosOPC = new JLabel("Usuarios");
-		if(!(Store.getLoggedUser() instanceof Administrator)) {
+		if (!(Store.getLoggedUser() instanceof Administrator)) {
 			UsuariosOPC.setVisible(false);
 			UsuariosOPC.setEnabled(false);
 		}
@@ -312,7 +320,7 @@ public class DashboardHome extends JFrame {
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelTienda.setVisible(false);
-				
+
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
@@ -338,7 +346,7 @@ public class DashboardHome extends JFrame {
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelTienda.setVisible(false);
-				
+
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
@@ -375,14 +383,14 @@ public class DashboardHome extends JFrame {
 //		}else {
 //			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Vendedor");
 //		}
-		
+
 		labelLoggedUser = new JLabel("Usuario | Rol");
 		labelLoggedUser.setForeground(new Color(102, 102, 255));
 		labelLoggedUser.setHorizontalAlignment(SwingConstants.CENTER);
 		labelLoggedUser.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 14));
 		labelLoggedUser.setBounds(46, 740, 154, 27);
 		MenuLateral.add(labelLoggedUser);
-		
+
 		TiendaOPC = new JLabel("Tienda");
 		TiendaOPC.addMouseListener(new MouseAdapter() {
 			@Override
@@ -394,7 +402,7 @@ public class DashboardHome extends JFrame {
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelTienda.setVisible(true);
-				
+
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
@@ -457,27 +465,27 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelClienteDatos);
 		panelClienteDatos.setLayout(null);
 
-		ContadorClientes = new JLabel(""+Store.getInstance().getCustomers().size()); //Contador de clientes atendidos 
+		ContadorClientes = new JLabel("" + Store.getInstance().getCustomers().size()); // Contador de clientes atendidos
 		ContadorClientes.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
 		ContadorClientes.setBounds(152, 0, 90, 51);
 		panelClienteDatos.add(ContadorClientes);
-		
-		System.out.println("La cantidad de clientes es de "+Store.getInstance().getCustomers().size());
+
+		System.out.println("La cantidad de clientes es de " + Store.getInstance().getCustomers().size());
 
 		JLabel lblNewLabel_3_1 = new JLabel("Atendidos");
 		lblNewLabel_3_1.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 18));
 		lblNewLabel_3_1.setBounds(152, 27, 110, 40);
 		panelClienteDatos.add(lblNewLabel_3_1);
-		
+
 		// ICONO DE VISTA CLIENTES
 		JLabel IconoClientes = new JLabel("");
 		IconoClientes.setBounds(67, 11, 50, 50);
 		ImageIcon icoClientes = new ImageIcon(getClass().getResource("/Img/cliente.png"));
-		ImageIcon imgClientes = new ImageIcon(icoClientes.getImage().getScaledInstance(IconoClientes.getWidth(), IconoClientes.getHeight(), Image.SCALE_SMOOTH));
+		ImageIcon imgClientes = new ImageIcon(icoClientes.getImage().getScaledInstance(IconoClientes.getWidth(),
+				IconoClientes.getHeight(), Image.SCALE_SMOOTH));
 		IconoClientes.setIcon(imgClientes);
-		
-		panelClienteDatos.add(IconoClientes);
 
+		panelClienteDatos.add(IconoClientes);
 
 		JPanel panelComponentesDatos = new JPanel();
 		panelComponentesDatos.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
@@ -490,7 +498,8 @@ public class DashboardHome extends JFrame {
 		JLabel IconoLabelComponentes = new JLabel("");
 		IconoLabelComponentes.setBounds(64, 11, 50, 50);
 		ImageIcon icoComponentes = new ImageIcon(getClass().getResource("/Img/componente.png"));
-		ImageIcon imgComponentes = new ImageIcon(icoComponentes.getImage().getScaledInstance(IconoLabelComponentes.getWidth(), IconoLabelComponentes.getHeight(), Image.SCALE_SMOOTH));
+		ImageIcon imgComponentes = new ImageIcon(icoComponentes.getImage().getScaledInstance(
+				IconoLabelComponentes.getWidth(), IconoLabelComponentes.getHeight(), Image.SCALE_SMOOTH));
 		IconoLabelComponentes.setIcon(imgComponentes);
 
 		panelComponentesDatos.add(IconoLabelComponentes);
@@ -508,8 +517,8 @@ public class DashboardHome extends JFrame {
 		lblVistaGeneral_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
 		lblVistaGeneral_1_1.setBounds(10, 11, 252, 35);
 		panelComponentesSuperior.add(lblVistaGeneral_1_1);
-		
-		ContadorComponentes = new JLabel(""+Store.getInstance().getComponents().size()); 		//Contador de componentes
+
+		ContadorComponentes = new JLabel("" + Store.getInstance().getComponents().size()); // Contador de componentes
 		ContadorComponentes.setBounds(152, 0, 90, 51);
 		panelComponentesDatos.add(ContadorComponentes);
 		ContadorComponentes.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
@@ -540,7 +549,7 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelUsuariosDatos);
 		panelUsuariosDatos.setLayout(null);
 
-		ContadorUsuarios = new JLabel(""+Store.getInstance().getUsers().size()); 			//Contador de usuarios
+		ContadorUsuarios = new JLabel("" + Store.getInstance().getUsers().size()); // Contador de usuarios
 		ContadorUsuarios.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
 		ContadorUsuarios.setBounds(152, 0, 90, 51);
 		panelUsuariosDatos.add(ContadorUsuarios);
@@ -553,11 +562,12 @@ public class DashboardHome extends JFrame {
 		JLabel IconoLabelUsuarios = new JLabel("");
 		IconoLabelUsuarios.setBounds(67, 11, 50, 50);
 		ImageIcon icoUsuarios = new ImageIcon(getClass().getResource("/Img/usuario.png"));
-		ImageIcon imgUsuarios = new ImageIcon(icoUsuarios.getImage().getScaledInstance(IconoLabelUsuarios.getWidth(), IconoLabelUsuarios.getHeight(), Image.SCALE_SMOOTH));
+		ImageIcon imgUsuarios = new ImageIcon(icoUsuarios.getImage().getScaledInstance(IconoLabelUsuarios.getWidth(),
+				IconoLabelUsuarios.getHeight(), Image.SCALE_SMOOTH));
 		IconoLabelUsuarios.setIcon(imgUsuarios);
 
 		panelUsuariosDatos.add(IconoLabelUsuarios);
-		
+
 		JPanel panelFacturasSuperior = new JPanel();
 		panelFacturasSuperior.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		panelFacturasSuperior.setBackground(new Color(102, 102, 255));
@@ -579,7 +589,7 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(panelFacturaDatos);
 		panelFacturaDatos.setLayout(null);
 
-		ContadorFacturas = new JLabel(""+Store.getInstance().getInvoices().size());  			//Contador de facturas
+		ContadorFacturas = new JLabel("" + Store.getInstance().getInvoices().size()); // Contador de facturas
 		ContadorFacturas.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 20));
 		ContadorFacturas.setBounds(152, 0, 90, 51);
 		panelFacturaDatos.add(ContadorFacturas);
@@ -592,9 +602,10 @@ public class DashboardHome extends JFrame {
 		JLabel IconoLabelFacturas = new JLabel("");
 		IconoLabelFacturas.setBounds(70, 11, 50, 50);
 		ImageIcon icoFactura = new ImageIcon(getClass().getResource("/Img/factura.png"));
-		ImageIcon imgFactura = new ImageIcon(icoFactura.getImage().getScaledInstance(IconoLabelFacturas.getWidth(), IconoLabelFacturas.getHeight(), Image.SCALE_SMOOTH));
+		ImageIcon imgFactura = new ImageIcon(icoFactura.getImage().getScaledInstance(IconoLabelFacturas.getWidth(),
+				IconoLabelFacturas.getHeight(), Image.SCALE_SMOOTH));
 		IconoLabelFacturas.setIcon(imgFactura);
-		
+
 		panelFacturaDatos.add(IconoLabelFacturas);
 
 		JPanel grafica1 = new JPanel();
@@ -608,24 +619,25 @@ public class DashboardHome extends JFrame {
 		grafica2.setBackground(Color.WHITE);
 		grafica2.setBounds(782, 366, 626, 413);
 		panelMenu.add(grafica2);
-		
+
 		panelUsuarios = new JPanel();
 		panelUsuarios.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelUsuarios);
 		panelUsuarios.setLayout(null);
 		{
-			JPanel panelTabla = new JPanel();
-			panelTabla.setSize(1410, 700);
-			panelTabla.setLocation(25, 125);
-			panelTabla.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panelUsuarios.add(panelTabla, BorderLayout.CENTER);
-			panelTabla.setLayout(new BorderLayout(0, 0));
+			JPanel panelTablaUsuarios = new JPanel();
+			panelTablaUsuarios.setSize(1410, 700);
+			panelTablaUsuarios.setLocation(25, 125);
+			panelTablaUsuarios
+					.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panelUsuarios.add(panelTablaUsuarios, BorderLayout.CENTER);
+			panelTablaUsuarios.setLayout(new BorderLayout(0, 0));
 			{
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				panelTabla.add(scrollPane, BorderLayout.CENTER);
+				panelTablaUsuarios.add(scrollPane, BorderLayout.CENTER);
 				{
-					String headers[] = {"Código","Nombre","Nombre de usuario","Contraseña","Tipo"};
+					String headers[] = { "Código", "Nombre", "Nombre de usuario", "Contraseña", "Tipo" };
 					model_users = new DefaultTableModel();
 					model_users.setColumnIdentifiers(headers);
 					table_users = new JTable();
@@ -634,10 +646,10 @@ public class DashboardHome extends JFrame {
 						public void mouseClicked(MouseEvent e) {
 							int index = -1;
 							index = table_users.getSelectedRow();
-							if(index != -1) {
+							if (index != -1) {
 								btnEliminarUsuario.setEnabled(true);
 								btnModificarUsuario.setEnabled(true);
-								String id = (String)(model_users.getValueAt(index, 0));
+								String id = (String) (model_users.getValueAt(index, 0));
 								selected_user = Store.getInstance().search_user(id);
 							}
 						}
@@ -647,26 +659,26 @@ public class DashboardHome extends JFrame {
 					scrollPane.setViewportView(table_users);
 				}
 			}
-			
+
 		}
-		
+
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(new Color(211, 211, 211));
 		separator_1.setBounds(0, 40, 1457, 11);
 		panelUsuarios.add(separator_1);
-		
+
 		JLabel labelTituloUsuarios = new JLabel("USUARIOS");
 		labelTituloUsuarios.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloUsuarios.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloUsuarios.setBounds(10, 0, 100, 40);
 		panelUsuarios.add(labelTituloUsuarios);
-		
+
 		btnNewUsuario = new JButton("Nuevo Usuario");
 		btnNewUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserRegistry user_reg = new UserRegistry(null);
 				user_reg.setVisible(true);
-				//user_reg.setModal(true);
+				// user_reg.setModal(true);
 			}
 		});
 		btnNewUsuario.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -677,7 +689,7 @@ public class DashboardHome extends JFrame {
 		btnNewUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnNewUsuario.setBounds(1300, 70, 120, 28);
 		panelUsuarios.add(btnNewUsuario);
-		
+
 		btnModificarUsuario = new JButton("Modificar");
 		btnModificarUsuario.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnModificarUsuario.setForeground(Color.WHITE);
@@ -687,7 +699,7 @@ public class DashboardHome extends JFrame {
 		btnModificarUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnModificarUsuario.setBounds(1145, 70, 130, 28);
 		panelUsuarios.add(btnModificarUsuario);
-		
+
 		btnEliminarUsuario = new JButton("Eliminar");
 		btnEliminarUsuario.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnEliminarUsuario.setForeground(Color.WHITE);
@@ -697,83 +709,190 @@ public class DashboardHome extends JFrame {
 		btnEliminarUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnEliminarUsuario.setBounds(995, 70, 125, 28);
 		panelUsuarios.add(btnEliminarUsuario);
-		
+
 		panelComponentes = new JPanel();
 		panelComponentes.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelComponentes);
 		panelComponentes.setLayout(null);
-		
+
 		JLabel labelTituloComponentes = new JLabel("COMPONENTES");
 		labelTituloComponentes.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloComponentes.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloComponentes.setBounds(10, 0, 150, 40);
 		panelComponentes.add(labelTituloComponentes);
-		
+
 		JSeparator separator_1_2 = new JSeparator();
 		separator_1_2.setForeground(new Color(211, 211, 211));
 		separator_1_2.setBounds(0, 40, 1457, 11);
 		panelComponentes.add(separator_1_2);
-		
+
 		panelClientes = new JPanel();
 		panelClientes.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelClientes);
 		panelClientes.setLayout(null);
-		
-		JLabel labelTituloComponentes_1 = new JLabel("COMPONENTES");
-		labelTituloComponentes_1.setHorizontalAlignment(SwingConstants.CENTER);
-		labelTituloComponentes_1.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
-		labelTituloComponentes_1.setBounds(0, 0, 150, 40);
-		panelClientes.add(labelTituloComponentes_1);
-		
+
+		JLabel labelTituloClientes = new JLabel("CLIENTES");
+		labelTituloClientes.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloClientes.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloClientes.setBounds(0, 0, 110, 40);
+		panelClientes.add(labelTituloClientes);
+
 		JSeparator separator_1_2_1 = new JSeparator();
 		separator_1_2_1.setForeground(new Color(211, 211, 211));
-		separator_1_2_1.setBounds(0, 0, 1457, 11);
+		separator_1_2_1.setBounds(0, 40, 1457, 11);
 		panelClientes.add(separator_1_2_1);
+
+		JPanel panelTablaClientes = new JPanel();
+		panelTablaClientes.setBounds(25, 125, 1410, 700);
+		panelClientes.add(panelTablaClientes);
+		panelTablaClientes.setLayout(new BorderLayout(0, 0));
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			panelTablaClientes.add(scrollPane);
+			{
+				String headers[] = { "Código", "Nombre", "Nombre de usuario", "Contraseña", "Tipo" };
+				model_customers = new DefaultTableModel();
+				model_customers.setColumnIdentifiers(headers);
+				table_customers = new JTable();
+				table_customers.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int index = -1;
+						index = table_customers.getSelectedRow();
+						if (index != -1) {
+//								btnEliminarUsuario.setEnabled(true);
+//								btnModificarUsuario.setEnabled(true);
+//								String id = (String)(model_invoices.getValueAt(index, 0));
+//								selected_user = Store.getInstance().search_user(id);
+						}
+					}
+				});
+				table_customers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				table_customers.setModel(model_customers);
+				scrollPane.setViewportView(table_customers);
+			}
+		}
 		
+		btnEliminarCliente = new JButton("Eliminar");
+		btnEliminarCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnEliminarCliente.setForeground(Color.WHITE);
+		btnEliminarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnEliminarCliente.setEnabled(false);
+		btnEliminarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnEliminarCliente.setBackground(new Color(102, 102, 255));
+		btnEliminarCliente.setAlignmentX(0.5f);
+		btnEliminarCliente.setBounds(995, 70, 125, 28);
+		panelClientes.add(btnEliminarCliente);
+		
+		btnModificarCliente = new JButton("Modificar");
+		btnModificarCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnModificarCliente.setForeground(Color.WHITE);
+		btnModificarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnModificarCliente.setEnabled(false);
+		btnModificarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnModificarCliente.setBackground(new Color(102, 102, 255));
+		btnModificarCliente.setAlignmentX(0.5f);
+		btnModificarCliente.setBounds(1145, 70, 130, 28);
+		panelClientes.add(btnModificarCliente);
+		
+		btnNewCliente = new JButton("Nuevo Cliente");
+		btnNewCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewCliente.setForeground(Color.WHITE);
+		btnNewCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnNewCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnNewCliente.setBackground(new Color(102, 102, 255));
+		btnNewCliente.setAlignmentX(0.5f);
+		btnNewCliente.setBounds(1300, 70, 130, 28);
+		panelClientes.add(btnNewCliente);
+
 		panelFacturas = new JPanel();
 		panelFacturas.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelFacturas);
 		panelFacturas.setLayout(null);
-		
-		JLabel labelTituloComponentes_2 = new JLabel("COMPONENTES");
-		labelTituloComponentes_2.setHorizontalAlignment(SwingConstants.CENTER);
-		labelTituloComponentes_2.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
-		labelTituloComponentes_2.setBounds(0, 0, 150, 40);
-		panelFacturas.add(labelTituloComponentes_2);
-		
+
+		JLabel labelTituloFacturas = new JLabel("FACTURAS");
+		labelTituloFacturas.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloFacturas.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloFacturas.setBounds(0, 0, 120, 40);
+		panelFacturas.add(labelTituloFacturas);
+
 		JSeparator separator_1_2_2 = new JSeparator();
 		separator_1_2_2.setForeground(new Color(211, 211, 211));
-		separator_1_2_2.setBounds(0, 0, 1457, 11);
+		separator_1_2_2.setBounds(0, 40, 1457, 11);
 		panelFacturas.add(separator_1_2_2);
-		
+
+		JPanel panelTablaFacturas = new JPanel();
+		panelTablaFacturas.setBounds(25, 125, 1410, 700);
+		panelFacturas.add(panelTablaFacturas);
+		panelTablaFacturas.setLayout(new BorderLayout(0, 0));
+
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			panelTablaFacturas.add(scrollPane);
+			{
+				String headers[] = { "Código", "Nombre", "Nombre de usuario", "Contraseña", "Tipo" };
+				model_invoices = new DefaultTableModel();
+				model_invoices.setColumnIdentifiers(headers);
+				table_invoices = new JTable();
+				table_invoices.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int index = -1;
+						index = table_invoices.getSelectedRow();
+						if (index != -1) {
+//								btnEliminarUsuario.setEnabled(true);
+//								btnModificarUsuario.setEnabled(true);
+//								String id = (String)(model_invoices.getValueAt(index, 0));
+//								selected_user = Store.getInstance().search_user(id);
+						}
+					}
+				});
+				table_invoices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				table_invoices.setModel(model_invoices);
+				scrollPane.setViewportView(table_invoices);
+			}
+		}
+
+		btnConfirmarPago = new JButton("Confirmar Pago");
+		btnConfirmarPago.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnConfirmarPago.setForeground(Color.WHITE);
+		btnConfirmarPago.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnConfirmarPago.setEnabled(false);
+		btnConfirmarPago.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnConfirmarPago.setBackground(new Color(102, 102, 255));
+		btnConfirmarPago.setAlignmentX(0.5f);
+		btnConfirmarPago.setBounds(1300, 70, 130, 28);
+		panelFacturas.add(btnConfirmarPago);
+
 		panelAdministracion = new JPanel();
 		panelAdministracion.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelAdministracion);
 		panelAdministracion.setLayout(null);
-		
-		JLabel labelTituloComponentes_3 = new JLabel("COMPONENTES");
-		labelTituloComponentes_3.setHorizontalAlignment(SwingConstants.CENTER);
-		labelTituloComponentes_3.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
-		labelTituloComponentes_3.setBounds(0, 0, 150, 40);
-		panelAdministracion.add(labelTituloComponentes_3);
-		
+
+		JLabel labelTituloAdministracion = new JLabel("ADMINISTRACION");
+		labelTituloAdministracion.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloAdministracion.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloAdministracion.setBounds(10, 0, 170, 40);
+		panelAdministracion.add(labelTituloAdministracion);
+
 		panelTienda = new JPanel();
 		panelTienda.setLayout(null);
 		panelTienda.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelTienda);
-		
+
 		labelTituloTienda = new JLabel("TIENDA");
 		labelTituloTienda.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloTienda.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloTienda.setBounds(0, 0, 100, 40);
 		panelTienda.add(labelTituloTienda);
-		
+
 		JSeparator separator_1_1 = new JSeparator();
 		separator_1_1.setForeground(new Color(211, 211, 211));
 		separator_1_1.setBounds(0, 40, 1457, 11);
 		panelTienda.add(separator_1_1);
 
-		
 //		HILO PARA USAR UN RELOJ ACTUALIZADO
 		final DateTimeFormatter formateador = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
 		Runnable runnable = new Runnable() {
@@ -790,7 +909,7 @@ public class DashboardHome extends JFrame {
 		};
 		Thread hilo = new Thread(runnable);
 		hilo.start();
-		
+
 //		HILO PARA REFRESCAR CONTADORES
 
 		Runnable runnableContadores = new Runnable() {
@@ -798,10 +917,10 @@ public class DashboardHome extends JFrame {
 				while (true) {
 					try {
 						Thread.sleep(1000);
-						ContadorComponentes.setText(""+Store.getInstance().getComponents().size());
-						ContadorClientes.setText(""+Store.getInstance().getCustomers().size());
-						ContadorFacturas.setText(""+Store.getInstance().getInvoices().size());
-						ContadorUsuarios.setText(""+Store.getInstance().getUsers().size());
+						ContadorComponentes.setText("" + Store.getInstance().getComponents().size());
+						ContadorClientes.setText("" + Store.getInstance().getCustomers().size());
+						ContadorFacturas.setText("" + Store.getInstance().getInvoices().size());
+						ContadorUsuarios.setText("" + Store.getInstance().getUsers().size());
 						etiquetaReloj.setText(formateador.format(LocalDateTime.now()));
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -811,10 +930,10 @@ public class DashboardHome extends JFrame {
 		};
 		Thread hiloContadores = new Thread(runnableContadores);
 		hiloContadores.start();
-		
+
 		load_users();
 	}
-	
+
 	public static void load_users() {
 		model_users.setRowCount(0);
 		rows = new Object[model_users.getColumnCount()];
@@ -823,16 +942,15 @@ public class DashboardHome extends JFrame {
 			rows[1] = user.getName();
 			rows[2] = user.getUsername();
 			rows[3] = user.getPassword();
-			if(user instanceof Seller) {
+			if (user instanceof Seller) {
 				rows[4] = "Vendedor";
-			}
-			else if(user instanceof Administrator) {
+			} else if (user instanceof Administrator) {
 				rows[4] = "Administrador";
 			}
-			
+
 			model_users.addRow(rows);
 		}
 		btnEliminarUsuario.setEnabled(false);
 		btnModificarUsuario.setEnabled(false);
-	} 
+	}
 }

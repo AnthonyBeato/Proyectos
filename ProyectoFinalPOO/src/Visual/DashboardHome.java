@@ -370,12 +370,13 @@ public class DashboardHome extends JFrame {
 
 		MenuLateral.add(IconoLabel);
 
-		if((Store.getLoggedUser() instanceof Administrator)) {
-			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Administrador");
-		}else {
-			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Vendedor");
-		}
+//		if((Store.getLoggedUser() instanceof Administrator)) {
+//			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Administrador");
+//		}else {
+//			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Vendedor");
+//		}
 		
+		labelLoggedUser = new JLabel("Usuario | Rol");
 		labelLoggedUser.setForeground(new Color(102, 102, 255));
 		labelLoggedUser.setHorizontalAlignment(SwingConstants.CENTER);
 		labelLoggedUser.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 14));
@@ -703,20 +704,59 @@ public class DashboardHome extends JFrame {
 		contentPane.add(panelComponentes);
 		panelComponentes.setLayout(null);
 		
+		JLabel labelTituloComponentes = new JLabel("COMPONENTES");
+		labelTituloComponentes.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloComponentes.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloComponentes.setBounds(10, 0, 150, 40);
+		panelComponentes.add(labelTituloComponentes);
+		
+		JSeparator separator_1_2 = new JSeparator();
+		separator_1_2.setForeground(new Color(211, 211, 211));
+		separator_1_2.setBounds(0, 40, 1457, 11);
+		panelComponentes.add(separator_1_2);
+		
 		panelClientes = new JPanel();
 		panelClientes.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelClientes);
 		panelClientes.setLayout(null);
+		
+		JLabel labelTituloComponentes_1 = new JLabel("COMPONENTES");
+		labelTituloComponentes_1.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloComponentes_1.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloComponentes_1.setBounds(0, 0, 150, 40);
+		panelClientes.add(labelTituloComponentes_1);
+		
+		JSeparator separator_1_2_1 = new JSeparator();
+		separator_1_2_1.setForeground(new Color(211, 211, 211));
+		separator_1_2_1.setBounds(0, 0, 1457, 11);
+		panelClientes.add(separator_1_2_1);
 		
 		panelFacturas = new JPanel();
 		panelFacturas.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelFacturas);
 		panelFacturas.setLayout(null);
 		
+		JLabel labelTituloComponentes_2 = new JLabel("COMPONENTES");
+		labelTituloComponentes_2.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloComponentes_2.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloComponentes_2.setBounds(0, 0, 150, 40);
+		panelFacturas.add(labelTituloComponentes_2);
+		
+		JSeparator separator_1_2_2 = new JSeparator();
+		separator_1_2_2.setForeground(new Color(211, 211, 211));
+		separator_1_2_2.setBounds(0, 0, 1457, 11);
+		panelFacturas.add(separator_1_2_2);
+		
 		panelAdministracion = new JPanel();
 		panelAdministracion.setBounds(247, 0, 1457, 841);
 		contentPane.add(panelAdministracion);
 		panelAdministracion.setLayout(null);
+		
+		JLabel labelTituloComponentes_3 = new JLabel("COMPONENTES");
+		labelTituloComponentes_3.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloComponentes_3.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloComponentes_3.setBounds(0, 0, 150, 40);
+		panelAdministracion.add(labelTituloComponentes_3);
 		
 		panelTienda = new JPanel();
 		panelTienda.setLayout(null);

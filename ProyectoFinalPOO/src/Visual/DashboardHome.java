@@ -727,7 +727,7 @@ public class DashboardHome extends JFrame {
 		separator_1.setBounds(0, 40, 1457, 11);
 		panelUsuarios.add(separator_1);
 
-		JLabel labelTituloUsuarios = new JLabel("USUARIOS");
+		JLabel labelTituloUsuarios = new JLabel("USUARIOS");														//USUARIOS
 		labelTituloUsuarios.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloUsuarios.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloUsuarios.setBounds(10, 0, 100, 40);
@@ -775,7 +775,7 @@ public class DashboardHome extends JFrame {
 		contentPane.add(panelComponentes);
 		panelComponentes.setLayout(null);
 
-		JLabel labelTituloComponentes = new JLabel("COMPONENTES");
+		JLabel labelTituloComponentes = new JLabel("COMPONENTES");															//COMPONENTES
 		labelTituloComponentes.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloComponentes.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloComponentes.setBounds(10, 0, 150, 40);
@@ -855,7 +855,7 @@ public class DashboardHome extends JFrame {
 		contentPane.add(panelClientes);
 		panelClientes.setLayout(null);
 
-		JLabel labelTituloClientes = new JLabel("CLIENTES");
+		JLabel labelTituloClientes = new JLabel("CLIENTES");										//CLIENTES
 		labelTituloClientes.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloClientes.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloClientes.setBounds(0, 0, 110, 40);
@@ -879,6 +879,7 @@ public class DashboardHome extends JFrame {
 				model_customers = new DefaultTableModel();
 				model_customers.setColumnIdentifiers(headers);
 				table_customers = new JTable();
+				table_customers.setModel(model_customers);
 				table_customers.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -921,6 +922,13 @@ public class DashboardHome extends JFrame {
 		panelClientes.add(btnModificarCliente);
 		
 		btnNewCliente = new JButton("Nuevo Cliente");
+		btnNewCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CustomerRegistry customer_reg = new CustomerRegistry(null);
+				customer_reg.setVisible(true);
+				// user_reg.setModal(true);
+			}
+		});
 		btnNewCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewCliente.setForeground(Color.WHITE);
 		btnNewCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -935,7 +943,7 @@ public class DashboardHome extends JFrame {
 		contentPane.add(panelFacturas);
 		panelFacturas.setLayout(null);
 
-		JLabel labelTituloFacturas = new JLabel("FACTURAS");
+		JLabel labelTituloFacturas = new JLabel("FACTURAS");													//FACTURAS
 		labelTituloFacturas.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloFacturas.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloFacturas.setBounds(0, 0, 120, 40);

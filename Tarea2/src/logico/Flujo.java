@@ -55,7 +55,6 @@ public class Flujo extends Thread
 		
 		in.close();
 		out.close();
-		System.out.println("Llego hasta el final del flujo");
 		
 	} catch (IOException e) {
 		System.out.println("Error en salida/entrada");

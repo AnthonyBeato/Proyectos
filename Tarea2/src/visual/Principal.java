@@ -2,6 +2,7 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -20,9 +21,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.border.BevelBorder;
 import java.awt.FlowLayout;
+import java.awt.TextArea;
+import java.awt.TextField;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,6 +37,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle.Control;
 import java.awt.event.ActionEvent;
 
@@ -41,7 +49,12 @@ public class Principal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Dimension dim;
-
+	static Socket socket = null;
+	static DataInputStream EntradaSocket;
+	static DataOutputStream SalidaSocket;
+    static TextArea entrada;  
+    static TextField salida;
+    
 	/**
 	 * Launch the application.
 	 */
@@ -88,6 +101,34 @@ public class Principal extends JFrame {
 				}
 			}
 		});
+		
+		try
+	    {
+		  socket = new Socket("127.0.0.1",7000);
+	      EntradaSocket = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+	      SalidaSocket = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+	    }
+	    catch (UnknownHostException uhe)
+	    {
+	      System.out.println("No se puede acceder al servidor.");
+	      System.exit(1);
+	    }
+	    catch (IOException ioe)
+	    {
+	      System.out.println("Comunicación rechazada.");
+	      System.exit(1);
+	    }
+	    while (true){
+	      try
+	      {
+	        String linea = EntradaSocket.readUTF();
+	        entrada.append(linea+"\n");
+	      }
+	      catch(IOException ioe)
+	      {
+		System.exit(1);
+	      } 
+	    }
 	}
 
 	/**
@@ -99,6 +140,12 @@ public class Principal extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				FileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
+				try {
+					socket.close();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 
 				try {
 					empresa2 = new  FileOutputStream("empresa.dat");

@@ -28,41 +28,42 @@ public class Flujo extends Thread
 
  public void run()
  {
-    System.out.println("Llego al inicio");
-	Date fecha = new Date();
-	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-	String fecha2 = formatter.format(fecha);
-	
-	String nameSourceFactura = "respaldo/"+fecha2+".txt";
-	
-	String sourceFactura = "factura/factura.txt";
-	String destinationFactura = nameSourceFactura;
-	
-	System.out.println("Desde: " + sourceFactura);
-	System.out.println("Hacia: " + destinationFactura);
-	
-	try {
-		File inFile = new File(sourceFactura);
-		File outFile = new File(destinationFactura);
+	//while(true) {
+	    System.out.println("Llego al inicio");
+		Date fecha = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		String fecha2 = formatter.format(fecha);
 		
-		FileInputStream in = new FileInputStream(inFile);
-		FileOutputStream out = new FileOutputStream(outFile);
+		//String nameSourceFactura = "respaldo/"+fecha2+".txt";
+		String nameSourceFactura = "respaldo/factura.txt";
 		
-		int c;
-		while ((c = in.read()) != -1) {
-			out.write(c);
+		String sourceFactura = "factura/factura.txt";
+		String destinationFactura = nameSourceFactura;
+		
+		System.out.println("Desde: " + sourceFactura);
+		System.out.println("Hacia: " + destinationFactura);
+		
+		try {
+			File inFile = new File(sourceFactura);
+			File outFile = new File(destinationFactura);
+			
+			FileInputStream in = new FileInputStream(inFile);
+			FileOutputStream out = new FileOutputStream(outFile);
+			
+			int c;
+			while ((c = in.read()) != -1) {
+				out.write(c);
+			}
+			
+			in.close();
+			out.close();
+		} catch (IOException e) {
+			System.out.println("Error en salida/entrada");
 		}
-		
-		in.close();
-		out.close();
-		
-	} catch (IOException e) {
-		System.out.println("Error en salida/entrada");
 	}
-		
 	 
  }
  
 	 
 
-}
+//}

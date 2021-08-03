@@ -104,7 +104,8 @@ public class Principal extends JFrame {
 		
 		try
 	    {
-		  socket = new Socket("127.0.0.1",7000);
+		  socket = new Socket("127.0.0.1",7000); //Se crea la conexion del socket
+		  
 	      EntradaSocket = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 	      SalidaSocket = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 	    }
@@ -122,7 +123,7 @@ public class Principal extends JFrame {
 	      try
 	      {
 	        String linea = EntradaSocket.readUTF();
-	        entrada.append(linea+"\n");
+	        //entrada.append(linea+"\n");
 	      }
 	      catch(IOException ioe)
 	      {

@@ -334,6 +334,7 @@ public class RegPedido extends JDialog {
 								//Servidor server = new Servidor();
 								//  				usar a server aqui.
 								
+								
 								// FIN DE FUNCION
 								
 								

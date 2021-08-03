@@ -1,0 +1,6 @@
+Cliente:  Mike
+
+Quesos: 
+Q-2 | Esférico	8620.53	10.0
+
+Total: 10.0

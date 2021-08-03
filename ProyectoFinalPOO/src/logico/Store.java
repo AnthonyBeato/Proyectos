@@ -146,5 +146,14 @@ public class Store implements Serializable{
 		Store.store = store;
 	}
 	
+	public User search_user(String id) {
+		User searched = null;
+		for (User user : users) {
+			if(user.getId().equalsIgnoreCase(id)) {
+				searched = user;
+			}
+		}
+		return searched;
+	}
 	
 }

@@ -29,7 +29,11 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import logico.Administrator;
+import logico.Seller;
 import logico.Store;
+import logico.User;
+
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.border.SoftBevelBorder;
@@ -60,12 +64,14 @@ public class DashboardHome extends JFrame {
 	private JLabel AdministracionOPC;
 	private JLabel UsuariosOPC;
 	
-	private JTable table;
-	private static DefaultTableModel model;
 	private static Object rows[];
-	private JButton btnModificarCliente;
-	private JButton btnEliminarCliente;
-	private JButton btnNewCliente;
+	
+	private JTable table_users;
+	private static DefaultTableModel model_users;
+	private static JButton btnModificarUsuario;
+	private static JButton btnEliminarUsuario;
+	private JButton btnNewUsuario;
+	private User selected_user = null;
 
 	/**
 	 * Launch the application.
@@ -551,27 +557,26 @@ public class DashboardHome extends JFrame {
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				panelTabla.add(scrollPane, BorderLayout.CENTER);
 				{
-					String headers[] = {"Código","Nombre","Teléfono","Dirección"};
-					model = new DefaultTableModel();
-					model.setColumnIdentifiers(headers);
-					table = new JTable();
-					table.addMouseListener(new MouseAdapter() {
+					String headers[] = {"Código","Nombre","Nombre de usuario","Contraseña","Tipo"};
+					model_users = new DefaultTableModel();
+					model_users.setColumnIdentifiers(headers);
+					table_users = new JTable();
+					table_users.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							int index = -1;
-							index = table.getSelectedRow();
+							index = table_users.getSelectedRow();
 							if(index != -1) {
-//								btnEliminar.setEnabled(true);
-//								btnModificar.setEnabled(true);
-//								String id = (String)(model.getValueAt(index, 0));
-//								selected = Controladora.getInstance().buscarClienteEspecificoByID(id);
-//								System.out.println(selected.getCedula()+""+selected.getNombre());
+								btnEliminarUsuario.setEnabled(true);
+								btnModificarUsuario.setEnabled(true);
+								String id = (String)(model_users.getValueAt(index, 0));
+								selected_user = Store.getInstance().search_user(id);
 							}
 						}
 					});
-					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-					table.setModel(model);
-					scrollPane.setViewportView(table);
+					table_users.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					table_users.setModel(model_users);
+					scrollPane.setViewportView(table_users);
 				}
 			}
 			
@@ -588,42 +593,42 @@ public class DashboardHome extends JFrame {
 		labelTituloUsuarios.setBounds(10, 0, 100, 40);
 		panelUsuarios.add(labelTituloUsuarios);
 		
-		btnNewCliente = new JButton("Nuevo Cliente");
-		btnNewCliente.addActionListener(new ActionListener() {
+		btnNewUsuario = new JButton("Nuevo Usuario");
+		btnNewUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserRegistry user_reg = new UserRegistry(null);
 				user_reg.setVisible(true);
 				user_reg.setModal(true);
 			}
 		});
-		btnNewCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
-		btnNewCliente.setForeground(Color.WHITE);
-		btnNewCliente.setBackground(new Color(102, 102, 255));
-		btnNewCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
-		btnNewCliente.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnNewCliente.setBounds(1300, 70, 120, 28);
-		panelUsuarios.add(btnNewCliente);
+		btnNewUsuario.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnNewUsuario.setForeground(Color.WHITE);
+		btnNewUsuario.setBackground(new Color(102, 102, 255));
+		btnNewUsuario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewUsuario.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnNewUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnNewUsuario.setBounds(1300, 70, 120, 28);
+		panelUsuarios.add(btnNewUsuario);
 		
-		btnModificarCliente = new JButton("Modificar");
-		btnModificarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
-		btnModificarCliente.setForeground(Color.WHITE);
-		btnModificarCliente.setBackground(new Color(102, 102, 255));
-		btnModificarCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnModificarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
-		btnModificarCliente.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnModificarCliente.setBounds(1145, 70, 130, 28);
-		panelUsuarios.add(btnModificarCliente);
+		btnModificarUsuario = new JButton("Modificar");
+		btnModificarUsuario.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnModificarUsuario.setForeground(Color.WHITE);
+		btnModificarUsuario.setBackground(new Color(102, 102, 255));
+		btnModificarUsuario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnModificarUsuario.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnModificarUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnModificarUsuario.setBounds(1145, 70, 130, 28);
+		panelUsuarios.add(btnModificarUsuario);
 		
-		btnEliminarCliente = new JButton("Eliminar");
-		btnEliminarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
-		btnEliminarCliente.setForeground(Color.WHITE);
-		btnEliminarCliente.setBackground(new Color(102, 102, 255));
-		btnEliminarCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnEliminarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
-		btnEliminarCliente.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnEliminarCliente.setBounds(995, 70, 125, 28);
-		panelUsuarios.add(btnEliminarCliente);
+		btnEliminarUsuario = new JButton("Eliminar");
+		btnEliminarUsuario.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnEliminarUsuario.setForeground(Color.WHITE);
+		btnEliminarUsuario.setBackground(new Color(102, 102, 255));
+		btnEliminarUsuario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnEliminarUsuario.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnEliminarUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnEliminarUsuario.setBounds(995, 70, 125, 28);
+		panelUsuarios.add(btnEliminarUsuario);
 		
 		panelComponentes = new JPanel();
 		panelComponentes.setBounds(247, 0, 1457, 841);
@@ -663,11 +668,27 @@ public class DashboardHome extends JFrame {
 		Thread hilo = new Thread(runnable);
 		hilo.start();
 		
+		load_users();
 	}
 	
-	public static void loadTable() {
-		model.setRowCount(0);
-		rows = new Object[model.getColumnCount()];
-		// *** //
+	public static void load_users() {
+		model_users.setRowCount(0);
+		rows = new Object[model_users.getColumnCount()];
+		for (User user : Store.getInstance().getUsers()) {
+			rows[0] = user.getId();
+			rows[1] = user.getName();
+			rows[2] = user.getUsername();
+			rows[3] = user.getPassword();
+			if(user instanceof Seller) {
+				rows[4] = "Vendedor";
+			}
+			else if(user instanceof Administrator) {
+				rows[4] = "Administrador";
+			}
+			
+			model_users.addRow(rows);
+		}
+		btnEliminarUsuario.setEnabled(false);
+		btnModificarUsuario.setEnabled(false);
 	} 
 }

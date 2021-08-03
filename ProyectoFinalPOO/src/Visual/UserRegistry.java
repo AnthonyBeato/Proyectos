@@ -217,7 +217,7 @@ public class UserRegistry extends JDialog {
 								((Administrator) selected).setYears(Integer.valueOf(spn_years.getValue().toString()));
 							}
 						}
-						// DashboardHome.load_users();
+						DashboardHome.load_users();
 						dispose();
 					}
 				});

@@ -381,13 +381,13 @@ public class DashboardHome extends JFrame {
 
 		MenuLateral.add(IconoLabel);
 
-//		if((Store.getLoggedUser() instanceof Administrator)) {
-//			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Administrador");
-//		}else {
-//			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Vendedor");
-//		}
+		if((Store.getLoggedUser() instanceof Administrator)) {
+			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Administrador");
+		}else {
+			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Vendedor");
+		}
 
-		labelLoggedUser = new JLabel("Usuario | Rol");
+
 		labelLoggedUser.setForeground(new Color(102, 102, 255));
 		labelLoggedUser.setHorizontalAlignment(SwingConstants.CENTER);
 		labelLoggedUser.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 14));

@@ -116,6 +116,7 @@ public class DashboardHome extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				FileOutputStream enterprise2;
 				ObjectOutputStream enterpriseWrite;
+				//Store.setLoggedUser(null);
 				try {
 					enterprise2 = new FileOutputStream("enterprise.dat");
 					enterpriseWrite = new ObjectOutputStream(enterprise2);
@@ -180,6 +181,10 @@ public class DashboardHome extends JFrame {
 		MenuLateral.add(lblNewLabel_1);
 
 		AdministracionOPC = new JLabel("Administraci\u00F3n");
+		if(!(Store.getLoggedUser() instanceof Administrator)) {
+			AdministracionOPC.setVisible(false);
+			AdministracionOPC.setEnabled(false);
+		}
 		AdministracionOPC.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -606,7 +611,7 @@ public class DashboardHome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				UserRegistry user_reg = new UserRegistry(null);
 				user_reg.setVisible(true);
-				user_reg.setModal(true);
+				//user_reg.setModal(true);
 			}
 		});
 		btnNewUsuario.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));

@@ -76,7 +76,7 @@ public class UserRegistry extends JDialog {
 			panel_1.add(lblNewLabel);
 			
 			txt_id = new JTextField();
-			txt_id.setText("U-"+User.counter);
+			txt_id.setText(""+User.counter);
 			txt_id.setEditable(false);
 			txt_id.setBounds(66, 36, 116, 22);
 			panel_1.add(txt_id);
@@ -256,7 +256,7 @@ public class UserRegistry extends JDialog {
 	}
 
 	private void clean() {
-		txt_id.setText("U-"+User.counter);
+		txt_id.setText(""+User.counter);
 		txt_username.setText("");
 		txt_password.setText("");
 		txt_nombre.setText("");

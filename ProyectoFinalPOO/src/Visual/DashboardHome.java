@@ -95,6 +95,9 @@ public class DashboardHome extends JFrame {
 	private JButton btnEliminarCliente;
 	private JButton btnModificarCliente;
 	private JButton btnNewCliente;
+	private JButton btnEliminarComponente;
+	private JButton btnModificarComponente;
+	private JButton btnNewComponente;
 
 	/**
 	 * Launch the application.
@@ -725,6 +728,70 @@ public class DashboardHome extends JFrame {
 		separator_1_2.setForeground(new Color(211, 211, 211));
 		separator_1_2.setBounds(0, 40, 1457, 11);
 		panelComponentes.add(separator_1_2);
+		
+		JPanel panelTablaComponentes = new JPanel();
+		panelTablaComponentes.setBounds(25, 125, 1410, 700);
+		panelComponentes.add(panelTablaComponentes);
+		panelTablaComponentes.setLayout(new BorderLayout(0, 0));
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			panelTablaComponentes.add(scrollPane, BorderLayout.CENTER);
+			{
+				String headers[] = { "Código", "Nombre", "Nombre de usuario", "Contraseña", "Tipo" };
+				model_components = new DefaultTableModel();
+				model_components.setColumnIdentifiers(headers);
+				table_components = new JTable();
+				table_components.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int index = -1;
+						index = table_components.getSelectedRow();
+						if (index != -1) {
+							btnEliminarUsuario.setEnabled(true);
+							btnModificarUsuario.setEnabled(true);
+							//String id = (String) (model_components.getValueAt(index, 0));
+							//selected_user = Store.getInstance().search_user(id);
+						}
+					}
+				});
+				table_components.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				table_components.setModel(model_components);
+				scrollPane.setViewportView(table_components);
+			}
+		}
+		
+		btnEliminarComponente = new JButton("Eliminar");
+		btnEliminarComponente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnEliminarComponente.setForeground(Color.WHITE);
+		btnEliminarComponente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnEliminarComponente.setEnabled(false);
+		btnEliminarComponente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnEliminarComponente.setBackground(new Color(102, 102, 255));
+		btnEliminarComponente.setAlignmentX(0.5f);
+		btnEliminarComponente.setBounds(995, 70, 125, 28);
+		panelComponentes.add(btnEliminarComponente);
+		
+		btnModificarComponente = new JButton("Modificar");
+		btnModificarComponente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnModificarComponente.setForeground(Color.WHITE);
+		btnModificarComponente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnModificarComponente.setEnabled(false);
+		btnModificarComponente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnModificarComponente.setBackground(new Color(102, 102, 255));
+		btnModificarComponente.setAlignmentX(0.5f);
+		btnModificarComponente.setBounds(1145, 70, 125, 28);
+		panelComponentes.add(btnModificarComponente);
+		
+		btnNewComponente = new JButton("Nuevo Componente");
+		btnNewComponente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewComponente.setForeground(Color.WHITE);
+		btnNewComponente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnNewComponente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnNewComponente.setBackground(new Color(102, 102, 255));
+		btnNewComponente.setAlignmentX(0.5f);
+		btnNewComponente.setBounds(1295, 70, 135, 28);
+		panelComponentes.add(btnNewComponente);
 
 		panelClientes = new JPanel();
 		panelClientes.setBounds(247, 0, 1457, 841);
@@ -761,8 +828,8 @@ public class DashboardHome extends JFrame {
 						int index = -1;
 						index = table_customers.getSelectedRow();
 						if (index != -1) {
-//								btnEliminarUsuario.setEnabled(true);
-//								btnModificarUsuario.setEnabled(true);
+								btnEliminarCliente.setEnabled(true);
+								btnModificarCliente.setEnabled(true);
 //								String id = (String)(model_invoices.getValueAt(index, 0));
 //								selected_user = Store.getInstance().search_user(id);
 						}

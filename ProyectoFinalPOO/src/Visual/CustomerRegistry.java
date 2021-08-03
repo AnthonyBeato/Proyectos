@@ -60,9 +60,7 @@ public class CustomerRegistry extends JDialog {
 		panel_1.add(lblNewLabel);
 		
 		txtID = new JTextField();
-		txtID.setEditable(false);
 		txtID.setBounds(44, 24, 160, 23);
-		txtID.setText(""+Customer.counter);
 		panel_1.add(txtID);
 		txtID.setColumns(10);
 		
@@ -125,7 +123,7 @@ public class CustomerRegistry extends JDialog {
 	}
 	
 	private void clean() {
-		txtID.setText(""+Customer.counter);
+		txtID.setText("");
 		txtNombres.setText("");
 		spnCredito.setValue(0);
 		spnEdad.setValue(0);

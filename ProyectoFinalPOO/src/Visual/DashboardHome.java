@@ -903,6 +903,17 @@ public class DashboardHome extends JFrame {
 		}
 		
 		btnEliminarCliente = new JButton("Eliminar");
+		btnEliminarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "Desea eliminar el cliente:"+selected_customer.getId(), "Eliminar cliente", JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					Store.getInstance().deleteCostumer(selected_customer);
+					load_customers();
+					btnEliminarCliente.setEnabled(false);
+					btnModificarCliente.setEnabled(false);
+				}
+			}
+		});
 		btnEliminarCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEliminarCliente.setForeground(Color.WHITE);
 		btnEliminarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -1278,9 +1289,8 @@ public class DashboardHome extends JFrame {
 			rows[2] = customers.getCredit();
 			rows[3] = customers.getAge();
 			rows[4] = "Cliente";
+			model_customers.addRow(rows);
 		}
-		model_customers.addRow(rows);
-		
 		
 		btnEliminarUsuario.setEnabled(false);
 		btnModificarUsuario.setEnabled(false);

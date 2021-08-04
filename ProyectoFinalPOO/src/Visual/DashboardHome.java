@@ -131,7 +131,7 @@ public class DashboardHome extends JFrame {
 	private JButton btnRegistrarCliente;
 	private JSpinner spnCantidad;
 	
-	private ArrayList<logico.Component> components;
+	private ArrayList<logico.Component> components = new ArrayList<logico.Component>();
 	
 
 	/**
@@ -1210,6 +1210,7 @@ public class DashboardHome extends JFrame {
 											}
 										});
 										list_almacen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+										listModelAlmacen = new DefaultListModel<String>();
 										list_almacen.setModel(listModelAlmacen);
 										scrollPane_2.setViewportView(list_almacen);
 										
@@ -1223,7 +1224,7 @@ public class DashboardHome extends JFrame {
 										btnAgregar.addActionListener(new ActionListener() {
 											public void actionPerformed(ActionEvent e) {
 												String aux = list_almacen.getSelectedValue().toString();
-												String code = aux.substring(0, aux.indexOf(' '));
+												String code = aux.substring(0, aux.indexOf('.'));
 												int cantidad = Integer.valueOf(spnCantidad.getValue().toString());
 												logico.Component component = Store.getInstance().search_component(code);
 												if(cantidad >= component.getAvailable()) {
@@ -1255,7 +1256,7 @@ public class DashboardHome extends JFrame {
 											public void actionPerformed(ActionEvent e) {
 												//boolean inAlmacen = false;
 												String aux = list_carrito.getSelectedValue().toString();
-												String code = aux.substring(0, aux.indexOf(' '));
+												String code = aux.substring(0, aux.indexOf('.'));
 												/*for (int i = 0; i < listModelAlmacen.getSize(); i++) {
 													String aux2 = listModelAlmacen.getElementAt(i);
 													String code2 = aux2.substring(0, aux2.indexOf(' '));
@@ -1270,9 +1271,11 @@ public class DashboardHome extends JFrame {
 												}*/
 												listModelCarrito.remove(list_carrito.getSelectedIndex());
 												logico.Component removing = Store.getInstance().search_component(code);
-												for (logico.Component component : components) {
-													if(component == removing) {
-														components.remove(component);
+												if(!components.isEmpty()) {
+													for (logico.Component component : components) {
+														if(component == removing) {
+															components.remove(component);
+														}
 													}
 												}
 												btnRemover.setEnabled(false);
@@ -1306,6 +1309,7 @@ public class DashboardHome extends JFrame {
 											}
 										});
 										list_carrito.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+										listModelCarrito = new DefaultListModel<String>();
 										list_carrito.setModel(listModelCarrito);
 										scrollPane_1.setViewportView(list_carrito);
 										
@@ -1350,6 +1354,9 @@ public class DashboardHome extends JFrame {
 														if(seller instanceof Seller) {
 															((Seller) seller).setSold_amount(((Seller) seller).getSold_amount() + invoice.get_total());
 														}
+														if(rdbtnCredito.isSelected()) {
+															cliente.setCredit(cliente.getCredit()-invoice.get_total());
+														}
 														for (logico.Component component : Store.getInstance().getComponents()) {
 															for (logico.Component bought : invoice.getComponents()) {
 																if(bought == component) {
@@ -1358,6 +1365,7 @@ public class DashboardHome extends JFrame {
 															}
 														}
 														JOptionPane.showMessageDialog(null, "Factura generada exitosamente.", "Facturación", JOptionPane.INFORMATION_MESSAGE);
+														clean_tienda();
 													}
 												}
 												
@@ -1386,8 +1394,8 @@ public class DashboardHome extends JFrame {
 										
 										spnCantidad.setBounds(718, 433, 82, 22);
 										panelTienda.add(spnCantidad);
-		listModelAlmacen = new DefaultListModel<String>();
-		listModelCarrito = new DefaultListModel<String>();
+		//listModelAlmacen = new DefaultListModel<String>();
+		//listModelCarrito = new DefaultListModel<String>();
 		
 		
 		
@@ -1440,6 +1448,7 @@ public class DashboardHome extends JFrame {
 
 	private void load_almacen() {
 		listModelAlmacen.removeAllElements();
+		listModelCarrito.removeAllElements();
 		for (logico.Component component : Store.getInstance().getComponents()) {
 			String type = null;
 			if(component instanceof Drive) {
@@ -1454,8 +1463,8 @@ public class DashboardHome extends JFrame {
 			else if(component instanceof RAM) {
 				type = "RAM memory";
 			}
-			// Aquí debe mostrarse algo como: "009138173 Intel Processor"
-			String show = new String(component.getSerial() + " " + component.getBrand() + " " + type);
+			// Aquí debe mostrarse algo como: "009138173. Intel Processor"
+			String show = new String(component.getSerial() + ". " + component.getBrand() + " " + type);
 			listModelAlmacen.addElement(show);
 		}
 		
@@ -1472,7 +1481,9 @@ public class DashboardHome extends JFrame {
 		spnCredito.setValue(0);
 		spnCredito.setEnabled(false);
 		btnRegistrarCliente.setEnabled(false);
-		
+		rdbtnCredito.setSelected(false);
+		components.clear();
+		load_almacen();
 	}
 
 	public static void load_users() {

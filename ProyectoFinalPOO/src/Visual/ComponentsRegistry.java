@@ -25,6 +25,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class ComponentsRegistry extends JDialog {
 
@@ -291,7 +292,7 @@ public class ComponentsRegistry extends JDialog {
 				panelCPU.add(txtSocketCPU);
 			}
 			{
-				JLabel lblNewLabel_3 = new JLabel("Velocidad:");
+				JLabel lblNewLabel_3 = new JLabel("Velocidad: (GHz)");
 				lblNewLabel_3.setBounds(10, 52, 109, 14);
 				panelCPU.add(lblNewLabel_3);
 			}
@@ -314,11 +315,12 @@ public class ComponentsRegistry extends JDialog {
 			}
 			{
 				cbxTipo = new JComboBox();
+				cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3"}));
 				cbxTipo.setBounds(93, 11, 158, 23);
 				panelRAM.add(cbxTipo);
 			}
 			{
-				JLabel lblNewLabel_5 = new JLabel("Capacidad:");
+				JLabel lblNewLabel_5 = new JLabel("Capacidad: (GB)");
 				lblNewLabel_5.setBounds(312, 11, 158, 23);
 				panelRAM.add(lblNewLabel_5);
 			}
@@ -352,11 +354,12 @@ public class ComponentsRegistry extends JDialog {
 			}
 			{
 				cbxConector = new JComboBox();
+				cbxConector.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "IDE", "SATA", "SATA-2", "SATA-3"}));
 				cbxConector.setBounds(352, 11, 158, 23);
 				panelDRIVE.add(cbxConector);
 			}
 			{
-				JLabel lblNewLabel_7 = new JLabel("Almacenamiento:");
+				JLabel lblNewLabel_7 = new JLabel("Almacenamiento: (GB)");
 				lblNewLabel_7.setBounds(10, 52, 109, 14);
 				panelDRIVE.add(lblNewLabel_7);
 			}
@@ -430,7 +433,23 @@ public class ComponentsRegistry extends JDialog {
 	
 	private void clean() {
 		txtSerial.setText("");
-		
+		spnPrecio.setValue(0);
+		spnDisponibles.setValue(0);
+		txtMarca.setText("");
+		spnCantMin.setValue(0);
+		spnCantMax.setValue(0);
+		txtModelTarjeta.setText("");
+		txtModelCPU.setText("");
+		txtModelDrive.setText("");
+		txtSocketCPU.setText("");
+		txtSocketTarjeta.setText("");
+		cbxRAMCompatibles.setSelectedItem(0);
+		cbxHDDcompatibles.setSelectedItem(0);
+		spnVelocidad.setValue(0);
+		cbxTipo.setSelectedItem(0);
+		spnCapacidad.setValue(0);
+		spnAlmacenamiento.setValue(0);
+		cbxConector.setSelectedItem(0);
 		
 	}
 }

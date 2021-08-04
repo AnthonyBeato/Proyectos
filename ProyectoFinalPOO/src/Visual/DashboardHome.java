@@ -1179,7 +1179,7 @@ public class DashboardHome extends JFrame {
 										Customer cliente = new Customer(txtCedula.getText(), txtNombre.getText(), Float.valueOf(spnCredito.getValue().toString()), Integer.valueOf(spnEdad.getValue().toString()));
 										Store.getInstance().addCustomer(cliente);
 										JOptionPane.showMessageDialog(null, "Cliente registrado satisfactoriamente.", "Registro de cliente", JOptionPane.INFORMATION_MESSAGE);
-										clean_tienda();
+										load_all();
 									}
 								});
 								btnRegistrarCliente.setForeground(Color.WHITE);
@@ -1441,9 +1441,17 @@ public class DashboardHome extends JFrame {
 		Thread hiloContadores = new Thread(runnableContadores);
 		hiloContadores.start();
 		
+		load_all();
+		/*load_users();
+		load_customers();
+		load_almacen();*/
+	}
+
+	private void load_all() {
+		clean_tienda();
 		load_users();
 		load_customers();
-		load_almacen();
+		
 	}
 
 	private void load_almacen() {

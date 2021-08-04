@@ -103,6 +103,7 @@ public class DashboardHome extends JFrame {
 	private static JButton btnEliminarUsuario;
 	private JButton btnNewUsuario;
 	private User selected_user = null;
+	private logico.Component selected_components = null;
 	private Customer selected_customer = null;
 	private JLabel TiendaOPC;
 	private JPanel panelTienda;
@@ -826,7 +827,7 @@ public class DashboardHome extends JFrame {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			panelTablaComponentes.add(scrollPane, BorderLayout.CENTER);
 			{
-				String headers[] = { "Código", "Nombre", "Nombre de usuario", "Contraseña", "Tipo" };
+				String headers[] = { "Serial", "Disponibilidad", "Marca", "Cant. Min.", "Cant. Max.","Tipo","Precio" };
 				model_components = new DefaultTableModel();
 				model_components.setColumnIdentifiers(headers);
 				table_components = new JTable();
@@ -836,10 +837,10 @@ public class DashboardHome extends JFrame {
 						int index = -1;
 						index = table_components.getSelectedRow();
 						if (index != -1) {
-							btnEliminarUsuario.setEnabled(true);
-							btnModificarUsuario.setEnabled(true);
-							//String id = (String) (model_components.getValueAt(index, 0));
-							//selected_user = Store.getInstance().search_user(id);
+							//btnEliminarUsuario.setEnabled(true);
+							//btnModificarUsuario.setEnabled(true);
+							String serial = (String)(model_components.getValueAt(index, 0));
+							selected_components = Store.getInstance().search_component(serial);
 						}
 					}
 				});
@@ -1020,7 +1021,7 @@ public class DashboardHome extends JFrame {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			panelTablaFacturas.add(scrollPane);
 			{
-				String headers[] = { "Código", "Nombre", "Nombre de usuario", "Contraseña", "Tipo" };
+				String headers[] = { "Código", "Fecha", "Vendedor", "Cliente", "Monto total", "Pagado" };
 				model_invoices = new DefaultTableModel();
 				model_invoices.setColumnIdentifiers(headers);
 				table_invoices = new JTable();
@@ -1461,6 +1462,8 @@ public class DashboardHome extends JFrame {
 		clean_tienda();
 		load_users();
 		load_customers();
+		load_components();
+		load_invoices();
 		
 	}
 
@@ -1538,4 +1541,52 @@ public class DashboardHome extends JFrame {
 		btnEliminarUsuario.setEnabled(false);
 		btnModificarUsuario.setEnabled(false);
 	} 
+	
+	public static void load_components() {
+		model_components.setRowCount(0);
+		rows = new Object[model_components.getColumnCount()];
+		for (logico.Component component : Store.getInstance().getComponents()) {
+			rows[0] = component.getSerial();
+			rows[1] = component.getAvailable();
+			rows[2] = component.getBrand();
+			rows[3] = component.getMin_amount();
+			rows[4] = component.getMax_amount();
+			if (component instanceof Motherboard) {
+				rows[5] = "Tarjeta madre";
+			}
+			if (component instanceof CPU) {
+				rows[5] = "CPU";
+			}
+			if(component instanceof RAM) {
+				rows[5] = "RAM";
+			}
+			if(component instanceof Drive) {
+				rows[5] = "Drive";
+			}
+			rows[6] = component.getPrice();
+
+			model_components.addRow(rows);
+		}
+		//btnEliminarUsuario.setEnabled(false);
+		//btnModificarUsuario.setEnabled(false);
+	}
+	
+	public static void load_invoices() {
+		model_invoices.setRowCount(0);
+		rows = new Object[model_invoices.getColumnCount()];
+		for (Invoice invoices : Store.getInstance().getInvoices()) {
+			rows[0] = invoices.getCode();
+			rows[1] = invoices.getDate();
+			rows[2] = invoices.getSeller();
+			rows[3] = invoices.getCustomer();
+			rows[4] = invoices.get_total();
+			//rows[5] = invoices .. Pagado, si o no.
+			rows[5] = "Si/No";
+
+
+			model_components.addRow(rows);
+		}
+		//btnEliminarUsuario.setEnabled(false);
+		//btnModificarUsuario.setEnabled(false);
+	}
 }

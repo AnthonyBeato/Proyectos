@@ -1584,7 +1584,7 @@ public class DashboardHome extends JFrame {
 			rows[5] = "Si/No";
 
 
-			model_components.addRow(rows);
+			model_invoices.addRow(rows);
 		}
 		//btnEliminarUsuario.setEnabled(false);
 		//btnModificarUsuario.setEnabled(false);

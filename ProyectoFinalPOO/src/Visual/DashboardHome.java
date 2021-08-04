@@ -1577,11 +1577,10 @@ public class DashboardHome extends JFrame {
 		for (Invoice invoices : Store.getInstance().getInvoices()) {
 			rows[0] = invoices.getCode();
 			rows[1] = invoices.getDate();
-			rows[2] = invoices.getSeller();
+			rows[2] = invoices.getSeller().getUsername();
 			rows[3] = invoices.getCustomer();
 			rows[4] = invoices.get_total();
-			//rows[5] = invoices .. Pagado, si o no.
-			rows[5] = "Si/No";
+			rows[5] = invoices.isPaid();
 
 
 			model_invoices.addRow(rows);

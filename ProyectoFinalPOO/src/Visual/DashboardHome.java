@@ -87,8 +87,8 @@ public class DashboardHome extends JFrame {
 	private JList<String> list_almacen;
 	private JList<String> list_carrito;
 	
-	private DefaultListModel<String> listModelAlmacen;
-	private DefaultListModel<String> listModelCarrito;
+	private DefaultListModel<String> listModelAlmacen = new DefaultListModel<String>();
+	private DefaultListModel<String> listModelCarrito = new DefaultListModel<String>();
 	
 	private JTable table_users;
 	private JTable table_invoices;

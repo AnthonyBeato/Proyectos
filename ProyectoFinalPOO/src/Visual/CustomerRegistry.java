@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -38,6 +39,7 @@ public class CustomerRegistry extends JDialog {
 	 * Create the dialog.
 	 */
 	public CustomerRegistry(Customer customer) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DashboardHome.class.getResource("/Img/logo800x800.png")));
 		selected = customer;
 		if(selected == null) {
 			setTitle("Registrar cliente");

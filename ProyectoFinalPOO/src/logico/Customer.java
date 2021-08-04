@@ -11,12 +11,15 @@ public class Customer implements Serializable {
 	private String id;			// Identity card number
 	private String name;		// Name and surname
 	private float credit;		// Arbitrarily set by user who creates Customer.
+	private int age;			//Customer's age
 	
-	public Customer(String id, String name, float credit) {
+	
+	public Customer(String id, String name, float credit, int age) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.credit = credit;
+		this.age = age;
 	}
 	
 	public String getId() {
@@ -41,6 +44,14 @@ public class Customer implements Serializable {
 	
 	public void setCredit(float credit) {
 		this.credit = credit;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 }

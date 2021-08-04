@@ -206,6 +206,8 @@ public class UserRegistry extends JDialog {
 							clean();
 						}
 						else {
+							int index = -1;
+							index = Store.getInstance().getUsers().indexOf(selected);
 							selected.setId(txt_id.getText());
 							selected.setUsername(txt_username.getText());
 							selected.setPassword(txt_password.getText());
@@ -218,6 +220,7 @@ public class UserRegistry extends JDialog {
 							else if(selected instanceof Administrator) {
 								((Administrator) selected).setYears(Integer.valueOf(spn_years.getValue().toString()));
 							}
+							Store.getInstance().modifyUser(index, selected);
 						}
 						DashboardHome.load_users();
 						dispose();

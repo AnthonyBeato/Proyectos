@@ -145,10 +145,12 @@ public class CustomerRegistry extends JDialog {
 	}
 	
 	private void loadCustomers() {
-		txtID.setText(selected.getId());
-		txtNombres.setText(selected.getName());
-		spnCredito.setValue(new Float(selected.getCredit()));
-		spnEdad.setValue(new Integer(selected.getAge()));
+		if (selected != null) {
+			txtID.setText(selected.getId());
+			txtNombres.setText(selected.getName());
+			spnCredito.setValue(new Float(selected.getCredit()));
+			spnEdad.setValue(new Integer(selected.getAge()));
+		}
 	}
 
 	private void clean() {

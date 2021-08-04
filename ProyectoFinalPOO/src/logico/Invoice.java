@@ -12,13 +12,13 @@ public class Invoice implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String code;						// Identification number.
 	private Date date;
-	private Seller seller;
+	private User seller;
 	private Customer customer;
 	private boolean paid;						// This is false if customer paid with credit. Any user may update this attribute.
 	private ArrayList<Component> components;	// List of components sold.
 	public static int counter = 1000;
 	
-	public Invoice(String code, Date date, Seller seller, Customer customer, boolean paid, ArrayList<Component> components) {
+	public Invoice(String code, Date date, User seller, Customer customer, boolean paid, ArrayList<Component> components) {
 		// Constructor with a given list of components.
 		super();
 		this.code = code;
@@ -30,7 +30,7 @@ public class Invoice implements Serializable{
 		counter++;
 	}
 
-	public Invoice(String code, Date date, Seller seller, Customer customer, boolean paid) {
+	public Invoice(String code, Date date, User seller, Customer customer, boolean paid) {
 		// Constructor without components (to be added separately).
 		super();
 		this.code = code;
@@ -58,11 +58,11 @@ public class Invoice implements Serializable{
 		this.date = date;
 	}
 
-	public Seller getSeller() {
+	public User getSeller() {
 		return seller;
 	}
 
-	public void setSeller(Seller seller) {
+	public void setSeller(User seller) {
 		this.seller = seller;
 	}
 

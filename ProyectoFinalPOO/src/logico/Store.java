@@ -156,4 +156,58 @@ public class Store implements Serializable{
 		return searched;
 	}
 	
+	public Customer search_customer(String id) {
+		Customer searched = null;
+		for (Customer customer : customers) {
+			if(customer.getId().equalsIgnoreCase(id)) {
+				searched = customer;
+			}
+		}
+		return searched;
+	}
+
+	public void deleteCustomer(Customer selected_customer) {
+		customers.remove(selected_customer);
+	}
+	
+	public void modificarCustomer(Customer selected) {
+		int index = searchIndexOfCustomersByCode(selected.getId());
+		customers.set(index, selected);
+		
+	}
+
+	private int searchIndexOfCustomersByCode(String id) {
+		int aux = -1;
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado && i < customers.size()) {
+			if (customers.get(i).getId().equalsIgnoreCase(id)) {
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		
+		return aux;
+	}
+
+	public void modifyUser(int index, User selected) {
+		users.set(index, selected);
+		
+	}
+
+	public void deleteUser(User selected_user) {
+		users.remove(selected_user);
+		
+	}
+
+	public Component search_component(String code) {
+		Component searched = null;
+		for (Component component : components) {
+			if(component.getSerial().equalsIgnoreCase(code)) {
+				searched = component;
+			}
+		}
+		return searched;
+	}
 }

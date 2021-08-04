@@ -84,7 +84,7 @@ public abstract class Component implements Serializable{
 		 * amount of objects drops below the minimum (see setAvailable above).
 		 * private because it must only be called by this class automatically. */
 		
-		String code = "PO-"+PurchaseOrder.counter;
+		String code = ""+PurchaseOrder.counter;
 		Date date = new Date();
 		PurchaseOrder order = new PurchaseOrder(code, date, this, this.max_amount);
 		Store.getInstance().addOrder(order);

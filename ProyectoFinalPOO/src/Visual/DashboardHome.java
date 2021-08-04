@@ -844,9 +844,8 @@ public class DashboardHome extends JFrame {
 		btnNewComponente = new JButton("Nuevo Componente");
 		btnNewComponente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CustomerRegistry customer_reg = new CustomerRegistry(null);
-				customer_reg.setVisible(true);
-				// user_reg.setModal(true);
+				ComponentsRegistry component_reg = new ComponentsRegistry(null);
+				component_reg.setVisible(true);
 			}
 		});
 		btnNewComponente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

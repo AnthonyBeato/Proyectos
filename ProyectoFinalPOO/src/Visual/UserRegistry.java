@@ -268,5 +268,5 @@ public class UserRegistry extends JDialog {
 		spn_comision.setValue(0);
 		spn_years.setValue(0);
 		
-	}
+	} 
 }

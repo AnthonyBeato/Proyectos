@@ -39,7 +39,7 @@ public class Invoice implements Serializable{
 		this.customer = customer;
 		this.paid = paid;
 		this.components = new ArrayList<Component>();
-		counter++;
+		counter++; 
 	}
 
 	public String getCode() {

@@ -88,7 +88,7 @@ public abstract class Component implements Serializable{
 		Date date = new Date();
 		PurchaseOrder order = new PurchaseOrder(code, date, this, this.max_amount);
 		Store.getInstance().addOrder(order);
-	}
+	} 
 	
 	
 }

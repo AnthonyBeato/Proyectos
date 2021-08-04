@@ -50,7 +50,7 @@ public abstract class User implements Serializable{
 	
 	public void setName(String name) {
 		this.name = name;
-	}
+	} 
 	
 
 }

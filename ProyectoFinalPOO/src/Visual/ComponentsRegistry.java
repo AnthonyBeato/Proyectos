@@ -451,5 +451,5 @@ public class ComponentsRegistry extends JDialog {
 		spnAlmacenamiento.setValue(0);
 		cbxConector.setSelectedItem(0);
 		
-	}
+	} 
 }

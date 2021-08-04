@@ -161,5 +161,5 @@ public class CustomerRegistry extends JDialog {
 		spnCredito.setValue(0);
 		spnEdad.setValue(0);
 		
-	}
+	} 
 }

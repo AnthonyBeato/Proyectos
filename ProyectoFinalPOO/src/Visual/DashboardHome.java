@@ -1509,5 +1509,5 @@ public class DashboardHome extends JFrame {
 		
 		btnEliminarUsuario.setEnabled(false);
 		btnModificarUsuario.setEnabled(false);
-	}
+	} 
 }

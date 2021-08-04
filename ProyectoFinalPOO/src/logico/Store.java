@@ -208,6 +208,6 @@ public class Store implements Serializable{
 				searched = component;
 			}
 		}
-		return searched;
-	}
+		return searched; 
+	} 
 }

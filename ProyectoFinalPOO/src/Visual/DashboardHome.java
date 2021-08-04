@@ -132,6 +132,7 @@ public class DashboardHome extends JFrame {
 	private JSpinner spnCantidad;
 	
 	private ArrayList<logico.Component> components = new ArrayList<logico.Component>();
+	private JButton btnBuscarCliente;
 	
 
 	/**
@@ -911,7 +912,7 @@ public class DashboardHome extends JFrame {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			panelTablaClientes.add(scrollPane);
 			{
-				String headers[] = { "Código", "Nombre", "Nombre de usuario", "Contraseña", "Tipo" };
+				String headers[] = { "Código", "Nombre", "Credito", "Edad" };
 				model_customers = new DefaultTableModel();
 				model_customers.setColumnIdentifiers(headers);
 				table_customers = new JTable();
@@ -1394,6 +1395,15 @@ public class DashboardHome extends JFrame {
 										
 										spnCantidad.setBounds(718, 433, 82, 22);
 										panelTienda.add(spnCantidad);
+										
+										btnBuscarCliente = new JButton("Buscar");
+										btnBuscarCliente.setForeground(Color.WHITE);
+										btnBuscarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 14));
+										btnBuscarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
+										btnBuscarCliente.setBackground(new Color(102, 102, 255));
+										btnBuscarCliente.setAlignmentX(0.5f);
+										btnBuscarCliente.setBounds(360, 82, 120, 28);
+										panelTienda.add(btnBuscarCliente);
 		//listModelAlmacen = new DefaultListModel<String>();
 		//listModelCarrito = new DefaultListModel<String>();
 		
@@ -1522,7 +1532,6 @@ public class DashboardHome extends JFrame {
 			rows[1] = customers.getName();
 			rows[2] = customers.getCredit();
 			rows[3] = customers.getAge();
-			rows[4] = "Cliente";
 			model_customers.addRow(rows);
 		}
 		

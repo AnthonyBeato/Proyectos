@@ -837,8 +837,8 @@ public class DashboardHome extends JFrame {
 						int index = -1;
 						index = table_components.getSelectedRow();
 						if (index != -1) {
-							//btnEliminarUsuario.setEnabled(true);
-							//btnModificarUsuario.setEnabled(true);
+							btnEliminarComponente.setEnabled(true);
+							btnModificarComponente.setEnabled(true);
 							String serial = (String)(model_components.getValueAt(index, 0));
 							selected_components = Store.getInstance().search_component(serial);
 						}
@@ -851,6 +851,17 @@ public class DashboardHome extends JFrame {
 		}
 		
 		btnEliminarComponente = new JButton("Eliminar");
+		btnEliminarComponente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el componente "+selected_components.getSerial()+"?", "Eliminar componente", JOptionPane.YES_NO_OPTION);
+				if(option == JOptionPane.YES_OPTION) {
+					Store.getInstance().deleteComponent(selected_components);
+					load_components();
+				}
+				btnEliminarComponente.setEnabled(false);
+				btnModificarComponente.setEnabled(false);
+			}
+		});
 		btnEliminarComponente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEliminarComponente.setForeground(Color.WHITE);
 		btnEliminarComponente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -862,6 +873,12 @@ public class DashboardHome extends JFrame {
 		panelComponentes.add(btnEliminarComponente);
 		
 		btnModificarComponente = new JButton("Modificar");
+		btnModificarComponente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ComponentsRegistry mod_component = new ComponentsRegistry(selected_components);
+				mod_component.setVisible(true);
+			}
+		});
 		btnModificarComponente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnModificarComponente.setForeground(Color.WHITE);
 		btnModificarComponente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -913,7 +930,7 @@ public class DashboardHome extends JFrame {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			panelTablaClientes.add(scrollPane);
 			{
-				String headers[] = { "Código", "Nombre", "Credito", "Edad" };
+				String headers[] = { "Cédula", "Nombre", "Credito", "Edad" };
 				model_customers = new DefaultTableModel();
 				model_customers.setColumnIdentifiers(headers);
 				table_customers = new JTable();

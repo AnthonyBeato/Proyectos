@@ -35,6 +35,7 @@ import javax.swing.border.LineBorder;
 
 import logico.Administrator;
 import logico.CPU;
+import logico.Combo;
 import logico.Seller;
 
 import logico.Customer;
@@ -135,7 +136,14 @@ public class DashboardHome extends JFrame {
 	private JSpinner spnCantidad;
 
 	private ArrayList<logico.Component> components = new ArrayList<logico.Component>();
+	
 	private JButton btnBuscarCliente;
+	private JTable table_combos;
+	private static DefaultTableModel model_combos;
+	private JButton btnFacturarCombo;
+	private static JButton btnModificarCombo;
+	private static JButton btnEliminarCombo;
+	private Combo selected_combo = null;
 
 	/**
 	 * Launch the application.
@@ -656,12 +664,31 @@ public class DashboardHome extends JFrame {
 
 		panelFacturaDatos.add(IconoLabelFacturas);
 
-		JPanel grafica1 = new JPanel();
-		grafica1.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		grafica1.setBackground(Color.WHITE);
-		grafica1.setBounds(52, 426, 626, 353);
-		panelMenu.add(grafica1);
-		grafica1.setLayout(null);
+		JPanel pnlCombos = new JPanel();
+		pnlCombos.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		pnlCombos.setBackground(Color.WHITE);
+		pnlCombos.setBounds(52, 426, 626, 353);
+		panelMenu.add(pnlCombos);
+		pnlCombos.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panel.setBackground(Color.WHITE);
+		pnlCombos.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBackground(Color.WHITE);
+		panel.add(scrollPane_3, BorderLayout.CENTER);
+		
+		String combos_headers[] = {"Código", "Componente 1", "Componente 2", "Componente 3", "Componente 4", "Descuento"};
+						// Se mostrará así:	Motherboard xN		CPU xN			RAM xN			Drive xN		x%		N = cantidad del componente, x = % de descuento.
+		model_combos = new DefaultTableModel();
+		model_combos.setColumnIdentifiers(combos_headers);
+		table_combos = new JTable();
+		table_combos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table_combos.setModel(model_combos);
+		scrollPane_3.setViewportView(table_combos);
 
 		JPanel grafica2 = new JPanel();
 		grafica2.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
@@ -670,19 +697,19 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(grafica2);
 		grafica2.setLayout(null);
 
-		JPanel panelGraficoSuperior1 = new JPanel();
-		panelGraficoSuperior1.setLayout(null);
-		panelGraficoSuperior1.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		panelGraficoSuperior1.setBackground(new Color(102, 102, 255));
-		panelGraficoSuperior1.setBounds(52, 366, 626, 63);
-		panelMenu.add(panelGraficoSuperior1);
+		JPanel panelComboSuperior1 = new JPanel();
+		panelComboSuperior1.setLayout(null);
+		panelComboSuperior1.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panelComboSuperior1.setBackground(new Color(102, 102, 255));
+		panelComboSuperior1.setBounds(52, 366, 626, 63);
+		panelMenu.add(panelComboSuperior1);
 
-		JLabel Grafico1 = new JLabel("Grafico 1");
-		Grafico1.setHorizontalAlignment(SwingConstants.CENTER);
-		Grafico1.setForeground(Color.WHITE);
-		Grafico1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
-		Grafico1.setBounds(10, 11, 606, 41);
-		panelGraficoSuperior1.add(Grafico1);
+		JLabel lblCombos = new JLabel("Combos disponibles");
+		lblCombos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCombos.setForeground(Color.WHITE);
+		lblCombos.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
+		lblCombos.setBounds(10, 11, 606, 41);
+		panelComboSuperior1.add(lblCombos);
 
 		JPanel panelGraficoSuperior2 = new JPanel();
 		panelGraficoSuperior2.setLayout(null);
@@ -697,6 +724,41 @@ public class DashboardHome extends JFrame {
 		Grafico2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
 		Grafico2.setBounds(10, 11, 606, 41);
 		panelGraficoSuperior2.add(Grafico2);
+		
+		btnFacturarCombo = new JButton("Facturar Combo");
+		btnFacturarCombo.setForeground(Color.WHITE);
+		btnFacturarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnFacturarCombo.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnFacturarCombo.setBackground(new Color(102, 102, 255));
+		btnFacturarCombo.setAlignmentX(0.5f);
+		btnFacturarCombo.setBounds(52, 792, 120, 28);
+		panelMenu.add(btnFacturarCombo);
+		
+		btnModificarCombo = new JButton("Modificar Combo");
+		btnModificarCombo.setForeground(Color.WHITE);
+		btnModificarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnModificarCombo.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnModificarCombo.setBackground(new Color(102, 102, 255));
+		btnModificarCombo.setAlignmentX(0.5f);
+		btnModificarCombo.setBounds(184, 792, 120, 28);
+		if(!(Store.getLoggedUser() instanceof Administrator)) {
+			btnModificarCombo.setVisible(false);
+		}
+		btnModificarCombo.setEnabled(false);
+		panelMenu.add(btnModificarCombo);
+		
+		btnEliminarCombo = new JButton("Eliminar Combo");
+		btnEliminarCombo.setForeground(Color.WHITE);
+		btnEliminarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnEliminarCombo.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnEliminarCombo.setBackground(new Color(102, 102, 255));
+		btnEliminarCombo.setAlignmentX(0.5f);
+		btnEliminarCombo.setBounds(316, 792, 120, 28);
+		if(!(Store.getLoggedUser() instanceof Administrator)) {
+			btnEliminarCombo.setVisible(false);
+		}
+		btnEliminarCombo.setEnabled(false);
+		panelMenu.add(btnEliminarCombo);
 
 		panelUsuarios = new JPanel();
 		panelUsuarios.setBounds(247, 0, 1457, 841);
@@ -1531,7 +1593,7 @@ public class DashboardHome extends JFrame {
 
 		load_all();
 		/*
-		 * load_users(); load_customers(); load_almacen();
+		 * load_users(); load_customers(); load_almacen(); etc.
 		 */
 	}
 
@@ -1541,7 +1603,61 @@ public class DashboardHome extends JFrame {
 		load_customers();
 		load_components();
 		load_invoices();
+		load_combos();
 
+	}
+
+	private static void load_combos() {
+		model_combos.setRowCount(0);
+		rows = new Object[model_combos.getColumnCount()];
+		for (Combo combo : Store.getInstance().getCombos()) {
+			Motherboard motherboard = null;
+			CPU cpu = null;
+			RAM ram = null;
+			Drive drive = null;
+			int cant_motherboard = 0;
+			int cant_cpu = 0;
+			int cant_ram = 0;
+			int cant_hdd = 0;
+			for (logico.Component component : combo.getComponents()) {
+				if(component instanceof Motherboard) {
+					cant_motherboard++;
+					if(motherboard == null) {
+						motherboard = (Motherboard) component;
+					}
+				}
+				else if(component instanceof CPU) {
+					cant_cpu++;
+					if(cpu == null) {
+						cpu = (CPU) component;
+					}
+				}
+				else if(component instanceof RAM) {
+					cant_ram++;
+					if(ram == null) {
+						ram = (RAM) component;
+					}
+				}
+				else if(component instanceof Drive) {
+					cant_hdd++;
+					if(drive == null) {
+						drive = (Drive) component;
+					}
+				}
+			}
+			
+			rows[0] = combo.getCode();
+			rows[1] = ""+ motherboard + " x" + cant_motherboard;
+			rows[2] = ""+ cpu + " x" + cant_cpu;
+			rows[3] = ""+ ram + " x" + cant_ram;
+			rows[4] = ""+ drive + "x" + cant_hdd;
+			rows[5] = combo.getDiscount();
+			
+			model_combos.addRow(rows);
+		}
+		btnEliminarCombo.setEnabled(false);
+		btnModificarCombo.setEnabled(false);
+		
 	}
 
 	private void load_almacen() {

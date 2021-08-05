@@ -17,6 +17,14 @@ public class Combo {
 		counter++;
 	}
 
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public ArrayList<Component> getComponents() {
 		return components;
 	}

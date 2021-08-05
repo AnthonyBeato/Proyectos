@@ -64,7 +64,7 @@ public class ComponentsRegistry extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ComponentsRegistry(Component component) {
+	public ComponentsRegistry(logico.Component selected_components) {
 		setTitle("Registrar componentes");
 		setBounds(100, 100, 568, 465);
 		setLocationRelativeTo(null);

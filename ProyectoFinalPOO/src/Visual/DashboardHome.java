@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -86,10 +87,10 @@ public class DashboardHome extends JFrame {
 
 	private JList<String> list_almacen;
 	private JList<String> list_carrito;
-	
+
 	private DefaultListModel<String> listModelAlmacen = new DefaultListModel<String>();
 	private DefaultListModel<String> listModelCarrito = new DefaultListModel<String>();
-	
+
 	private JTable table_users;
 	private JTable table_invoices;
 	private JTable table_customers;
@@ -103,6 +104,7 @@ public class DashboardHome extends JFrame {
 	private static JButton btnEliminarUsuario;
 	private JButton btnNewUsuario;
 	private User selected_user = null;
+	private Invoice selected_invoice = null;
 	private logico.Component selected_components = null;
 	private Customer selected_customer = null;
 	private JLabel TiendaOPC;
@@ -131,10 +133,9 @@ public class DashboardHome extends JFrame {
 	private JSpinner spnCredito;
 	private JButton btnRegistrarCliente;
 	private JSpinner spnCantidad;
-	
+
 	private ArrayList<logico.Component> components = new ArrayList<logico.Component>();
 	private JButton btnBuscarCliente;
-	
 
 	/**
 	 * Launch the application.
@@ -163,6 +164,7 @@ public class DashboardHome extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("removal")
 	public DashboardHome() {
 		setTitle("TechShop | Control");
 
@@ -424,12 +426,11 @@ public class DashboardHome extends JFrame {
 
 		MenuLateral.add(IconoLabel);
 
-		if((Store.getLoggedUser() instanceof Administrator)) {
-			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Administrador");
-		}else {
-			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername()+ " | Vendedor");
+		if ((Store.getLoggedUser() instanceof Administrator)) {
+			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername() + " | Administrador");
+		} else {
+			labelLoggedUser = new JLabel(Store.getLoggedUser().getUsername() + " | Vendedor");
 		}
-
 
 		labelLoggedUser.setForeground(new Color(102, 102, 255));
 		labelLoggedUser.setHorizontalAlignment(SwingConstants.CENTER);
@@ -668,28 +669,28 @@ public class DashboardHome extends JFrame {
 		grafica2.setBounds(782, 426, 626, 353);
 		panelMenu.add(grafica2);
 		grafica2.setLayout(null);
-		
+
 		JPanel panelGraficoSuperior1 = new JPanel();
 		panelGraficoSuperior1.setLayout(null);
 		panelGraficoSuperior1.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		panelGraficoSuperior1.setBackground(new Color(102, 102, 255));
 		panelGraficoSuperior1.setBounds(52, 366, 626, 63);
 		panelMenu.add(panelGraficoSuperior1);
-		
+
 		JLabel Grafico1 = new JLabel("Grafico 1");
 		Grafico1.setHorizontalAlignment(SwingConstants.CENTER);
 		Grafico1.setForeground(Color.WHITE);
 		Grafico1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
 		Grafico1.setBounds(10, 11, 606, 41);
 		panelGraficoSuperior1.add(Grafico1);
-		
+
 		JPanel panelGraficoSuperior2 = new JPanel();
 		panelGraficoSuperior2.setLayout(null);
 		panelGraficoSuperior2.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		panelGraficoSuperior2.setBackground(new Color(102, 102, 255));
 		panelGraficoSuperior2.setBounds(782, 366, 626, 63);
 		panelMenu.add(panelGraficoSuperior2);
-		
+
 		JLabel Grafico2 = new JLabel("Grafico 2");
 		Grafico2.setHorizontalAlignment(SwingConstants.CENTER);
 		Grafico2.setForeground(Color.WHITE);
@@ -744,7 +745,7 @@ public class DashboardHome extends JFrame {
 		separator_1.setBounds(0, 40, 1457, 11);
 		panelUsuarios.add(separator_1);
 
-		JLabel labelTituloUsuarios = new JLabel("USUARIOS");														//USUARIOS
+		JLabel labelTituloUsuarios = new JLabel("USUARIOS"); // USUARIOS
 		labelTituloUsuarios.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloUsuarios.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloUsuarios.setBounds(10, 0, 100, 40);
@@ -786,8 +787,10 @@ public class DashboardHome extends JFrame {
 		btnEliminarUsuario = new JButton("Eliminar");
 		btnEliminarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el usuario "+selected_user.getUsername()+"?", "Eliminar usuario", JOptionPane.YES_NO_OPTION);
-				if(option == JOptionPane.YES_OPTION) {
+				int option = JOptionPane.showConfirmDialog(null,
+						"¿Desea eliminar el usuario " + selected_user.getUsername() + "?", "Eliminar usuario",
+						JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
 					Store.getInstance().deleteUser(selected_user);
 					load_users();
 				}
@@ -807,7 +810,7 @@ public class DashboardHome extends JFrame {
 		contentPane.add(panelComponentes);
 		panelComponentes.setLayout(null);
 
-		JLabel labelTituloComponentes = new JLabel("COMPONENTES");															//COMPONENTES
+		JLabel labelTituloComponentes = new JLabel("COMPONENTES"); // COMPONENTES
 		labelTituloComponentes.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloComponentes.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloComponentes.setBounds(10, 0, 150, 40);
@@ -817,7 +820,7 @@ public class DashboardHome extends JFrame {
 		separator_1_2.setForeground(new Color(211, 211, 211));
 		separator_1_2.setBounds(0, 40, 1457, 11);
 		panelComponentes.add(separator_1_2);
-		
+
 		JPanel panelTablaComponentes = new JPanel();
 		panelTablaComponentes.setBounds(25, 125, 1410, 700);
 		panelComponentes.add(panelTablaComponentes);
@@ -827,7 +830,8 @@ public class DashboardHome extends JFrame {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			panelTablaComponentes.add(scrollPane, BorderLayout.CENTER);
 			{
-				String headers[] = { "Serial", "Disponibilidad", "Marca", "Cant. Min.", "Cant. Max.","Tipo","Precio" };
+				String headers[] = { "Serial", "Disponibilidad", "Marca", "Cant. Min.", "Cant. Max.", "Tipo",
+						"Precio" };
 				model_components = new DefaultTableModel();
 				model_components.setColumnIdentifiers(headers);
 				table_components = new JTable();
@@ -839,7 +843,7 @@ public class DashboardHome extends JFrame {
 						if (index != -1) {
 							btnEliminarComponente.setEnabled(true);
 							btnModificarComponente.setEnabled(true);
-							String serial = (String)(model_components.getValueAt(index, 0));
+							String serial = (String) (model_components.getValueAt(index, 0));
 							selected_components = Store.getInstance().search_component(serial);
 						}
 					}
@@ -849,12 +853,14 @@ public class DashboardHome extends JFrame {
 				scrollPane.setViewportView(table_components);
 			}
 		}
-		
+
 		btnEliminarComponente = new JButton("Eliminar");
 		btnEliminarComponente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el componente "+selected_components.getSerial()+"?", "Eliminar componente", JOptionPane.YES_NO_OPTION);
-				if(option == JOptionPane.YES_OPTION) {
+				int option = JOptionPane.showConfirmDialog(null,
+						"¿Desea eliminar el componente " + selected_components.getSerial() + "?", "Eliminar componente",
+						JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
 					Store.getInstance().deleteComponent(selected_components);
 					load_components();
 				}
@@ -871,7 +877,7 @@ public class DashboardHome extends JFrame {
 		btnEliminarComponente.setAlignmentX(0.5f);
 		btnEliminarComponente.setBounds(995, 70, 125, 28);
 		panelComponentes.add(btnEliminarComponente);
-		
+
 		btnModificarComponente = new JButton("Modificar");
 		btnModificarComponente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -888,7 +894,7 @@ public class DashboardHome extends JFrame {
 		btnModificarComponente.setAlignmentX(0.5f);
 		btnModificarComponente.setBounds(1145, 70, 125, 28);
 		panelComponentes.add(btnModificarComponente);
-		
+
 		btnNewComponente = new JButton("Nuevo Componente");
 		btnNewComponente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -910,7 +916,7 @@ public class DashboardHome extends JFrame {
 		contentPane.add(panelClientes);
 		panelClientes.setLayout(null);
 
-		JLabel labelTituloClientes = new JLabel("CLIENTES");										//CLIENTES
+		JLabel labelTituloClientes = new JLabel("CLIENTES"); // CLIENTES
 		labelTituloClientes.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloClientes.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloClientes.setBounds(0, 0, 110, 40);
@@ -940,13 +946,13 @@ public class DashboardHome extends JFrame {
 						int index = -1;
 						index = table_customers.getSelectedRow();
 						if (index != -1) {
-								btnEliminarCliente.setEnabled(true);
-								btnModificarCliente.setEnabled(true);
+							btnEliminarCliente.setEnabled(true);
+							btnModificarCliente.setEnabled(true);
 //								String id = (String)(model_invoices.getValueAt(index, 0));
 //								selected_user = Store.getInstance().search_user(id);
-								String id = (String)(model_customers.getValueAt(index, 0));
-								selected_customer = Store.getInstance().search_customer(id);
-								System.out.println(selected_customer.getName());
+							String id = (String) (model_customers.getValueAt(index, 0));
+							selected_customer = Store.getInstance().search_customer(id);
+							System.out.println(selected_customer.getName());
 						}
 					}
 				});
@@ -955,11 +961,13 @@ public class DashboardHome extends JFrame {
 				scrollPane.setViewportView(table_customers);
 			}
 		}
-		
+
 		btnEliminarCliente = new JButton("Eliminar");
 		btnEliminarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "Desea eliminar el cliente:"+selected_customer.getId(), "Eliminar cliente", JOptionPane.YES_NO_OPTION);
+				int option = JOptionPane.showConfirmDialog(null,
+						"Desea eliminar el cliente:" + selected_customer.getId(), "Eliminar cliente",
+						JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					Store.getInstance().deleteCustomer(selected_customer);
 					load_customers();
@@ -977,7 +985,7 @@ public class DashboardHome extends JFrame {
 		btnEliminarCliente.setAlignmentX(0.5f);
 		btnEliminarCliente.setBounds(995, 70, 125, 28);
 		panelClientes.add(btnEliminarCliente);
-		
+
 		btnModificarCliente = new JButton("Modificar");
 		btnModificarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -994,7 +1002,7 @@ public class DashboardHome extends JFrame {
 		btnModificarCliente.setAlignmentX(0.5f);
 		btnModificarCliente.setBounds(1145, 70, 130, 28);
 		panelClientes.add(btnModificarCliente);
-		
+
 		btnNewCliente = new JButton("Nuevo Cliente");
 		btnNewCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1017,7 +1025,7 @@ public class DashboardHome extends JFrame {
 		contentPane.add(panelFacturas);
 		panelFacturas.setLayout(null);
 
-		JLabel labelTituloFacturas = new JLabel("FACTURAS");													//FACTURAS
+		JLabel labelTituloFacturas = new JLabel("FACTURAS"); // FACTURAS
 		labelTituloFacturas.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloFacturas.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloFacturas.setBounds(0, 0, 120, 40);
@@ -1038,7 +1046,7 @@ public class DashboardHome extends JFrame {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			panelTablaFacturas.add(scrollPane);
 			{
-				String headers[] = { "Código", "Fecha", "Vendedor", "Cliente", "Monto total", "Pagado" };
+				String headers[] = { "Código", "Fecha", "Vendedor", "Cliente", "Monto total", "Pagado Status" };
 				model_invoices = new DefaultTableModel();
 				model_invoices.setColumnIdentifiers(headers);
 				table_invoices = new JTable();
@@ -1048,6 +1056,12 @@ public class DashboardHome extends JFrame {
 						int index = -1;
 						index = table_invoices.getSelectedRow();
 						if (index != -1) {
+							String idInvoice = (String) (model_invoices.getValueAt(index, 0));
+							selected_invoice = Store.getInstance().search_invoice(idInvoice);
+
+							System.out.println(selected_invoice.isPaid());
+							btnConfirmarPago.setEnabled(true);
+
 //								btnEliminarUsuario.setEnabled(true);
 //								btnModificarUsuario.setEnabled(true);
 //								String id = (String)(model_invoices.getValueAt(index, 0));
@@ -1082,355 +1096,372 @@ public class DashboardHome extends JFrame {
 		labelTituloAdministracion.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloAdministracion.setBounds(10, 0, 170, 40);
 		panelAdministracion.add(labelTituloAdministracion);
-		
-				panelTienda = new JPanel();
-				panelTienda.setLayout(null);
-				panelTienda.setBounds(247, 0, 1457, 841);
-				contentPane.add(panelTienda);
-				
-						labelTituloTienda = new JLabel("TIENDA");
-						labelTituloTienda.setHorizontalAlignment(SwingConstants.CENTER);
-						labelTituloTienda.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
-						labelTituloTienda.setBounds(0, 0, 100, 40);
-						panelTienda.add(labelTituloTienda);
-						
-								JSeparator separator_1_1 = new JSeparator();
-								separator_1_1.setForeground(new Color(211, 211, 211));
-								separator_1_1.setBounds(0, 40, 1457, 11);
-								panelTienda.add(separator_1_1);
-								
-								JLabel labelSearch = new JLabel("Buscar Cliente:");
-								labelSearch.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
-								labelSearch.setHorizontalAlignment(SwingConstants.CENTER);
-								labelSearch.setBounds(23, 74, 158, 40);
-								panelTienda.add(labelSearch);
-								
-								txtBuscadorCliente = new JTextField();
-								txtBuscadorCliente.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										Customer cliente = Store.getInstance().search_customer(txtBuscadorCliente.getText());
-										if(cliente != null) {
-											txtCedula.setEditable(false);
-											txtCedula.setText(cliente.getId());
-											txtNombre.setEditable(false);
-											txtNombre.setText(cliente.getName());
-											spnEdad.setValue(cliente.getAge());
-											spnEdad.setEnabled(false);
-											spnCredito.setValue(cliente.getCredit());
-											spnCredito.setEnabled(false);
-											btnRegistrarCliente.setEnabled(false);
-										}
-										else {
-											txtCedula.setEditable(true);
-											txtCedula.setText(txtBuscadorCliente.getText());
-											txtNombre.setEditable(true);
-											spnEdad.setEnabled(true);
-											spnCredito.setEnabled(true);
-											btnRegistrarCliente.setEnabled(true);
-										}
-									}
-								});
-								txtBuscadorCliente.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
-								txtBuscadorCliente.setBounds(167, 85, 150, 23);
-								panelTienda.add(txtBuscadorCliente);
-								txtBuscadorCliente.setColumns(10);
-								
-								JPanel panelFormularioCliente = new JPanel();
-								panelFormularioCliente.setBorder(new TitledBorder(null, "Formulario Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-								panelFormularioCliente.setBounds(25, 125, 1410, 100);
-								panelTienda.add(panelFormularioCliente);
-								panelFormularioCliente.setLayout(null);
-								{
-									JLabel labelCedula = new JLabel("Cedula:");
-									labelCedula.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
-									labelCedula.setHorizontalAlignment(SwingConstants.CENTER);
-									labelCedula.setBounds(8, 30, 158, 40);	
-									panelFormularioCliente.add(labelCedula);
-									
-									txtCedula = new JTextField();
-									txtCedula.setEditable(false);
-									txtCedula.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
-									txtCedula.setBounds(140, 39, 150, 23);
-									panelFormularioCliente.add(txtCedula);
-									txtCedula.setColumns(10);
+
+		panelTienda = new JPanel();
+		panelTienda.setLayout(null);
+		panelTienda.setBounds(247, 0, 1457, 841);
+		contentPane.add(panelTienda);
+
+		labelTituloTienda = new JLabel("TIENDA");
+		labelTituloTienda.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTituloTienda.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
+		labelTituloTienda.setBounds(0, 0, 100, 40);
+		panelTienda.add(labelTituloTienda);
+
+		JSeparator separator_1_1 = new JSeparator();
+		separator_1_1.setForeground(new Color(211, 211, 211));
+		separator_1_1.setBounds(0, 40, 1457, 11);
+		panelTienda.add(separator_1_1);
+
+		JLabel labelSearch = new JLabel("Buscar Cliente:");
+		labelSearch.setFont(new Font("Yu Gothic UI", Font.BOLD, 14));
+		labelSearch.setHorizontalAlignment(SwingConstants.CENTER);
+		labelSearch.setBounds(23, 74, 158, 40);
+		panelTienda.add(labelSearch);
+
+		txtBuscadorCliente = new JTextField();
+		txtBuscadorCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Customer cliente = Store.getInstance().search_customer(txtBuscadorCliente.getText());
+				if (cliente != null) {
+					txtCedula.setEditable(false);
+					txtCedula.setText(cliente.getId());
+					txtNombre.setEditable(false);
+					txtNombre.setText(cliente.getName());
+					spnEdad.setValue(cliente.getAge());
+					spnEdad.setEnabled(false);
+					spnCredito.setValue(cliente.getCredit());
+					spnCredito.setEnabled(false);
+					btnRegistrarCliente.setEnabled(false);
+				} else {
+					txtCedula.setEditable(true);
+					txtCedula.setText(txtBuscadorCliente.getText());
+					txtNombre.setEditable(true);
+					spnEdad.setEnabled(true);
+					spnCredito.setEnabled(true);
+					btnRegistrarCliente.setEnabled(true);
+				}
+			}
+		});
+		txtBuscadorCliente.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		txtBuscadorCliente.setBounds(167, 85, 150, 23);
+		panelTienda.add(txtBuscadorCliente);
+		txtBuscadorCliente.setColumns(10);
+
+		JPanel panelFormularioCliente = new JPanel();
+		panelFormularioCliente.setBorder(
+				new TitledBorder(null, "Formulario Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelFormularioCliente.setBounds(25, 125, 1410, 100);
+		panelTienda.add(panelFormularioCliente);
+		panelFormularioCliente.setLayout(null);
+		{
+			JLabel labelCedula = new JLabel("Cedula:");
+			labelCedula.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+			labelCedula.setHorizontalAlignment(SwingConstants.CENTER);
+			labelCedula.setBounds(8, 30, 158, 40);
+			panelFormularioCliente.add(labelCedula);
+
+			txtCedula = new JTextField();
+			txtCedula.setEditable(false);
+			txtCedula.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+			txtCedula.setBounds(140, 39, 150, 23);
+			panelFormularioCliente.add(txtCedula);
+			txtCedula.setColumns(10);
+		}
+
+		JLabel labelNombre = new JLabel("Nombre:");
+		labelNombre.setHorizontalAlignment(SwingConstants.CENTER);
+		labelNombre.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		labelNombre.setBounds(300, 30, 158, 40);
+		panelFormularioCliente.add(labelNombre);
+
+		txtNombre = new JTextField();
+		txtNombre.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		txtNombre.setEditable(false);
+		txtNombre.setColumns(10);
+		txtNombre.setBounds(432, 39, 150, 23);
+		panelFormularioCliente.add(txtNombre);
+
+		JLabel labelEdad = new JLabel("Edad:");
+		labelEdad.setHorizontalAlignment(SwingConstants.CENTER);
+		labelEdad.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		labelEdad.setBounds(600, 30, 158, 40);
+		panelFormularioCliente.add(labelEdad);
+
+		spnEdad = new JSpinner();
+		spnEdad.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spnEdad.setEnabled(false);
+		spnEdad.setBounds(724, 39, 150, 23);
+		panelFormularioCliente.add(spnEdad);
+
+		JLabel labelCredito = new JLabel("Credito:");
+		labelCredito.setHorizontalAlignment(SwingConstants.CENTER);
+		labelCredito.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		labelCredito.setBounds(900, 30, 158, 40);
+		panelFormularioCliente.add(labelCredito);
+
+		spnCredito = new JSpinner();
+		spnCredito.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1000)));
+		spnCredito.setEnabled(false);
+		spnCredito.setBounds(1016, 39, 150, 23);
+		panelFormularioCliente.add(spnCredito);
+
+		btnRegistrarCliente = new JButton("Registrar Cliente");
+		btnRegistrarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Customer cliente = new Customer(txtCedula.getText(), txtNombre.getText(),
+						Float.valueOf(spnCredito.getValue().toString()),
+						Integer.valueOf(spnEdad.getValue().toString()));
+				Store.getInstance().addCustomer(cliente);
+				JOptionPane.showMessageDialog(null, "Cliente registrado satisfactoriamente.", "Registro de cliente",
+						JOptionPane.INFORMATION_MESSAGE);
+				load_all();
+			}
+		});
+		btnRegistrarCliente.setForeground(Color.WHITE);
+		btnRegistrarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnRegistrarCliente.setEnabled(false);
+		btnRegistrarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnRegistrarCliente.setBackground(new Color(102, 102, 255));
+		btnRegistrarCliente.setAlignmentX(0.5f);
+		btnRegistrarCliente.setBounds(1230, 34, 130, 28);
+		panelFormularioCliente.add(btnRegistrarCliente);
+
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_2.setBounds(25, 350, 550, 400);
+		panelTienda.add(scrollPane_2);
+
+		list_almacen = new JList<String>();
+		list_almacen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = list_almacen.getSelectedIndex();
+				if (index != -1) {
+					spnCantidad.setEnabled(true);
+					btnAgregar.setEnabled(true);
+				}
+			}
+		});
+		list_almacen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listModelAlmacen = new DefaultListModel<String>();
+		list_almacen.setModel(listModelAlmacen);
+		scrollPane_2.setViewportView(list_almacen);
+
+		JLabel lblProductosEnAlmacen = new JLabel("Productos en Almacen");
+		lblProductosEnAlmacen.setHorizontalAlignment(SwingConstants.CENTER);
+		lblProductosEnAlmacen.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblProductosEnAlmacen.setBounds(25, 315, 165, 40);
+		panelTienda.add(lblProductosEnAlmacen);
+
+		btnAgregar = new JButton(">>>");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String aux = list_almacen.getSelectedValue().toString();
+				String code = aux.substring(0, aux.indexOf('.'));
+				int cantidad = Integer.valueOf(spnCantidad.getValue().toString());
+				logico.Component component = Store.getInstance().search_component(code);
+				if (cantidad >= component.getAvailable()) {
+					cantidad = component.getAvailable();
+					listModelAlmacen.remove(list_almacen.getSelectedIndex());
+				}
+				aux.concat(" x" + spnCantidad.getValue().toString());
+				listModelCarrito.addElement(aux);
+				for (int i = 0; i < cantidad; i++) {
+					components.add(component);
+				}
+				btnAgregar.setEnabled(false);
+				spnCantidad.setValue(1);
+				spnCantidad.setEnabled(false);
+			}
+		});
+		btnAgregar.setEnabled(false);
+		btnAgregar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAgregar.setForeground(Color.WHITE);
+		btnAgregar.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+		btnAgregar.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnAgregar.setBackground(new Color(102, 102, 255));
+		btnAgregar.setAlignmentX(0.5f);
+		btnAgregar.setBounds(680, 499, 120, 28);
+		panelTienda.add(btnAgregar);
+
+		btnRemover = new JButton("<<<");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// boolean inAlmacen = false;
+				String aux = list_carrito.getSelectedValue().toString();
+				String code = aux.substring(0, aux.indexOf('.'));
+				/*
+				 * for (int i = 0; i < listModelAlmacen.getSize(); i++) { String aux2 =
+				 * listModelAlmacen.getElementAt(i); String code2 = aux2.substring(0,
+				 * aux2.indexOf(' ')); if(code.equalsIgnoreCase(code2)) { inAlmacen = true;
+				 * break; } } if(!inAlmacen) { String back = aux.substring(0,
+				 * aux.indexOf('x')-1); listModelAlmacen.addElement(back); }
+				 */
+				listModelCarrito.remove(list_carrito.getSelectedIndex());
+				logico.Component removing = Store.getInstance().search_component(code);
+				if (!components.isEmpty()) {
+					for (logico.Component component : components) {
+						if (component == removing) {
+							components.remove(component);
+						}
+					}
+				}
+				btnRemover.setEnabled(false);
+				load_almacen();
+			}
+		});
+		btnRemover.setEnabled(false);
+		btnRemover.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRemover.setForeground(Color.WHITE);
+		btnRemover.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+		btnRemover.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnRemover.setBackground(new Color(102, 102, 255));
+		btnRemover.setAlignmentX(0.5f);
+		btnRemover.setBounds(680, 599, 120, 28);
+		panelTienda.add(btnRemover);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_1.setBounds(885, 350, 550, 400);
+		panelTienda.add(scrollPane_1);
+
+		list_carrito = new JList<String>();
+		list_carrito.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = list_carrito.getSelectedIndex();
+				if (index != -1) {
+					btnRemover.setEnabled(true);
+				}
+			}
+		});
+		list_carrito.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listModelCarrito = new DefaultListModel<String>();
+		list_carrito.setModel(listModelCarrito);
+
+		scrollPane_1.setViewportView(list_carrito);
+
+		JLabel lblProductosEnCarrito = new JLabel("Carrito de compras");
+		lblProductosEnCarrito.setHorizontalAlignment(SwingConstants.CENTER);
+		lblProductosEnCarrito.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblProductosEnCarrito.setBounds(885, 315, 165, 40);
+		panelTienda.add(lblProductosEnCarrito);
+
+		btnFacturar = new JButton("Facturar");
+		btnFacturar.setEnabled(false);
+		btnFacturar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (txtCedula.getText() == "") {
+					JOptionPane.showMessageDialog(null, "Debe elegir un cliente primero.", "Aviso",
+							JOptionPane.WARNING_MESSAGE);
+				} else if (listModelCarrito.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un componente.", "Aviso",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					Date date = new Date();
+					Customer cliente = Store.getInstance().search_customer(txtCedula.getText());
+					User seller = Store.getLoggedUser();
+					boolean paid = false;
+					boolean suficiente = true;
+					Invoice invoice = new Invoice("" + Invoice.counter, date, seller, cliente, paid);
+					for (logico.Component component : components) {
+						invoice.addComponent(component);
+					}
+
+					if (rdbtnCredito.isSelected()) {
+						if (cliente.getCredit() < invoice.get_total()) {
+							JOptionPane.showMessageDialog(null,
+									"El cliente no posee suficiente crédito para la compra. Por favor pagar en efectivo.",
+									"Aviso", JOptionPane.WARNING_MESSAGE);
+							suficiente = false;
+						}
+					} else {
+						invoice.setPaid(true);
+					}
+
+					if (suficiente) {
+						Store.getInstance().addInvoice(invoice);
+						if (seller instanceof Seller) {
+							((Seller) seller).setSold_amount(((Seller) seller).getSold_amount() + invoice.get_total());
+						}
+						if (rdbtnCredito.isSelected()) {
+							cliente.setCredit(cliente.getCredit() - invoice.get_total());
+						}
+						for (logico.Component component : Store.getInstance().getComponents()) {
+							for (logico.Component bought : invoice.getComponents()) {
+								if (bought == component) {
+									component.setAvailable(component.getAvailable() - 1);
 								}
-								
-								JLabel labelNombre = new JLabel("Nombre:");
-								labelNombre.setHorizontalAlignment(SwingConstants.CENTER);
-								labelNombre.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
-								labelNombre.setBounds(300, 30, 158, 40);
-								panelFormularioCliente.add(labelNombre);
-								
-								txtNombre = new JTextField();
-								txtNombre.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
-								txtNombre.setEditable(false);
-								txtNombre.setColumns(10);
-								txtNombre.setBounds(432, 39, 150, 23);
-								panelFormularioCliente.add(txtNombre);
-								
-								JLabel labelEdad = new JLabel("Edad:");
-								labelEdad.setHorizontalAlignment(SwingConstants.CENTER);
-								labelEdad.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
-								labelEdad.setBounds(600, 30, 158, 40);
-								panelFormularioCliente.add(labelEdad);
-								
-								spnEdad = new JSpinner();
-								spnEdad.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-								spnEdad.setEnabled(false);
-								spnEdad.setBounds(724, 39, 150, 23);
-								panelFormularioCliente.add(spnEdad);
-								
-								JLabel labelCredito = new JLabel("Credito:");
-								labelCredito.setHorizontalAlignment(SwingConstants.CENTER);
-								labelCredito.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
-								labelCredito.setBounds(900, 30, 158, 40);
-								panelFormularioCliente.add(labelCredito);
-								
-								spnCredito = new JSpinner();
-								spnCredito.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1000)));
-								spnCredito.setEnabled(false);
-								spnCredito.setBounds(1016, 39, 150, 23);
-								panelFormularioCliente.add(spnCredito);
-								
-								btnRegistrarCliente = new JButton("Registrar Cliente");
-								btnRegistrarCliente.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										Customer cliente = new Customer(txtCedula.getText(), txtNombre.getText(), Float.valueOf(spnCredito.getValue().toString()), Integer.valueOf(spnEdad.getValue().toString()));
-										Store.getInstance().addCustomer(cliente);
-										JOptionPane.showMessageDialog(null, "Cliente registrado satisfactoriamente.", "Registro de cliente", JOptionPane.INFORMATION_MESSAGE);
-										load_all();
-									}
-								});
-								btnRegistrarCliente.setForeground(Color.WHITE);
-								btnRegistrarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
-								btnRegistrarCliente.setEnabled(false);
-								btnRegistrarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
-								btnRegistrarCliente.setBackground(new Color(102, 102, 255));
-								btnRegistrarCliente.setAlignmentX(0.5f);
-								btnRegistrarCliente.setBounds(1230, 34, 130, 28);
-								panelFormularioCliente.add(btnRegistrarCliente);
-								
-								JScrollPane scrollPane_2 = new JScrollPane();
-								scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-								scrollPane_2.setBounds(25, 350, 550, 400);
-								panelTienda.add(scrollPane_2);
-								
-										
-										list_almacen = new JList<String>();
-										list_almacen.addMouseListener(new MouseAdapter() {
-											@Override
-											public void mouseClicked(MouseEvent e) {
-												int index = -1;
-												index = list_almacen.getSelectedIndex();
-												if(index != -1) {
-													spnCantidad.setEnabled(true);
-													btnAgregar.setEnabled(true);
-												}
-											}
-										});
-										list_almacen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-										listModelAlmacen = new DefaultListModel<String>();
-										list_almacen.setModel(listModelAlmacen);
-										scrollPane_2.setViewportView(list_almacen);
-										
-										JLabel lblProductosEnAlmacen = new JLabel("Productos en Almacen");
-										lblProductosEnAlmacen.setHorizontalAlignment(SwingConstants.CENTER);
-										lblProductosEnAlmacen.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
-										lblProductosEnAlmacen.setBounds(25, 315, 165, 40);
-										panelTienda.add(lblProductosEnAlmacen);
-										
-										btnAgregar = new JButton(">>>");
-										btnAgregar.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												String aux = list_almacen.getSelectedValue().toString();
-												String code = aux.substring(0, aux.indexOf('.'));
-												int cantidad = Integer.valueOf(spnCantidad.getValue().toString());
-												logico.Component component = Store.getInstance().search_component(code);
-												if(cantidad >= component.getAvailable()) {
-													cantidad = component.getAvailable();
-													listModelAlmacen.remove(list_almacen.getSelectedIndex());
-												}
-												aux.concat(" x"+spnCantidad.getValue().toString());
-												listModelCarrito.addElement(aux);
-												for (int i = 0; i < cantidad; i++) {
-													components.add(component);
-												}
-												btnAgregar.setEnabled(false);
-												spnCantidad.setValue(0);
-												spnCantidad.setEnabled(false);
-											}
-										});
-										btnAgregar.setEnabled(false);
-										btnAgregar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-										btnAgregar.setForeground(Color.WHITE);
-										btnAgregar.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
-										btnAgregar.setBorder(new LineBorder(new Color(102, 102, 255)));
-										btnAgregar.setBackground(new Color(102, 102, 255));
-										btnAgregar.setAlignmentX(0.5f);
-										btnAgregar.setBounds(680, 499, 120, 28);
-										panelTienda.add(btnAgregar);
-										
-										btnRemover = new JButton("<<<");
-										btnRemover.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												//boolean inAlmacen = false;
-												String aux = list_carrito.getSelectedValue().toString();
-												String code = aux.substring(0, aux.indexOf('.'));
-												/*for (int i = 0; i < listModelAlmacen.getSize(); i++) {
-													String aux2 = listModelAlmacen.getElementAt(i);
-													String code2 = aux2.substring(0, aux2.indexOf(' '));
-													if(code.equalsIgnoreCase(code2)) {
-														inAlmacen = true;
-														break;
-													}
-												}
-												if(!inAlmacen) {
-													String back = aux.substring(0, aux.indexOf('x')-1);
-													listModelAlmacen.addElement(back);
-												}*/
-												listModelCarrito.remove(list_carrito.getSelectedIndex());
-												logico.Component removing = Store.getInstance().search_component(code);
-												if(!components.isEmpty()) {
-													for (logico.Component component : components) {
-														if(component == removing) {
-															components.remove(component);
-														}
-													}
-												}
-												btnRemover.setEnabled(false);
-												load_almacen();
-											}
-										});
-										btnRemover.setEnabled(false);
-										btnRemover.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-										btnRemover.setForeground(Color.WHITE);
-										btnRemover.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
-										btnRemover.setBorder(new LineBorder(new Color(102, 102, 255)));
-										btnRemover.setBackground(new Color(102, 102, 255));
-										btnRemover.setAlignmentX(0.5f);
-										btnRemover.setBounds(680, 599, 120, 28);
-										panelTienda.add(btnRemover);
-										
-										JScrollPane scrollPane_1 = new JScrollPane();
-										scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-										scrollPane_1.setBounds(885, 350, 550, 400);
-										panelTienda.add(scrollPane_1);
-										
-										list_carrito = new JList<String>();
-										list_carrito.addMouseListener(new MouseAdapter() {
-											@Override
-											public void mouseClicked(MouseEvent e) {
-												int index = -1;
-												index = list_carrito.getSelectedIndex();
-												if(index != -1) {
-													btnRemover.setEnabled(true);
-												}
-											}
-										});
-										list_carrito.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-										listModelCarrito = new DefaultListModel<String>();
-										list_carrito.setModel(listModelCarrito);
-										scrollPane_1.setViewportView(list_carrito);
-										
-										JLabel lblProductosEnCarrito = new JLabel("Carrito de compras");
-										lblProductosEnCarrito.setHorizontalAlignment(SwingConstants.CENTER);
-										lblProductosEnCarrito.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
-										lblProductosEnCarrito.setBounds(885, 315, 165, 40);
-										panelTienda.add(lblProductosEnCarrito);
-										
-										btnFacturar = new JButton("Facturar");
-										btnFacturar.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												if(txtCedula.getText() == "") {
-													JOptionPane.showMessageDialog(null, "Debe elegir un cliente primero.", "Aviso", JOptionPane.WARNING_MESSAGE);
-												}
-												else if(listModelCarrito.isEmpty()) {
-													JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un componente.", "Aviso", JOptionPane.WARNING_MESSAGE);
-												}
-												else {
-													Date date = new Date();
-													Customer cliente = Store.getInstance().search_customer(txtCedula.getText());
-													User seller = Store.getLoggedUser();
-													boolean paid = false;
-													boolean suficiente = true;
-													Invoice invoice = new Invoice(""+Invoice.counter, date, seller, cliente, paid);
-													for (logico.Component component : components) {
-														invoice.addComponent(component);
-													}
-													
-													if(rdbtnCredito.isSelected()) {
-														if(cliente.getCredit() < invoice.get_total()) {
-															JOptionPane.showMessageDialog(null, "El cliente no posee suficiente crédito para la compra. Por favor pagar en efectivo.", "Aviso", JOptionPane.WARNING_MESSAGE);
-															suficiente = false;
-														}
-													}
-													else {
-														invoice.setPaid(true);
-													}
-													
-													if(suficiente) {
-														Store.getInstance().addInvoice(invoice);
-														if(seller instanceof Seller) {
-															((Seller) seller).setSold_amount(((Seller) seller).getSold_amount() + invoice.get_total());
-														}
-														if(rdbtnCredito.isSelected()) {
-															cliente.setCredit(cliente.getCredit()-invoice.get_total());
-														}
-														for (logico.Component component : Store.getInstance().getComponents()) {
-															for (logico.Component bought : invoice.getComponents()) {
-																if(bought == component) {
-																	component.setAvailable(component.getAvailable()-1);
-																}
-															}
-														}
-														JOptionPane.showMessageDialog(null, "Factura generada exitosamente.", "Facturación", JOptionPane.INFORMATION_MESSAGE);
-														clean_tienda();
-													}
-												}
-												
-											}
-										});
-										btnFacturar.setForeground(Color.WHITE);
-										btnFacturar.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 14));
-										btnFacturar.setBorder(new LineBorder(new Color(102, 102, 255)));
-										btnFacturar.setBackground(new Color(102, 102, 255));
-										btnFacturar.setAlignmentX(0.5f);
-										btnFacturar.setBounds(1315, 785, 120, 28);
-										panelTienda.add(btnFacturar);
-										
-										rdbtnCredito = new JRadioButton("Compra a Credito");
-										rdbtnCredito.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
-										rdbtnCredito.setBounds(1150, 785, 145, 28);
-										panelTienda.add(rdbtnCredito);
-										
-										JLabel lblNewLabel = new JLabel("Cantidad:");
-										lblNewLabel.setBounds(650, 436, 56, 16);
-										panelTienda.add(lblNewLabel);
-										
-										spnCantidad = new JSpinner();
-										spnCantidad.setEnabled(false);
-										spnCantidad.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-										
-										spnCantidad.setBounds(718, 433, 82, 22);
-										panelTienda.add(spnCantidad);
-										
-										btnBuscarCliente = new JButton("Buscar");
-										btnBuscarCliente.setForeground(Color.WHITE);
-										btnBuscarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 14));
-										btnBuscarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
-										btnBuscarCliente.setBackground(new Color(102, 102, 255));
-										btnBuscarCliente.setAlignmentX(0.5f);
-										btnBuscarCliente.setBounds(360, 82, 120, 28);
-										panelTienda.add(btnBuscarCliente);
-		//listModelAlmacen = new DefaultListModel<String>();
-		//listModelCarrito = new DefaultListModel<String>();
-		
-		
-		
-		
-		
-		
-		
+							}
+						}
+						JOptionPane.showMessageDialog(null, "Factura generada exitosamente.", "Facturación",
+								JOptionPane.INFORMATION_MESSAGE);
+						clean_tienda();
+					}
+				}
+
+			}
+		});
+		btnFacturar.setForeground(Color.WHITE);
+		btnFacturar.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 14));
+		btnFacturar.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnFacturar.setBackground(new Color(102, 102, 255));
+		btnFacturar.setAlignmentX(0.5f);
+		btnFacturar.setBounds(1315, 785, 120, 28);
+		panelTienda.add(btnFacturar);
+
+		rdbtnCredito = new JRadioButton("Compra a Credito");
+		rdbtnCredito.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+		rdbtnCredito.setBounds(1150, 785, 145, 28);
+		panelTienda.add(rdbtnCredito);
+
+		JLabel lblNewLabel = new JLabel("Cantidad:");
+		lblNewLabel.setBounds(650, 436, 56, 16);
+		panelTienda.add(lblNewLabel);
+
+		spnCantidad = new JSpinner();
+		spnCantidad.setFont(new Font("Yu Gothic UI", Font.PLAIN, 11));
+		spnCantidad.setEnabled(false);
+		spnCantidad.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+
+		spnCantidad.setBounds(718, 433, 82, 22);
+		panelTienda.add(spnCantidad);
+
+		btnBuscarCliente = new JButton("Buscar");
+		btnBuscarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Customer cliente = Store.getInstance().search_customer(txtBuscadorCliente.getText());
+				if (cliente != null) {
+					txtCedula.setEditable(false);
+					txtCedula.setText(cliente.getId());
+					txtNombre.setEditable(false);
+					txtNombre.setText(cliente.getName());
+					spnEdad.setValue(cliente.getAge());
+					spnEdad.setEnabled(false);
+					spnCredito.setValue(cliente.getCredit());
+					spnCredito.setEnabled(false);
+					btnRegistrarCliente.setEnabled(false);
+				} else {
+					txtCedula.setEditable(true);
+					txtCedula.setText(txtBuscadorCliente.getText());
+					txtNombre.setEditable(true);
+					spnEdad.setEnabled(true);
+					spnCredito.setEnabled(true);
+					btnRegistrarCliente.setEnabled(true);
+				}
+			}
+		});
+		btnBuscarCliente.setForeground(Color.WHITE);
+		btnBuscarCliente.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 14));
+		btnBuscarCliente.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnBuscarCliente.setBackground(new Color(102, 102, 255));
+		btnBuscarCliente.setAlignmentX(0.5f);
+		btnBuscarCliente.setBounds(360, 82, 120, 28);
+		panelTienda.add(btnBuscarCliente);
+
 //		HILO PARA USAR UN RELOJ ACTUALIZADO
 		final DateTimeFormatter formateador = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
 		Runnable runnable = new Runnable() {
@@ -1459,7 +1490,6 @@ public class DashboardHome extends JFrame {
 						ContadorClientes.setText("" + Store.getInstance().getCustomers().size());
 						ContadorFacturas.setText("" + Store.getInstance().getInvoices().size());
 						ContadorUsuarios.setText("" + Store.getInstance().getUsers().size());
-						etiquetaReloj.setText(formateador.format(LocalDateTime.now()));
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -1468,11 +1498,32 @@ public class DashboardHome extends JFrame {
 		};
 		Thread hiloContadores = new Thread(runnableContadores);
 		hiloContadores.start();
-		
+
+//		HILO PARA REFRESCAR BOTON FACTURAR
+		Runnable runnableCarritoCompra = new Runnable() {
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(100);
+						int size = listModelCarrito.getSize();
+						if (size > 0) {
+							btnFacturar.setEnabled(true);
+						} else {
+							btnFacturar.setEnabled(false);
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		Thread hiloCarritoCompra = new Thread(runnableCarritoCompra);
+		hiloCarritoCompra.start();
+
 		load_all();
-		/*load_users();
-		load_customers();
-		load_almacen();*/
+		/*
+		 * load_users(); load_customers(); load_almacen();
+		 */
 	}
 
 	private void load_all() {
@@ -1481,7 +1532,7 @@ public class DashboardHome extends JFrame {
 		load_customers();
 		load_components();
 		load_invoices();
-		
+
 	}
 
 	private void load_almacen() {
@@ -1489,23 +1540,20 @@ public class DashboardHome extends JFrame {
 		listModelCarrito.removeAllElements();
 		for (logico.Component component : Store.getInstance().getComponents()) {
 			String type = null;
-			if(component instanceof Drive) {
+			if (component instanceof Drive) {
 				type = "Drive";
-			}
-			else if(component instanceof CPU) {
+			} else if (component instanceof CPU) {
 				type = "Processor";
-			}
-			else if(component instanceof Motherboard) {
+			} else if (component instanceof Motherboard) {
 				type = "Motherboard";
-			}
-			else if(component instanceof RAM) {
+			} else if (component instanceof RAM) {
 				type = "RAM memory";
 			}
 			// Aquí debe mostrarse algo como: "009138173. Intel Processor"
 			String show = new String(component.getSerial() + ". " + component.getBrand() + " " + type);
 			listModelAlmacen.addElement(show);
 		}
-		
+
 	}
 
 	protected void clean_tienda() {
@@ -1543,7 +1591,7 @@ public class DashboardHome extends JFrame {
 		btnEliminarUsuario.setEnabled(false);
 		btnModificarUsuario.setEnabled(false);
 	}
-	
+
 	public static void load_customers() {
 		model_customers.setRowCount(0);
 		rows = new Object[model_customers.getColumnCount()];
@@ -1554,11 +1602,11 @@ public class DashboardHome extends JFrame {
 			rows[3] = customers.getAge();
 			model_customers.addRow(rows);
 		}
-		
+
 		btnEliminarUsuario.setEnabled(false);
 		btnModificarUsuario.setEnabled(false);
-	} 
-	
+	}
+
 	public static void load_components() {
 		model_components.setRowCount(0);
 		rows = new Object[model_components.getColumnCount()];
@@ -1574,35 +1622,48 @@ public class DashboardHome extends JFrame {
 			if (component instanceof CPU) {
 				rows[5] = "CPU";
 			}
-			if(component instanceof RAM) {
+			if (component instanceof RAM) {
 				rows[5] = "RAM";
 			}
-			if(component instanceof Drive) {
+			if (component instanceof Drive) {
 				rows[5] = "Drive";
 			}
 			rows[6] = component.getPrice();
 
 			model_components.addRow(rows);
 		}
-		//btnEliminarUsuario.setEnabled(false);
-		//btnModificarUsuario.setEnabled(false);
+		// btnEliminarUsuario.setEnabled(false);
+		// btnModificarUsuario.setEnabled(false);
 	}
 	
+	public int autogenerateId() {
+	      Random rand = new Random();
+	      int upperbound = 100000;
+	      int int_random = rand.nextInt(upperbound); 
+		return int_random;
+	}
+
 	public static void load_invoices() {
 		model_invoices.setRowCount(0);
 		rows = new Object[model_invoices.getColumnCount()];
 		for (Invoice invoices : Store.getInstance().getInvoices()) {
+			String pagadoStatus = "";
+			if(invoices.isPaid()) {
+				pagadoStatus = "Si";
+			}else {
+				pagadoStatus = "A Credito";
+			}
+			
 			rows[0] = invoices.getCode();
 			rows[1] = invoices.getDate();
 			rows[2] = invoices.getSeller().getUsername();
 			rows[3] = invoices.getCustomer();
 			rows[4] = invoices.get_total();
-			rows[5] = invoices.isPaid();
-
+			rows[5] = pagadoStatus;
 
 			model_invoices.addRow(rows);
 		}
-		//btnEliminarUsuario.setEnabled(false);
-		//btnModificarUsuario.setEnabled(false);
+		// btnEliminarUsuario.setEnabled(false);
+		// btnModificarUsuario.setEnabled(false);
 	}
 }

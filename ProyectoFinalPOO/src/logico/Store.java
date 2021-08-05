@@ -200,12 +200,31 @@ public class Store implements Serializable{
 		users.remove(selected_user);
 		
 	}
+	
+	public void deleteComponent(Component selected_components) {
+		components.remove(selected_components);
+		
+	}
+
+	public void mod_components(int index, Component selected) {
+		components.set(index, selected);
+	}
 
 	public Component search_component(String code) {
 		Component searched = null;
 		for (Component component : components) {
 			if(component.getSerial().equalsIgnoreCase(code)) {
 				searched = component;
+			}
+		}
+		return searched; 
+	}
+
+	public Invoice search_invoice(String idInvoice) {
+		Invoice searched = null;
+		for (Invoice invoice : invoices) {
+			if(invoice.getCode().equalsIgnoreCase(idInvoice)) {
+				searched = invoice;
 			}
 		}
 		return searched; 

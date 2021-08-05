@@ -1046,7 +1046,7 @@ public class DashboardHome extends JFrame {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			panelTablaFacturas.add(scrollPane);
 			{
-				String headers[] = { "Código", "Fecha", "Vendedor", "Cliente", "Monto total", "Pagado Status" };
+				String headers[] = { "Código", "Fecha", "Vendedor", "Cliente", "Monto total", "Pago Status" };
 				model_invoices = new DefaultTableModel();
 				model_invoices.setColumnIdentifiers(headers);
 				table_invoices = new JTable();
@@ -1060,8 +1060,12 @@ public class DashboardHome extends JFrame {
 							selected_invoice = Store.getInstance().search_invoice(idInvoice);
 
 							System.out.println(selected_invoice.isPaid());
-							btnConfirmarPago.setEnabled(true);
-
+							
+							if(selected_invoice.isPaid() == false) {
+								btnConfirmarPago.setEnabled(true);
+							}else {
+								btnConfirmarPago.setEnabled(false);
+							}
 //								btnEliminarUsuario.setEnabled(true);
 //								btnModificarUsuario.setEnabled(true);
 //								String id = (String)(model_invoices.getValueAt(index, 0));
@@ -1076,6 +1080,11 @@ public class DashboardHome extends JFrame {
 		}
 
 		btnConfirmarPago = new JButton("Confirmar Pago");
+		btnConfirmarPago.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selected_invoice.setPaid(true);
+			}
+		});
 		btnConfirmarPago.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnConfirmarPago.setForeground(Color.WHITE);
 		btnConfirmarPago.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -1632,16 +1641,9 @@ public class DashboardHome extends JFrame {
 
 			model_components.addRow(rows);
 		}
-		// btnEliminarUsuario.setEnabled(false);
-		// btnModificarUsuario.setEnabled(false);
 	}
 	
-	public int autogenerateId() {
-	      Random rand = new Random();
-	      int upperbound = 100000;
-	      int int_random = rand.nextInt(upperbound); 
-		return int_random;
-	}
+
 
 	public static void load_invoices() {
 		model_invoices.setRowCount(0);
@@ -1649,7 +1651,7 @@ public class DashboardHome extends JFrame {
 		for (Invoice invoices : Store.getInstance().getInvoices()) {
 			String pagadoStatus = "";
 			if(invoices.isPaid()) {
-				pagadoStatus = "Si";
+				pagadoStatus = "Pagado";
 			}else {
 				pagadoStatus = "A Credito";
 			}
@@ -1663,7 +1665,6 @@ public class DashboardHome extends JFrame {
 
 			model_invoices.addRow(rows);
 		}
-		// btnEliminarUsuario.setEnabled(false);
-		// btnModificarUsuario.setEnabled(false);
+
 	}
 }

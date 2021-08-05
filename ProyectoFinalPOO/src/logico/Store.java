@@ -2,6 +2,7 @@ package logico;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Store implements Serializable{
 	
@@ -229,4 +230,11 @@ public class Store implements Serializable{
 		}
 		return searched; 
 	} 
+	
+	public int autogenerateId() {
+	      Random rand = new Random();
+	      int upperbound = 100000;
+	      int int_random = rand.nextInt(upperbound); 
+		return int_random;
+	}
 }

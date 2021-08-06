@@ -42,6 +42,7 @@ import logico.Customer;
 import logico.Drive;
 import logico.Invoice;
 import logico.Motherboard;
+import logico.PurchaseOrder;
 import logico.RAM;
 
 import logico.Store;
@@ -66,6 +67,7 @@ import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.EtchedBorder;
 
 public class DashboardHome extends JFrame {
 
@@ -94,6 +96,7 @@ public class DashboardHome extends JFrame {
 
 	private JTable table_users;
 	private JTable table_invoices;
+	private JTable table_ordersPurchase;
 	private JTable table_customers;
 	private JTable table_components;
 
@@ -101,6 +104,7 @@ public class DashboardHome extends JFrame {
 	private static DefaultTableModel model_invoices;
 	private static DefaultTableModel model_customers;
 	private static DefaultTableModel model_components;
+	private static DefaultTableModel model_ordersPurchase;
 	private static JButton btnModificarUsuario;
 	private static JButton btnEliminarUsuario;
 	private JButton btnNewUsuario;
@@ -108,6 +112,7 @@ public class DashboardHome extends JFrame {
 	private Invoice selected_invoice = null;
 	private logico.Component selected_components = null;
 	private Customer selected_customer = null;
+	private PurchaseOrder selected_order = null;
 	private JLabel TiendaOPC;
 	private JPanel panelTienda;
 	private JLabel labelTituloTienda;
@@ -136,7 +141,7 @@ public class DashboardHome extends JFrame {
 	private JSpinner spnCantidad;
 
 	private ArrayList<logico.Component> components = new ArrayList<logico.Component>();
-	
+
 	private JButton btnBuscarCliente;
 	private JTable table_combos;
 	private static DefaultTableModel model_combos;
@@ -144,6 +149,7 @@ public class DashboardHome extends JFrame {
 	private static JButton btnModificarCombo;
 	private static JButton btnEliminarCombo;
 	private Combo selected_combo = null;
+	private JButton btnConfirmarOrden;
 
 	/**
 	 * Launch the application.
@@ -670,19 +676,21 @@ public class DashboardHome extends JFrame {
 		pnlCombos.setBounds(52, 426, 626, 353);
 		panelMenu.add(pnlCombos);
 		pnlCombos.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		panel.setBackground(Color.WHITE);
 		pnlCombos.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
-		
+
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBackground(Color.WHITE);
 		panel.add(scrollPane_3, BorderLayout.CENTER);
-		
-		String combos_headers[] = {"Código", "Componente 1", "Componente 2", "Componente 3", "Componente 4", "Descuento"};
-						// Se mostrará así:	Motherboard xN		CPU xN			RAM xN			Drive xN		x%		N = cantidad del componente, x = % de descuento.
+
+		String combos_headers[] = { "Código", "Componente 1", "Componente 2", "Componente 3", "Componente 4",
+				"Descuento" };
+		// Se mostrará así: Motherboard xN CPU xN RAM xN Drive xN x% N = cantidad del
+		// componente, x = % de descuento.
 		model_combos = new DefaultTableModel();
 		model_combos.setColumnIdentifiers(combos_headers);
 		table_combos = new JTable();
@@ -724,7 +732,7 @@ public class DashboardHome extends JFrame {
 		Grafico2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
 		Grafico2.setBounds(10, 11, 606, 41);
 		panelGraficoSuperior2.add(Grafico2);
-		
+
 		btnFacturarCombo = new JButton("Facturar Combo");
 		btnFacturarCombo.setForeground(Color.WHITE);
 		btnFacturarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -733,7 +741,7 @@ public class DashboardHome extends JFrame {
 		btnFacturarCombo.setAlignmentX(0.5f);
 		btnFacturarCombo.setBounds(52, 792, 120, 28);
 		panelMenu.add(btnFacturarCombo);
-		
+
 		btnModificarCombo = new JButton("Modificar Combo");
 		btnModificarCombo.setForeground(Color.WHITE);
 		btnModificarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -741,12 +749,12 @@ public class DashboardHome extends JFrame {
 		btnModificarCombo.setBackground(new Color(102, 102, 255));
 		btnModificarCombo.setAlignmentX(0.5f);
 		btnModificarCombo.setBounds(184, 792, 120, 28);
-		if(!(Store.getLoggedUser() instanceof Administrator)) {
+		if (!(Store.getLoggedUser() instanceof Administrator)) {
 			btnModificarCombo.setVisible(false);
 		}
 		btnModificarCombo.setEnabled(false);
 		panelMenu.add(btnModificarCombo);
-		
+
 		btnEliminarCombo = new JButton("Eliminar Combo");
 		btnEliminarCombo.setForeground(Color.WHITE);
 		btnEliminarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -754,7 +762,7 @@ public class DashboardHome extends JFrame {
 		btnEliminarCombo.setBackground(new Color(102, 102, 255));
 		btnEliminarCombo.setAlignmentX(0.5f);
 		btnEliminarCombo.setBounds(316, 792, 120, 28);
-		if(!(Store.getLoggedUser() instanceof Administrator)) {
+		if (!(Store.getLoggedUser() instanceof Administrator)) {
 			btnEliminarCombo.setVisible(false);
 		}
 		btnEliminarCombo.setEnabled(false);
@@ -882,7 +890,7 @@ public class DashboardHome extends JFrame {
 		separator_1_2.setForeground(new Color(211, 211, 211));
 		separator_1_2.setBounds(0, 40, 1457, 11);
 		panelComponentes.add(separator_1_2);
- 
+
 		JPanel panelTablaComponentes = new JPanel();
 		panelTablaComponentes.setBounds(25, 125, 1410, 700);
 		panelComponentes.add(panelTablaComponentes);
@@ -1122,10 +1130,10 @@ public class DashboardHome extends JFrame {
 							selected_invoice = Store.getInstance().search_invoice(idInvoice);
 
 							System.out.println(selected_invoice.isPaid());
-							
-							if(selected_invoice.isPaid() == false) {
+
+							if (selected_invoice.isPaid() == false) {
 								btnConfirmarPago.setEnabled(true);
-							}else {
+							} else {
 								btnConfirmarPago.setEnabled(false);
 							}
 //								btnEliminarUsuario.setEnabled(true);
@@ -1163,10 +1171,78 @@ public class DashboardHome extends JFrame {
 		panelAdministracion.setLayout(null);
 
 		JLabel labelTituloAdministracion = new JLabel("ADMINISTRACION");
+		labelTituloAdministracion.setForeground(new Color(102, 102, 255));
 		labelTituloAdministracion.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTituloAdministracion.setFont(new Font("Yu Gothic UI", Font.BOLD, 18));
 		labelTituloAdministracion.setBounds(10, 0, 170, 40);
 		panelAdministracion.add(labelTituloAdministracion);
+
+		JPanel panelOrdenes = new JPanel();
+		panelOrdenes.setBorder(new TitledBorder(null, "Ordenes de Compras para Componentes", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
+		panelOrdenes.setBounds(25, 100, 1410, 300);
+		panelAdministracion.add(panelOrdenes);
+		panelOrdenes.setLayout(null);
+
+		JScrollPane scrollPaneOrdenes = new JScrollPane();
+		scrollPaneOrdenes.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneOrdenes.setBounds(15, 25, 1000, 250);
+		panelOrdenes.add(scrollPaneOrdenes);
+		{
+			String headers[] = { "Código", "Fecha", "Componente", "Cantidad", "Status" };
+			model_ordersPurchase = new DefaultTableModel();
+			model_ordersPurchase.setColumnIdentifiers(headers);
+			table_ordersPurchase = new JTable();
+			table_ordersPurchase.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index = -1;
+					index = table_ordersPurchase.getSelectedRow();
+					if (index != -1) {
+						String idOrder = (String) (model_ordersPurchase.getValueAt(index, 0));
+						selected_order = Store.getInstance().search_orderPurchase(idOrder);
+						btnConfirmarOrden.setEnabled(true);
+//							btnEliminarUsuario.setEnabled(true);
+//							btnModificarUsuario.setEnabled(true);
+//							String id = (String)(model_invoices.getValueAt(index, 0));
+//							selected_user = Store.getInstance().search_user(id);
+					}
+				}
+			});
+			table_ordersPurchase.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table_ordersPurchase.setModel(model_ordersPurchase);
+			scrollPaneOrdenes.setViewportView(table_ordersPurchase);
+		}
+
+		btnConfirmarOrden = new JButton("Confirmar Orden");
+		btnConfirmarOrden.setEnabled(false);
+		btnConfirmarOrden.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Hay " + Store.getInstance().getOrders().size() + " Ordenes de compra");
+
+			}
+		});
+		btnConfirmarOrden.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnConfirmarOrden.setForeground(Color.WHITE);
+		btnConfirmarOrden.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnConfirmarOrden.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnConfirmarOrden.setBackground(new Color(102, 102, 255));
+		btnConfirmarOrden.setAlignmentX(0.5f);
+		btnConfirmarOrden.setBounds(1060, 25, 300, 28);
+		panelOrdenes.add(btnConfirmarOrden);
+
+		JPanel panelCombosComponentes = new JPanel();
+		panelCombosComponentes.setLayout(null);
+		panelCombosComponentes.setBorder(new TitledBorder(
+				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+				"Armar Combos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelCombosComponentes.setBounds(25, 450, 1410, 300);
+		panelAdministracion.add(panelCombosComponentes);
+
+		JSeparator separator_1_2_2_1 = new JSeparator();
+		separator_1_2_2_1.setForeground(new Color(211, 211, 211));
+		separator_1_2_2_1.setBounds(0, 40, 1457, 11);
+		panelAdministracion.add(separator_1_2_2_1);
 
 		panelTienda = new JPanel();
 		panelTienda.setLayout(null);
@@ -1590,6 +1666,22 @@ public class DashboardHome extends JFrame {
 		};
 		Thread hiloCarritoCompra = new Thread(runnableCarritoCompra);
 		hiloCarritoCompra.start();
+		
+//		HILO PARA GENERAR ORDENES DE COMPRAS
+		Runnable runnableGenerarOrden = new Runnable() {
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(1000);
+						Store.getInstance().crearOrdenCompra();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		Thread hiloGenerarOrden = new Thread(runnableGenerarOrden);
+		hiloGenerarOrden.start();
 
 		load_all();
 		/*
@@ -1598,12 +1690,14 @@ public class DashboardHome extends JFrame {
 	}
 
 	private void load_all() {
+
 		clean_tienda();
 		load_users();
 		load_customers();
 		load_components();
 		load_invoices();
 		load_combos();
+		load_orders();
 
 	}
 
@@ -1620,44 +1714,41 @@ public class DashboardHome extends JFrame {
 			int cant_ram = 0;
 			int cant_hdd = 0;
 			for (logico.Component component : combo.getComponents()) {
-				if(component instanceof Motherboard) {
+				if (component instanceof Motherboard) {
 					cant_motherboard++;
-					if(motherboard == null) {
+					if (motherboard == null) {
 						motherboard = (Motherboard) component;
 					}
-				}
-				else if(component instanceof CPU) {
+				} else if (component instanceof CPU) {
 					cant_cpu++;
-					if(cpu == null) {
+					if (cpu == null) {
 						cpu = (CPU) component;
 					}
-				}
-				else if(component instanceof RAM) {
+				} else if (component instanceof RAM) {
 					cant_ram++;
-					if(ram == null) {
+					if (ram == null) {
 						ram = (RAM) component;
 					}
-				}
-				else if(component instanceof Drive) {
+				} else if (component instanceof Drive) {
 					cant_hdd++;
-					if(drive == null) {
+					if (drive == null) {
 						drive = (Drive) component;
 					}
 				}
 			}
-			
+
 			rows[0] = combo.getCode();
-			rows[1] = ""+ motherboard + " x" + cant_motherboard;
-			rows[2] = ""+ cpu + " x" + cant_cpu;
-			rows[3] = ""+ ram + " x" + cant_ram;
-			rows[4] = ""+ drive + "x" + cant_hdd;
+			rows[1] = "" + motherboard + " x" + cant_motherboard;
+			rows[2] = "" + cpu + " x" + cant_cpu;
+			rows[3] = "" + ram + " x" + cant_ram;
+			rows[4] = "" + drive + "x" + cant_hdd;
 			rows[5] = combo.getDiscount();
-			
+
 			model_combos.addRow(rows);
 		}
 		btnEliminarCombo.setEnabled(false);
 		btnModificarCombo.setEnabled(false);
-		
+
 	}
 
 	private void load_almacen() {
@@ -1758,20 +1849,18 @@ public class DashboardHome extends JFrame {
 			model_components.addRow(rows);
 		}
 	}
-	
-
 
 	public static void load_invoices() {
 		model_invoices.setRowCount(0);
 		rows = new Object[model_invoices.getColumnCount()];
 		for (Invoice invoices : Store.getInstance().getInvoices()) {
 			String pagadoStatus = "";
-			if(invoices.isPaid()) {
+			if (invoices.isPaid()) {
 				pagadoStatus = "Pagado";
-			}else {
+			} else {
 				pagadoStatus = "A Credito";
 			}
-			
+
 			rows[0] = invoices.getCode();
 			rows[1] = invoices.getDate();
 			rows[2] = invoices.getSeller().getUsername();
@@ -1780,6 +1869,27 @@ public class DashboardHome extends JFrame {
 			rows[5] = pagadoStatus;
 
 			model_invoices.addRow(rows);
+		}
+
+	}
+
+	public static void load_orders() {
+		model_ordersPurchase.setRowCount(0);
+		rows = new Object[model_ordersPurchase.getColumnCount()];
+		for (PurchaseOrder orders : Store.getInstance().getOrders()) {
+			String ordenStatus = "";
+			if (orders.isDone()) {
+				ordenStatus = "Completado";
+			} else {
+				ordenStatus = "En Espera";
+			}
+
+			rows[1] = orders.getDate();
+			rows[2] = orders.getComponent().getBrand();
+			rows[3] = orders.getAmount();
+			rows[4] = ordenStatus;
+
+			model_ordersPurchase.addRow(rows);
 		}
 
 	}

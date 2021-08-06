@@ -2,6 +2,7 @@ package logico;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class Store implements Serializable{
@@ -236,5 +237,42 @@ public class Store implements Serializable{
 	      int upperbound = 100000;
 	      int int_random = rand.nextInt(upperbound); 
 		return int_random;
+	}
+
+	public PurchaseOrder search_orderPurchase(String idOrder) {
+		PurchaseOrder searched = null;
+		for (PurchaseOrder order : orders) {
+			if(order.getCode().equalsIgnoreCase(idOrder)) {
+				searched = order;
+			}
+		}
+		return searched; 
+	}
+	
+	public void crearOrdenCompra() {
+		
+		for (Component component : components) {
+			@SuppressWarnings("unused")
+			Component componenteAOrdernar = null;
+			if(component.getAvailable() <= component.getMin_amount()) {
+				if(ordenProductoExistente(component) == false) {
+					componenteAOrdernar = component;
+					PurchaseOrder aux = new PurchaseOrder(String.valueOf(autogenerateId()), new Date(), componenteAOrdernar, componenteAOrdernar.max_amount);
+					addOrder(aux);
+				}
+			}
+		}
+	}
+
+	private boolean ordenProductoExistente(Component component) {
+		boolean existe = false;
+		
+		for (PurchaseOrder order : orders) {
+			if (order.getComponent().equals(component)) {
+				existe = true;
+				return existe;
+			}
+		}
+		return existe;
 	}
 }

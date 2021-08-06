@@ -186,6 +186,7 @@ public class DashboardHome extends JFrame {
 	private ArrayList<RAM> rams = new ArrayList<RAM>();
 	private ArrayList<Drive> hdds = new ArrayList<Drive>();
 	private ArrayList<logico.Component> combo_components = new ArrayList<logico.Component>();
+	private JButton btnGenerarCombo;
 
 	/**
 	 * Launch the application.
@@ -730,6 +731,19 @@ public class DashboardHome extends JFrame {
 		model_combos = new DefaultTableModel();
 		model_combos.setColumnIdentifiers(combos_headers);
 		table_combos = new JTable();
+		table_combos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = table_combos.getSelectedRow();
+				if(index != -1) {
+					btnModificarCombo.setEnabled(true);
+					btnEliminarCombo.setEnabled(true);
+					String codigo = (String) model_combos.getValueAt(index, 0);
+					selected_combo = Store.getInstance().search_combo(codigo);
+				}
+			}
+		});
 		table_combos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table_combos.setModel(model_combos);
 		scrollPane_3.setViewportView(table_combos);
@@ -796,6 +810,84 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(btnFacturarCombo);
 
 		btnModificarCombo = new JButton("Modificar Combo");
+		btnModificarCombo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelUsuarios.setVisible(false);
+				panelMenu.setVisible(false);
+				panelAdministracion.setVisible(true);
+				panelClientes.setVisible(false);
+				panelComponentes.setVisible(false);
+				panelFacturas.setVisible(false);
+				panelTienda.setVisible(false);
+
+				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				MenuOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				FacturasOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				ComponentesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 17));
+				
+				Motherboard motherboard = null;
+				CPU cpu = null;
+				RAM ram = null;
+				Drive drive = null;
+				int cant_m = 0;
+				int cant_cpu = 0;
+				int cant_ram = 0;
+				int cant_hdd = 0;
+				
+				txtCodigoCombo.setText(selected_combo.getCode());
+				spnDescuento.setValue(selected_combo.getDiscount());
+				for (logico.Component component : selected_combo.getComponents()) {
+					if(component instanceof Motherboard) {
+						if(motherboard == null) {
+							motherboard = (Motherboard) component;
+						}
+						cant_m++;
+					}
+					else if(component instanceof CPU) {
+						if(cpu == null) {
+							cpu = (CPU) component;
+						}
+						cant_cpu++;
+					}
+					else if(component instanceof RAM) {
+						if(ram == null) {
+							ram = (RAM) component;
+						}
+						cant_ram++;
+					}
+					else if(component instanceof Drive) {
+						if(drive == null) {
+							drive = (Drive) component;
+						}
+						cant_hdd++;
+					}
+				}
+				
+				String name_motherboard = new String(motherboard.getSerial() + ". " + motherboard.getBrand() + " " + motherboard.getModel());
+				cbxMotherboard.setSelectedItem(name_motherboard);
+				spnMotherboard.setValue(cant_m);
+				
+				String name_cpu = new String(cpu.getSerial() + ". " + cpu.getBrand() + " " + cpu.getModel());
+				cbxCPU.setSelectedItem(name_cpu);
+				spnCpu.setValue(cant_cpu);
+				
+				String name_ram = new String(ram.getSerial() + ". " + ram.getBrand() + " " + ram.getType() + " " + 
+				String.format(java.util.Locale.US, "%.2f", ram.getCapacity()) + " GB");
+				cbxRAM.setSelectedItem(name_ram);
+				spnRam.setValue(cant_ram);
+				
+				String name_hdd = new String(drive.getSerial() + ". " + drive.getBrand() + " " + drive.getModel() + " " + 
+				String.format(java.util.Locale.US, "%.2f", drive.getStorage()) + " GB");
+				cbxDiscoDuro.setSelectedItem(name_hdd);
+				spnDiscoDuro.setValue(cant_hdd);
+				btnGenerarCombo.setText("Modificar Combo");
+				fill_comboboxes();
+				load_component_arrays();
+			}
+		});
 		btnModificarCombo.setForeground(Color.WHITE);
 		btnModificarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnModificarCombo.setBorder(new LineBorder(new Color(102, 102, 255)));
@@ -809,6 +901,15 @@ public class DashboardHome extends JFrame {
 		panelMenu.add(btnModificarCombo);
 
 		btnEliminarCombo = new JButton("Eliminar Combo");
+		btnEliminarCombo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "Desea eliminar el combo " + selected_combo.getCode() + "?", "Eliminar Combo", JOptionPane.YES_NO_OPTION);
+				if(option == JOptionPane.YES_OPTION) {
+					Store.getInstance().deleteCombo(selected_combo);
+					load_combos();
+				}
+			}
+		});
 		btnEliminarCombo.setForeground(Color.WHITE);
 		btnEliminarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnEliminarCombo.setBorder(new LineBorder(new Color(102, 102, 255)));
@@ -1470,7 +1571,7 @@ public class DashboardHome extends JFrame {
 		spnDiscoDuro.setBounds(715, 150, 35, 23);
 		panelCombosComponentes.add(spnDiscoDuro);
 		
-		JButton btnGenerarCombo = new JButton("Generar Combo");
+		btnGenerarCombo = new JButton("Generar Combo");
 		btnGenerarCombo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String item = cbxMotherboard.getSelectedItem().toString();
@@ -1501,12 +1602,25 @@ public class DashboardHome extends JFrame {
 					combo_components.add(drive);
 				}
 				
-				Combo combo = new Combo(txtCodigoCombo.getText(), combo_components, Float.valueOf(spnDescuento.getValue().toString()));
-				Store.getInstance().addCombo(combo);
-				JOptionPane.showMessageDialog(null, "Combo creado satisfactoriamente.", "Creación de combo", JOptionPane.INFORMATION_MESSAGE);
-				combo_components.clear();
-				fill_comboboxes();
-				clean_combos();
+				if(selected_combo == null) {
+					Combo combo = new Combo(txtCodigoCombo.getText(), combo_components, Float.valueOf(spnDescuento.getValue().toString()));
+					Store.getInstance().addCombo(combo);
+					JOptionPane.showMessageDialog(null, "Combo creado satisfactoriamente.", "Creación de combo", JOptionPane.INFORMATION_MESSAGE);
+					combo_components.clear();
+					fill_comboboxes();
+					clean_combos();
+				}
+				else {
+					int index = Store.getInstance().getCombos().indexOf(selected_combo);
+					selected_combo.setCode(txtCodigoCombo.getText());
+					selected_combo.setComponents(combo_components);
+					selected_combo.setDiscount(Float.valueOf(spnDescuento.getValue().toString()));
+					Store.getInstance().getCombos().set(index, selected_combo);
+					JOptionPane.showMessageDialog(null, "El combo ha sido modificado.", "Modificar Combo", JOptionPane.INFORMATION_MESSAGE);
+					combo_components.clear();
+					fill_comboboxes();
+					clean_combos();
+				}
 			}
 		});
 		btnGenerarCombo.setForeground(Color.WHITE);
@@ -2276,6 +2390,7 @@ public class DashboardHome extends JFrame {
 		spnRam.setValue(0);
 		cbxDiscoDuro.setSelectedIndex(0);
 		spnDiscoDuro.setValue(0);
+		btnGenerarCombo.setText("Generar Combo");
 	}
 	
     private PieDataset createDataset() {

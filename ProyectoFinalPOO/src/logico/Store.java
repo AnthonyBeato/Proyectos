@@ -284,4 +284,23 @@ public class Store implements Serializable{
 		Component aux = search_component(idComponente);
 		aux.setAvailable(aux.max_amount);
 	}
+
+	public Combo search_combo(String code) {
+		Combo searched = null;
+		for (Combo combo : combos) {
+			if(combo.getCode().equalsIgnoreCase(code)) {
+				searched = combo;
+			}
+		}
+		return searched;
+	}
+
+	public void deleteCombo(Combo selected_combo) {
+		for (Combo combo : combos) {
+			if(combo.equals(selected_combo)) {
+				combos.remove(combo);
+			}
+		}
+		
+	}
 }

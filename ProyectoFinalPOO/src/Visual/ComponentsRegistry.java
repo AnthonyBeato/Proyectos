@@ -487,8 +487,8 @@ public class ComponentsRegistry extends JDialog {
 								aux = new Motherboard(serial, disponibles, precio, marca, minimo, maximo, model, socket, ramCompatible, hddCompatibles);
 							}
 							if(rdbtnCpu.isSelected()) {
-								String model = txtModelTarjeta.getText();
-								String socket = txtSocketTarjeta.getText();
+								String model = txtModelCPU.getText();
+								String socket = txtSocketCPU.getText();
 								float speed = new Float(spnVelocidad.getValue().toString());
 								aux = new CPU(serial, disponibles, precio, marca, minimo, maximo, model, socket, speed);
 							}

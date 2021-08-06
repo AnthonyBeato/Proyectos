@@ -779,7 +779,7 @@ public class DashboardHome extends JFrame {
 		panelGraficoSuperior2.setBounds(782, 366, 626, 63);
 		panelMenu.add(panelGraficoSuperior2);
 
-		JLabel Grafico2 = new JLabel("Ventas por Componentes");
+		JLabel Grafico2 = new JLabel("Ventas");
 		Grafico2.setHorizontalAlignment(SwingConstants.CENTER);
 		Grafico2.setForeground(Color.WHITE);
 		Grafico2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));

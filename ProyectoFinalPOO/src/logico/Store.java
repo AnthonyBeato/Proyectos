@@ -232,11 +232,12 @@ public class Store implements Serializable{
 		return searched; 
 	} 
 	
-	public int autogenerateId() {
+	public String autogenerateId() {
 	      Random rand = new Random();
 	      int upperbound = 100000;
 	      int int_random = rand.nextInt(upperbound); 
-		return int_random;
+	      String resultado = String.valueOf(int_random);
+		return resultado;
 	}
 
 	public PurchaseOrder search_orderPurchase(String idOrder) {
@@ -257,7 +258,7 @@ public class Store implements Serializable{
 			if(component.getAvailable() <= component.getMin_amount()) {
 				if(ordenProductoExistente(component) == false) {
 					componenteAOrdernar = component;
-					PurchaseOrder aux = new PurchaseOrder(String.valueOf(autogenerateId()), new Date(), componenteAOrdernar, componenteAOrdernar.max_amount);
+					PurchaseOrder aux = new PurchaseOrder(autogenerateId(), new Date(), componenteAOrdernar, componenteAOrdernar.max_amount);
 					addOrder(aux);
 				}
 			}
@@ -274,5 +275,13 @@ public class Store implements Serializable{
 			}
 		}
 		return existe;
+	}
+
+	public void efectuarOrdenDeCompra(PurchaseOrder selected_order) {
+		selected_order.setDone(true);
+		String idComponente = selected_order.getComponent().getSerial();
+		
+		Component aux = search_component(idComponente);
+		aux.setAvailable(aux.max_amount);
 	}
 }

@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EtchedBorder;
+import javax.swing.JComboBox;
 
 public class DashboardHome extends JFrame {
 
@@ -1201,11 +1203,11 @@ public class DashboardHome extends JFrame {
 					if (index != -1) {
 						String idOrder = (String) (model_ordersPurchase.getValueAt(index, 0));
 						selected_order = Store.getInstance().search_orderPurchase(idOrder);
-						btnConfirmarOrden.setEnabled(true);
-//							btnEliminarUsuario.setEnabled(true);
-//							btnModificarUsuario.setEnabled(true);
-//							String id = (String)(model_invoices.getValueAt(index, 0));
-//							selected_user = Store.getInstance().search_user(id);
+						if (selected_order.isDone() == false) {
+							btnConfirmarOrden.setEnabled(true);
+						} else {
+							btnConfirmarOrden.setEnabled(false);
+						}
 					}
 				}
 			});
@@ -1218,8 +1220,10 @@ public class DashboardHome extends JFrame {
 		btnConfirmarOrden.setEnabled(false);
 		btnConfirmarOrden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Hay " + Store.getInstance().getOrders().size() + " Ordenes de compra");
-
+				Store.getInstance().efectuarOrdenDeCompra(selected_order);
+				load_all();
+				JOptionPane.showMessageDialog(null, "Se efectua la orden de compra!.", "Orden de Compra", JOptionPane.INFORMATION_MESSAGE);
+				
 			}
 		});
 		btnConfirmarOrden.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -1238,6 +1242,109 @@ public class DashboardHome extends JFrame {
 				"Armar Combos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelCombosComponentes.setBounds(25, 450, 1410, 300);
 		panelAdministracion.add(panelCombosComponentes);
+		
+		JLabel lblCodigo = new JLabel("Codigo:");
+		lblCodigo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCodigo.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblCodigo.setBounds(0, 18, 158, 40);
+		panelCombosComponentes.add(lblCodigo);
+		
+		JTextField txtCodigoCombo = new JTextField();
+		txtCodigoCombo.setEditable(false);
+		txtCodigoCombo.setText(Store.getInstance().autogenerateId());
+		txtCodigoCombo.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		txtCodigoCombo.setBounds(160, 30, 170, 23);
+		panelCombosComponentes.add(txtCodigoCombo);
+		txtCodigoCombo.setColumns(10);
+		
+		JLabel lblDescuento = new JLabel("Descuento:");
+		lblDescuento.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescuento.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblDescuento.setBounds(380, 18, 158, 40);
+		panelCombosComponentes.add(lblDescuento);
+		
+		JSpinner spnDescuento = new JSpinner();
+		spnDescuento.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		spnDescuento.setBounds(540, 30, 170, 23);
+		panelCombosComponentes.add(spnDescuento);
+		
+		JLabel lblMotherBoard = new JLabel("Motherboard:");
+		lblMotherBoard.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMotherBoard.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
+		lblMotherBoard.setBounds(0, 78, 158, 40);
+		panelCombosComponentes.add(lblMotherBoard);
+		
+		JLabel lblCpu = new JLabel("CPU:");
+		lblCpu.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCpu.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblCpu.setBounds(380, 78, 158, 40);
+		panelCombosComponentes.add(lblCpu);
+		
+		JLabel lblRam = new JLabel("RAM:");
+		lblRam.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRam.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblRam.setBounds(0, 138, 158, 40);
+		panelCombosComponentes.add(lblRam);
+		
+		JLabel lblDiscoDuro = new JLabel("Disco Duro:");
+		lblDiscoDuro.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDiscoDuro.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblDiscoDuro.setBounds(380, 138, 158, 40);
+		panelCombosComponentes.add(lblDiscoDuro);
+		
+		JComboBox cbxMotherboard = new JComboBox();
+		cbxMotherboard.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		cbxMotherboard.setBounds(160, 90, 170, 23);
+		panelCombosComponentes.add(cbxMotherboard);
+		
+		JComboBox cbxRAM = new JComboBox();
+		cbxRAM.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		cbxRAM.setBounds(160, 150, 170, 23);
+		panelCombosComponentes.add(cbxRAM);
+		
+		JComboBox cbxCPU = new JComboBox();
+		cbxCPU.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		cbxCPU.setBounds(540, 90, 170, 23);
+		panelCombosComponentes.add(cbxCPU);
+		
+		JComboBox cbxDiscoDuro = new JComboBox();
+		cbxDiscoDuro.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		cbxDiscoDuro.setBounds(540, 150, 170, 23);
+		panelCombosComponentes.add(cbxDiscoDuro);
+		
+		JSpinner spnMotherboard = new JSpinner();
+		spnMotherboard.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spnMotherboard.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		spnMotherboard.setBounds(335, 90, 35, 23);
+		panelCombosComponentes.add(spnMotherboard);
+		
+		JSpinner spnRam = new JSpinner();
+		spnRam.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spnRam.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		spnRam.setBounds(335, 150, 35, 23);
+		panelCombosComponentes.add(spnRam);
+		
+		JSpinner spnCpu = new JSpinner();
+		spnCpu.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spnCpu.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		spnCpu.setBounds(715, 90, 35, 23);
+		panelCombosComponentes.add(spnCpu);
+		
+		JSpinner spnDiscoDuro = new JSpinner();
+		spnDiscoDuro.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spnDiscoDuro.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		spnDiscoDuro.setBounds(715, 150, 35, 23);
+		panelCombosComponentes.add(spnDiscoDuro);
+		
+		JButton btnGenerarCombo = new JButton("Generar Combo");
+		btnGenerarCombo.setForeground(Color.WHITE);
+		btnGenerarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnGenerarCombo.setEnabled(false);
+		btnGenerarCombo.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnGenerarCombo.setBackground(new Color(102, 102, 255));
+		btnGenerarCombo.setAlignmentX(0.5f);
+		btnGenerarCombo.setBounds(1060, 30, 300, 28);
+		panelCombosComponentes.add(btnGenerarCombo);
 
 		JSeparator separator_1_2_2_1 = new JSeparator();
 		separator_1_2_2_1.setForeground(new Color(211, 211, 211));
@@ -1682,6 +1789,22 @@ public class DashboardHome extends JFrame {
 		};
 		Thread hiloGenerarOrden = new Thread(runnableGenerarOrden);
 		hiloGenerarOrden.start();
+		
+//		HILO PARA REFRESCAR TABLAS 
+//		Runnable runnableLoadTables = new Runnable() {
+//			public void run() {
+//				while (true) {
+//					try {
+//						Thread.sleep(4000);
+//						load_all();
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		};
+//		Thread hiloLoadTables = new Thread(runnableLoadTables);
+//		hiloLoadTables.start();
 
 		load_all();
 		/*
@@ -1876,6 +1999,10 @@ public class DashboardHome extends JFrame {
 	public static void load_orders() {
 		model_ordersPurchase.setRowCount(0);
 		rows = new Object[model_ordersPurchase.getColumnCount()];
+		
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+
+		
 		for (PurchaseOrder orders : Store.getInstance().getOrders()) {
 			String ordenStatus = "";
 			if (orders.isDone()) {
@@ -1883,8 +2010,8 @@ public class DashboardHome extends JFrame {
 			} else {
 				ordenStatus = "En Espera";
 			}
-
-			rows[1] = orders.getDate();
+			rows[0] = orders.getCode();
+			rows[1] = dt.format(orders.getDate());
 			rows[2] = orders.getComponent().getBrand();
 			rows[3] = orders.getAmount();
 			rows[4] = ordenStatus;

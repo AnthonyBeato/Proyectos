@@ -90,7 +90,7 @@ public class ComponentsRegistry extends JDialog {
 				{
 					txtSerial = new JTextField();
 					txtSerial.setEditable(false);
-					txtSerial.setText(""+Store.getInstance().autogenerateId());
+					txtSerial.setText(Store.getInstance().autogenerateId());
 					txtSerial.setBounds(55, 23, 167, 23);
 					panel_1.add(txtSerial);
 					txtSerial.setColumns(10);

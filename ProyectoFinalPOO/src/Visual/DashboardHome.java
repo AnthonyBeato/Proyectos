@@ -70,6 +70,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RootPaneContainer;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -81,6 +82,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JComboBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class DashboardHome extends JFrame {
 
@@ -164,6 +167,24 @@ public class DashboardHome extends JFrame {
 	private Combo selected_combo = null;
 	private JButton btnConfirmarOrden;
 	private JPanel grafica2;
+	private JSpinner spnDiscoDuro;
+	private JSpinner spnCpu;
+	private JSpinner spnRam;
+	private JSpinner spnMotherboard;
+	private JComboBox cbxDiscoDuro;
+	private JComboBox cbxCPU;
+	private JComboBox cbxRAM;
+	private JComboBox cbxMotherboard;
+	private JSpinner spnDescuento;
+	private JTextField txtCodigoCombo;
+	private DefaultComboBoxModel motherboard_model;
+	private DefaultComboBoxModel cpu_model;
+	private DefaultComboBoxModel ram_model;
+	private DefaultComboBoxModel hdd_model;
+	private ArrayList<Motherboard> motherboards = new ArrayList<Motherboard>();
+	private ArrayList<CPU> cpus = new ArrayList<CPU>();
+	private ArrayList<RAM> rams = new ArrayList<RAM>();
+	private ArrayList<Drive> hdds = new ArrayList<Drive>();
 
 	/**
 	 * Launch the application.
@@ -725,9 +746,9 @@ public class DashboardHome extends JFrame {
 	        
 	        ChartPanel chartpanel = new ChartPanel(chart);
 	        chartpanel.setPreferredSize(new java.awt.Dimension(800, 870));
-	        //grafica2.add(chartpanel);
+	        grafica2.add(chartpanel);
 	        // we put the chart into a panel
-//	        ChartPanel chartPanel = new ChartPanel(chart);
+	        ChartPanel chartPanel = new ChartPanel(chart);
 	        // default size
 //	        chartPanel.setPreferredSize(new java.awt.Dimension(800, 870));
 	        // add it to our application
@@ -1184,6 +1205,7 @@ public class DashboardHome extends JFrame {
 		btnConfirmarPago.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selected_invoice.setPaid(true);
+				selected_invoice.getCustomer().setCredit(selected_invoice.getCustomer().getCredit() + selected_invoice.get_total());
 			}
 		});
 		btnConfirmarPago.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -1278,7 +1300,7 @@ public class DashboardHome extends JFrame {
 		lblCodigo.setBounds(0, 18, 158, 40);
 		panelCombosComponentes.add(lblCodigo);
 		
-		JTextField txtCodigoCombo = new JTextField();
+		txtCodigoCombo = new JTextField();
 		txtCodigoCombo.setEditable(false);
 		txtCodigoCombo.setText(Store.getInstance().autogenerateId());
 		txtCodigoCombo.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
@@ -1292,7 +1314,8 @@ public class DashboardHome extends JFrame {
 		lblDescuento.setBounds(380, 18, 158, 40);
 		panelCombosComponentes.add(lblDescuento);
 		
-		JSpinner spnDescuento = new JSpinner();
+		spnDescuento = new JSpinner();
+		spnDescuento.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
 		spnDescuento.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnDescuento.setBounds(540, 30, 170, 23);
 		panelCombosComponentes.add(spnDescuento);
@@ -1321,45 +1344,96 @@ public class DashboardHome extends JFrame {
 		lblDiscoDuro.setBounds(380, 138, 158, 40);
 		panelCombosComponentes.add(lblDiscoDuro);
 		
-		JComboBox cbxMotherboard = new JComboBox();
+		for (logico.Component component : Store.getInstance().getComponents()) {
+			if(component instanceof Motherboard) {
+				if(!(motherboards.contains(component))) {
+					motherboards.add((Motherboard) component);
+				}
+			}
+			else if(component instanceof CPU) {
+				if(!(cpus.contains(component))) {
+					cpus.add((CPU) component);
+				}
+			}
+			else if(component instanceof RAM) {
+				if(!(rams.contains(component))) {
+					rams.add((RAM) component);
+				}
+			}
+			else if(component instanceof Drive) {
+				if(!(hdds.contains(component))) {
+					hdds.add((Drive) component);
+				}
+			}
+		}
+		String[] motherboard_items = new String[motherboards.size()];
+		for (int i = 0; i < motherboards.size(); i++) {
+			motherboard_items[i] = motherboards.get(i).getSerial() + " " + motherboards.get(i).getBrand() + " " + motherboards.get(i).getModel();
+		}
+		motherboard_model = new DefaultComboBoxModel(motherboard_items);
+		cbxMotherboard = new JComboBox(motherboard_model);
+		cbxMotherboard.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					
+				}
+			}
+		});
 		cbxMotherboard.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxMotherboard.setBounds(160, 90, 170, 23);
 		panelCombosComponentes.add(cbxMotherboard);
 		
-		JComboBox cbxRAM = new JComboBox();
+		String[] ram_items = new String[rams.size()];
+		for (int i = 0; i < rams.size(); i++) {
+			ram_items[i] = rams.get(i).getSerial() + " " + rams.get(i).getBrand() + " " + rams.get(i).getType() +
+					String.format(java.util.Locale.US,"%.2f", rams.get(i).getCapacity()) + " GB";
+		}
+		ram_model = new DefaultComboBoxModel(ram_items);
+		cbxRAM = new JComboBox(ram_model);
 		cbxRAM.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxRAM.setBounds(160, 150, 170, 23);
 		panelCombosComponentes.add(cbxRAM);
 		
-		JComboBox cbxCPU = new JComboBox();
+		String[] cpu_items = new String[cpus.size()];
+		for (int i = 0; i < cpus.size(); i++) {
+			cpu_items[i] = cpus.get(i).getSerial() + " " + cpus.get(i).getBrand() + " " + cpus.get(i).getModel();
+		}
+		cpu_model = new DefaultComboBoxModel(cpu_items);
+		cbxCPU = new JComboBox(cpu_model);
 		cbxCPU.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxCPU.setBounds(540, 90, 170, 23);
 		panelCombosComponentes.add(cbxCPU);
 		
-		JComboBox cbxDiscoDuro = new JComboBox();
+		String[] hdd_items = new String[hdds.size()];
+		for (int i = 0; i < hdds.size(); i++) {
+			hdd_items[i] = hdds.get(i).getSerial() + " " + hdds.get(i).getBrand() + " " + 
+					String.format(java.util.Locale.US, "%.2f", hdds.get(i).getStorage()) + " GB";
+		}
+		hdd_model = new DefaultComboBoxModel(hdd_items);
+		cbxDiscoDuro = new JComboBox(hdd_model);
 		cbxDiscoDuro.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxDiscoDuro.setBounds(540, 150, 170, 23);
 		panelCombosComponentes.add(cbxDiscoDuro);
 		
-		JSpinner spnMotherboard = new JSpinner();
+		spnMotherboard = new JSpinner();
 		spnMotherboard.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnMotherboard.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnMotherboard.setBounds(335, 90, 35, 23);
 		panelCombosComponentes.add(spnMotherboard);
 		
-		JSpinner spnRam = new JSpinner();
+		spnRam = new JSpinner();
 		spnRam.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnRam.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnRam.setBounds(335, 150, 35, 23);
 		panelCombosComponentes.add(spnRam);
 		
-		JSpinner spnCpu = new JSpinner();
+		spnCpu = new JSpinner();
 		spnCpu.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnCpu.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnCpu.setBounds(715, 90, 35, 23);
 		panelCombosComponentes.add(spnCpu);
 		
-		JSpinner spnDiscoDuro = new JSpinner();
+		spnDiscoDuro = new JSpinner();
 		spnDiscoDuro.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnDiscoDuro.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnDiscoDuro.setBounds(715, 150, 35, 23);

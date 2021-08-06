@@ -782,7 +782,7 @@ public class DashboardHome extends JFrame {
 						Calendar fechaFactura = Calendar.getInstance();
 						fechaFactura.setTime(invoice.getDate());
 						if (fechaFactura.get(Calendar.DAY_OF_MONTH) == i
-								&& (fechaFactura.get(Calendar.MONTH) == fechaActual.getMonth())) {
+								&& (fechaFactura.get(Calendar.MONTH) == (calendar.get(calendar.MONTH)+1) && fechaFactura.get(calendar.YEAR) == calendar.get(calendar.YEAR))) {
 							montoXDia += invoice.get_total();
 						}
 					}
@@ -791,7 +791,7 @@ public class DashboardHome extends JFrame {
 
 				XYSeriesCollection datosCollection = new XYSeriesCollection();
 				datosCollection.addSeries(datos);
-				JFreeChart chart = ChartFactory.createXYLineChart("Ventas del Mes", getWarningString(), getName(),
+				JFreeChart chart = ChartFactory.createXYLineChart("Ventas del Mes", "Dias", "Acumulado",
 						datosCollection);
 
 				ChartPanel chartpanel = new ChartPanel(chart);
@@ -2139,7 +2139,7 @@ public class DashboardHome extends JFrame {
 								Calendar fechaFactura = Calendar.getInstance();
 								fechaFactura.setTime(invoice.getDate());
 								if (fechaFactura.get(Calendar.DAY_OF_MONTH) == i
-										&& (fechaFactura.get(Calendar.MONTH) == fechaActual.getMonth())) {
+										&& (fechaFactura.get(Calendar.MONTH) == (calendar.get(calendar.MONTH)+1) && fechaFactura.get(calendar.YEAR) == calendar.get(calendar.YEAR))) {
 									montoXDia += invoice.get_total();
 								}
 							}
@@ -2148,8 +2148,9 @@ public class DashboardHome extends JFrame {
 
 						XYSeriesCollection datosCollection = new XYSeriesCollection();
 						datosCollection.addSeries(datos);
-						JFreeChart chart = ChartFactory.createXYLineChart("Ventas del Mes", getWarningString(), getName(),
+						JFreeChart chart = ChartFactory.createXYLineChart("Ventas del Mes", "Dias", "Acumulado",
 								datosCollection);
+
 						ChartPanel chartpanel = new ChartPanel(chart);
 						chartpanel.setPreferredSize(new java.awt.Dimension(500, 550));
 					} catch (InterruptedException e) {

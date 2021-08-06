@@ -1703,6 +1703,7 @@ public class DashboardHome extends JFrame {
 					combo_components.clear();
 					fill_comboboxes();
 					clean_combos();
+					load_combos();
 				} else {
 					int index = Store.getInstance().getCombos().indexOf(selected_combo);
 					selected_combo.setCode(txtCodigoCombo.getText());
@@ -1715,6 +1716,7 @@ public class DashboardHome extends JFrame {
 					load_all();
 					fill_comboboxes();
 					clean_combos();
+					load_combos();
 				}
 			}
 		});
@@ -2244,7 +2246,7 @@ public class DashboardHome extends JFrame {
 		String[] ram_items = new String[rams.size()];
 		for (int i = 0; i < rams.size(); i++) {
 			ram_items[i] = rams.get(i).getSerial() + ". " + rams.get(i).getBrand() + " " + rams.get(i).getType()
-					+ String.format(java.util.Locale.US, "%.2f", rams.get(i).getCapacity()) + " GB";
+					+ " " + String.format(java.util.Locale.US, "%.2f", rams.get(i).getCapacity()) + " GB";
 		}
 		ram_model = new DefaultComboBoxModel(ram_items);
 		cbxRAM.setModel(ram_model);
@@ -2319,7 +2321,7 @@ public class DashboardHome extends JFrame {
 			rows[1] = "" + motherboard + " x" + cant_motherboard;
 			rows[2] = "" + cpu + " x" + cant_cpu;
 			rows[3] = "" + ram + " x" + cant_ram;
-			rows[4] = "" + drive + "x" + cant_hdd;
+			rows[4] = "" + drive + " x" + cant_hdd;
 			rows[5] = combo.getDiscount();
 
 			model_combos.addRow(rows);

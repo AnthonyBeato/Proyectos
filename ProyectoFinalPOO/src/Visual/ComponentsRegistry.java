@@ -24,8 +24,17 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.nio.channels.SelectableChannel;
 
 public class ComponentsRegistry extends JDialog {
 
@@ -56,6 +65,10 @@ public class ComponentsRegistry extends JDialog {
 	private JPanel panelCPU;
 	private JPanel panelRAM;
 	private JPanel panelDRIVE;
+	private JButton btnBorrar;
+	private JList listDisponible;
+	private DefaultListModel<String> listModelDrive;
+	private logico.Component selected = null;
 
 	/**
 	 * Launch the application.
@@ -64,9 +77,14 @@ public class ComponentsRegistry extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ComponentsRegistry(logico.Component selected_components) {
-		setTitle("Registrar componentes");
-		setBounds(100, 100, 568, 465);
+	public ComponentsRegistry(logico.Component component) {
+		selected = component;
+		if(selected == null) {
+			setTitle("Registrar componentes");
+		}else {
+			setTitle("Modificar componentes");
+		}
+		setBounds(100, 100, 568, 545);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -89,8 +107,8 @@ public class ComponentsRegistry extends JDialog {
 				}
 				{
 					txtSerial = new JTextField();
+					txtSerial.setText(""+Store.getInstance().autogenerateId());
 					txtSerial.setEditable(false);
-					txtSerial.setText(Store.getInstance().autogenerateId());
 					txtSerial.setBounds(55, 23, 167, 23);
 					panel_1.add(txtSerial);
 					txtSerial.setColumns(10);
@@ -225,7 +243,7 @@ public class ComponentsRegistry extends JDialog {
 			
 			panelTarjetaMadre = new JPanel();
 			panelTarjetaMadre.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panelTarjetaMadre.setBounds(10, 277, 524, 92);
+			panelTarjetaMadre.setBounds(10, 277, 524, 175);
 			panel.add(panelTarjetaMadre);
 			panelTarjetaMadre.setLayout(null);
 			
@@ -258,17 +276,77 @@ public class ComponentsRegistry extends JDialog {
 			}
 			
 			cbxRAMCompatibles = new JComboBox();
+			int cantRam = RAM.counter;
+			int i = 0;
+			String[] comboBoxItemsRam = new String[cantRam];
+			for (logico.Component componentes : Store.getInstance().getComponents()) {
+				if (componentes instanceof RAM) {
+					comboBoxItemsRam[i] =  ((RAM) componentes).getType();
+					i++;
+				}
+			}
+			cbxRAMCompatibles.setModel(new DefaultComboBoxModel(comboBoxItemsRam));
 			cbxRAMCompatibles.setBounds(93, 48, 158, 23);
 			panelTarjetaMadre.add(cbxRAMCompatibles);
 			
 			cbxHDDcompatibles = new JComboBox();
-			cbxHDDcompatibles.setBounds(352, 48, 158, 23);
+			int cantHDD = Drive.counter;
+			int j = 0;
+			String[] comboBoxItemsHDD = new String[cantRam];
+			for (logico.Component componentes : Store.getInstance().getComponents()) {
+				if (componentes instanceof Drive) {
+					comboBoxItemsHDD[i] =  ((Drive) componentes).getConnector();
+					i++;
+				}
+			}
+			cbxHDDcompatibles.setModel(new DefaultComboBoxModel(comboBoxItemsHDD));
+			cbxHDDcompatibles.setBounds(352, 48, 74, 23);
 			panelTarjetaMadre.add(cbxHDDcompatibles);
+			
+			JButton btnAgregar = new JButton("+");
+			btnAgregar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String aux = cbxHDDcompatibles.getSelectedItem().toString();
+					listModelDrive.addElement(aux);
+				}
+			});
+			btnAgregar.setBounds(433, 48, 41, 23);
+			panelTarjetaMadre.add(btnAgregar);
+			
+			btnBorrar = new JButton("-");
+			btnBorrar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					listModelDrive.remove(listDisponible.getSelectedIndex());
+				}
+			});
+			btnBorrar.setBounds(473, 48, 41, 23);
+			panelTarjetaMadre.add(btnBorrar);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.setBounds(352, 82, 162, 82);
+			panelTarjetaMadre.add(scrollPane);
+			
+			listDisponible = new JList();
+			listDisponible.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index = -1;
+					index = listDisponible.getSelectedIndex();
+					if(index != -1) {
+						//btnBorrar.setEnabled(false);
+					}
+				}
+			});
+			listModelDrive = new DefaultListModel<String>();
+			listDisponible.setModel(listModelDrive);
+			listDisponible.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			scrollPane.setViewportView(listDisponible);
 			
 			panelCPU = new JPanel();
 			panelCPU.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelCPU.setVisible(false);
-			panelCPU.setBounds(10, 277, 524, 92);
+			panelCPU.setBounds(10, 277, 524, 175);
 			panel.add(panelCPU);
 			panelCPU.setLayout(null);
 			{
@@ -307,7 +385,7 @@ public class ComponentsRegistry extends JDialog {
 			panelRAM = new JPanel();
 			panelRAM.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelRAM.setVisible(false);
-			panelRAM.setBounds(10, 277, 524, 92);
+			panelRAM.setBounds(10, 277, 524, 175);
 			panel.add(panelRAM);
 			panelRAM.setLayout(null);
 			{
@@ -335,7 +413,7 @@ public class ComponentsRegistry extends JDialog {
 			panelDRIVE = new JPanel();
 			panelDRIVE.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelDRIVE.setVisible(false);
-			panelDRIVE.setBounds(10, 277, 524, 92);
+			panelDRIVE.setBounds(10, 277, 524, 175);
 			panel.add(panelDRIVE);
 			panelDRIVE.setLayout(null);
 			{
@@ -371,49 +449,104 @@ public class ComponentsRegistry extends JDialog {
 				panelDRIVE.add(spnAlmacenamiento);
 			}
 		}
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnRegistrar = new JButton("Registar");
+				JButton btnRegistrar = new JButton("");
+				if(selected == null) {
+					btnRegistrar.setText("Registrar");
+				}else {
+					btnRegistrar.setText("Modificar");
+				}
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						logico.Component aux = null;
-						String serial = txtSerial.getText();
-						int disponibles = new Integer(spnDisponibles.getValue().toString());
-						float precio = new Float(spnPrecio.getValue().toString());
-						String marca = txtMarca.getText();
-						int minimo = new Integer(spnCantMin.getValue().toString());
-						int maximo = new Integer(spnCantMax.getValue().toString());
-						
-						if (rdbtnTarjetaMadre.isSelected()) {
-							String model = txtModelTarjeta.getText();
-							String socket = txtSocketTarjeta.getText();
-							String ramCompatible = cbxRAMCompatibles.getSelectedItem().toString();
-							String hddCompatible = cbxHDDcompatibles.getSelectedItem().toString(); 
-							//aux = new Motherboard(serial, disponibles, precio, marca, minimo, maximo, model, socket, ramCompatible, hddCompatible);
+						if(selected == null) {
+							logico.Component aux = null;
+							String serial = txtSerial.getText();
+							int disponibles = new Integer(spnDisponibles.getValue().toString());
+							float precio = new Float(spnPrecio.getValue().toString());
+							String marca = txtMarca.getText();
+							int minimo = new Integer(spnCantMin.getValue().toString());
+							int maximo = new Integer(spnCantMax.getValue().toString());
+							
+							if (rdbtnTarjetaMadre.isSelected()) {
+								String model = txtModelTarjeta.getText();
+								String socket = txtSocketTarjeta.getText();
+								String ramCompatible = cbxRAMCompatibles.getSelectedItem().toString();
+								ArrayList<String> hddCompatibles = new ArrayList<String>();
+								if(!listModelDrive.isEmpty()) {
+									for (int i = 0; i < listModelDrive.getSize(); i++) {
+										String drive = listModelDrive.getElementAt(i);							
+										hddCompatibles.add(drive); 
+										System.out.println("los hdd: "+drive);
+									}
+								}
+								aux = new Motherboard(serial, disponibles, precio, marca, minimo, maximo, model, socket, ramCompatible, hddCompatibles);
+							}
+							if(rdbtnCpu.isSelected()) {
+								String model = txtModelTarjeta.getText();
+								String socket = txtSocketTarjeta.getText();
+								float speed = new Float(spnVelocidad.getValue().toString());
+								aux = new CPU(serial, disponibles, precio, marca, minimo, maximo, model, socket, speed);
+							}
+							if(rdbtnRam.isSelected()) {
+								String tipo = cbxTipo.getSelectedItem().toString();
+								float capacidad = new Float(spnCapacidad.getValue().toString());
+								aux = new RAM(serial, disponibles, precio, marca, minimo, maximo, tipo, capacidad);
+							}
+							if(rdbtnDrive.isSelected()) {
+								String model = txtModelDrive.getText();
+								String conector = cbxConector.getSelectedItem().toString();
+								float almacenamiento = new Float(spnAlmacenamiento.getValue().toString());
+								aux = new Drive(serial, disponibles, precio, marca, minimo, maximo, model, conector, almacenamiento);
+							}
+							Store.getInstance().addComponent(aux);
+							JOptionPane.showMessageDialog(null, "Componente registrado satisfactoriamente.", "Registro de componente", JOptionPane.INFORMATION_MESSAGE);
+							clean();
+						}else {
+							int index = -1;
+							index = Store.getInstance().getComponents().indexOf(selected);
+							selected.setSerial(txtSerial.getText());
+							selected.setPrice(Float.valueOf(spnPrecio.getValue().toString()));
+							selected.setAvailable(Integer.valueOf(spnDisponibles.getValue().toString()));
+							selected.setBrand(txtMarca.getText());
+							selected.setMin_amount(Integer.valueOf(spnCantMin.getValue().toString()));
+							selected.setMax_amount(Integer.valueOf(spnCantMax.getValue().toString()));
+							if(selected instanceof Motherboard) {
+								((Motherboard) selected).setModel(txtModelTarjeta.getText());
+								((Motherboard) selected).setSocket(txtSocketTarjeta.getText());
+								((Motherboard) selected).setCompatible_RAM(cbxRAMCompatibles.getSelectedItem().toString());
+								/*ArrayList<String> hddSeleccionados = new ArrayList<String>();
+								if(!listModelDrive.isEmpty()) {
+									for (int i = 0; i < listModelDrive.getSize(); i++) {
+										String drive = listModelDrive.getElementAt(i);							
+										hddSeleccionados.add(drive); 
+										System.out.println("los hdd: "+drive);
+									}
+								}
+								((Motherboard) selected).setCompatible_hdds(hddSeleccionados); */
+							}
+							if(selected instanceof CPU) {
+								((CPU) selected).setModel(txtModelCPU.getText());
+								((CPU) selected).setSocket(txtSocketCPU.getText());
+								((CPU) selected).setSpeed(Float.valueOf(spnVelocidad.getValue().toString()));
+							}
+							if(selected instanceof RAM) {
+								((RAM) selected).setType(cbxTipo.getSelectedItem().toString());
+								((RAM) selected).setCapacity(Float.valueOf(spnCapacidad.getValue().toString()));
+							}
+							if(selected instanceof Drive) {
+								((Drive) selected).setModel(txtModelDrive.getText());
+								((Drive) selected).setStorage(Float.valueOf(spnAlmacenamiento.getValue().toString()));
+								((Drive) selected).setConnector(cbxConector.getSelectedItem().toString());
+							}
+							Store.getInstance().mod_components(index, selected);
 						}
-						if(rdbtnCpu.isSelected()) {
-							String model = txtModelTarjeta.getText();
-							String socket = txtSocketTarjeta.getText();
-							float speed = new Float(spnVelocidad.getValue().toString());
-							aux = new CPU(serial, disponibles, precio, marca, minimo, maximo, model, socket, speed);
-						}
-						if(rdbtnRam.isSelected()) {
-							String tipo = cbxTipo.getSelectedItem().toString();
-							float capacidad = new Float(spnCapacidad.getValue().toString());
-							aux = new RAM(serial, disponibles, precio, marca, minimo, maximo, tipo, capacidad);
-						}
-						if(rdbtnDrive.isSelected()) {
-							String model = txtModelDrive.getText();
-							String conector = cbxConector.getSelectedItem().toString();
-							float almacenamiento = new Float(spnAlmacenamiento.getValue().toString());
-							aux = new Drive(serial, disponibles, precio, marca, minimo, maximo, model, conector, almacenamiento);
-						}
-						Store.getInstance().addComponent(aux);
-						JOptionPane.showMessageDialog(null, "Componente registrado satisfactoriamente.", "Registro de componente", JOptionPane.INFORMATION_MESSAGE);
-						clean();
+						DashboardHome.load_components();
+						dispose();
 					}
 				});
 				btnRegistrar.setActionCommand("OK");
@@ -430,9 +563,87 @@ public class ComponentsRegistry extends JDialog {
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
+			
+			if(selected != null) {
+				if(selected instanceof Motherboard) {
+					rdbtnTarjetaMadre.setSelected(true);
+					rdbtnCpu.setSelected(false);
+					rdbtnRam.setSelected(false);
+					rdbtnDrive.setSelected(false);
+					panelTarjetaMadre.setVisible(true);
+					panelCPU.setVisible(false);
+					panelRAM.setVisible(false);
+					panelDRIVE.setVisible(false);
+				}
+				if(selected instanceof CPU) {
+					rdbtnTarjetaMadre.setSelected(false);
+					rdbtnCpu.setSelected(true);
+					rdbtnRam.setSelected(false);
+					rdbtnDrive.setSelected(false);
+					panelTarjetaMadre.setVisible(false);
+					panelCPU.setVisible(true);
+					panelRAM.setVisible(false);
+					panelDRIVE.setVisible(false);
+				}
+				if(selected instanceof RAM) {
+					rdbtnTarjetaMadre.setSelected(false);
+					rdbtnCpu.setSelected(false);
+					rdbtnRam.setSelected(true);
+					rdbtnDrive.setSelected(false);
+					panelTarjetaMadre.setVisible(false);
+					panelCPU.setVisible(false);
+					panelRAM.setVisible(true);
+					panelDRIVE.setVisible(false);
+				}
+				if(selected instanceof Drive) {
+					rdbtnTarjetaMadre.setSelected(false);
+					rdbtnCpu.setSelected(false);
+					rdbtnRam.setSelected(false);
+					rdbtnDrive.setSelected(true);
+					panelTarjetaMadre.setVisible(false);
+					panelCPU.setVisible(false);
+					panelRAM.setVisible(false);
+					panelDRIVE.setVisible(true);
+				}
+				
+			}
 		}
+		loadComponents();
+	//	loadDrivesDisponibles();
+	}
+	private void loadComponents() {
+		if(selected != null) {
+			txtSerial.setText(selected.getSerial());
+			spnPrecio.setValue(new Float(selected.getPrice()));
+			spnDisponibles.setValue(new Integer(selected.getAvailable()));
+			txtMarca.setText(selected.getBrand());
+			spnCantMin.setValue(new Integer(selected.getMin_amount()));
+			spnCantMax.setValue(new Integer(selected.getMax_amount()));
+			if(selected instanceof Motherboard) {
+				txtModelTarjeta.setText(((Motherboard) selected).getModel());
+				txtSocketTarjeta.setText(((Motherboard) selected).getSocket());
+				cbxRAMCompatibles.setSelectedItem(((Motherboard) selected).getCompatible_RAM());
+				cbxHDDcompatibles.setSelectedItem(((Motherboard) selected).getCompatible_hdds());
+			}
+			if(selected instanceof CPU) {
+				txtModelCPU.setText(((CPU) selected).getModel());
+				txtSocketCPU.setText(((CPU) selected).getSocket());
+				spnVelocidad.setValue(new Float(((CPU) selected).getSpeed()));
+			}
+			if(selected instanceof RAM) {
+				cbxTipo.setSelectedItem(((RAM) selected).getType());
+				spnCapacidad.setValue(new Float(((RAM) selected).getCapacity()));
+			}
+			if(selected instanceof Drive) {
+				txtModelDrive.setText(((Drive) selected).getModel());
+				spnAlmacenamiento.setValue(new Float(((Drive) selected).getStorage()));
+				cbxConector.setSelectedItem(((Drive) selected).getConnector());
+			}
+		}
+		
 	}
 	
+
 	private void clean() {
 		txtSerial.setText("");
 		spnPrecio.setValue(0);
@@ -453,5 +664,5 @@ public class ComponentsRegistry extends JDialog {
 		spnAlmacenamiento.setValue(0);
 		cbxConector.setSelectedItem(0);
 		
-	} 
+	}
 }

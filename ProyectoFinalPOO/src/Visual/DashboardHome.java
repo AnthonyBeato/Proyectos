@@ -21,8 +21,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
@@ -48,8 +46,6 @@ import logico.RAM;
 
 import logico.Store;
 import logico.User;
-import javax.swing.JList;
-
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.border.SoftBevelBorder;
@@ -59,7 +55,6 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.demo.PieChartDemo1;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
@@ -67,9 +62,7 @@ import org.jfree.util.Rotation;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.ListSelectionModel;
-import javax.swing.RootPaneContainer;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SpinnerModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -164,6 +157,7 @@ public class DashboardHome extends JFrame {
 	private Combo selected_combo = null;
 	private JButton btnConfirmarOrden;
 	private JPanel grafica2;
+	private JButton btnVerGrafica;
 
 	/**
 	 * Launch the application.
@@ -718,23 +712,31 @@ public class DashboardHome extends JFrame {
 		grafica2.setLayout(null);
 		grafica2.setBounds(782, 426, 626, 353);
 		panelMenu.add(grafica2);
-		{
-	        PieDataset dataset = createDataset();
-	        // based on the dataset we create the chart
-	        JFreeChart chart = createChart(dataset, "");
-	        
-	        ChartPanel chartpanel = new ChartPanel(chart);
-	        chartpanel.setPreferredSize(new java.awt.Dimension(800, 870));
-	        //grafica2.add(chartpanel);
-	        // we put the chart into a panel
-//	        ChartPanel chartPanel = new ChartPanel(chart);
-	        // default size
-//	        chartPanel.setPreferredSize(new java.awt.Dimension(800, 870));
-	        // add it to our application
-//	        setContentPane(chartPanel);
-	        
-		}
 
+		PieDataset dataset = createDataset();
+		// based on the dataset we create the chart
+		JFreeChart chart = createChart(dataset, "");
+
+		ChartPanel chartpanel = new ChartPanel(chart);
+		chartpanel.setPreferredSize(new java.awt.Dimension(700, 550));
+
+		btnVerGrafica = new JButton("Ver Grafica");
+		btnVerGrafica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame informacion = new JFrame("Ventas por Componentes - Grafica");
+				informacion.getContentPane().add(chartpanel);
+				informacion.pack();
+				informacion.setLocationRelativeTo(null);
+				informacion.setVisible(true);
+			}
+		});
+		btnVerGrafica.setForeground(Color.WHITE);
+		btnVerGrafica.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		btnVerGrafica.setBorder(new LineBorder(new Color(102, 102, 255)));
+		btnVerGrafica.setBackground(new Color(102, 102, 255));
+		btnVerGrafica.setAlignmentX(0.5f);
+		btnVerGrafica.setBounds(0, 0, 120, 28);
+		grafica2.add(btnVerGrafica);
 
 		JPanel panelComboSuperior1 = new JPanel();
 		panelComboSuperior1.setLayout(null);
@@ -757,7 +759,7 @@ public class DashboardHome extends JFrame {
 		panelGraficoSuperior2.setBounds(782, 366, 626, 63);
 		panelMenu.add(panelGraficoSuperior2);
 
-		JLabel Grafico2 = new JLabel("Ventas por Componentes");
+		JLabel Grafico2 = new JLabel("Ventas de Componentes");
 		Grafico2.setHorizontalAlignment(SwingConstants.CENTER);
 		Grafico2.setForeground(Color.WHITE);
 		Grafico2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
@@ -1251,8 +1253,9 @@ public class DashboardHome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Store.getInstance().efectuarOrdenDeCompra(selected_order);
 				load_all();
-				JOptionPane.showMessageDialog(null, "Se efectua la orden de compra!.", "Orden de Compra", JOptionPane.INFORMATION_MESSAGE);
-				
+				JOptionPane.showMessageDialog(null, "Se efectua la orden de compra!.", "Orden de Compra",
+						JOptionPane.INFORMATION_MESSAGE);
+
 			}
 		});
 		btnConfirmarOrden.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -1271,13 +1274,13 @@ public class DashboardHome extends JFrame {
 				"Armar Combos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelCombosComponentes.setBounds(25, 450, 1410, 300);
 		panelAdministracion.add(panelCombosComponentes);
-		
+
 		JLabel lblCodigo = new JLabel("Codigo:");
 		lblCodigo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCodigo.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
 		lblCodigo.setBounds(0, 18, 158, 40);
 		panelCombosComponentes.add(lblCodigo);
-		
+
 		JTextField txtCodigoCombo = new JTextField();
 		txtCodigoCombo.setEditable(false);
 		txtCodigoCombo.setText(Store.getInstance().autogenerateId());
@@ -1285,86 +1288,86 @@ public class DashboardHome extends JFrame {
 		txtCodigoCombo.setBounds(160, 30, 170, 23);
 		panelCombosComponentes.add(txtCodigoCombo);
 		txtCodigoCombo.setColumns(10);
-		
+
 		JLabel lblDescuento = new JLabel("Descuento:");
 		lblDescuento.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescuento.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
 		lblDescuento.setBounds(380, 18, 158, 40);
 		panelCombosComponentes.add(lblDescuento);
-		
+
 		JSpinner spnDescuento = new JSpinner();
 		spnDescuento.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnDescuento.setBounds(540, 30, 170, 23);
 		panelCombosComponentes.add(spnDescuento);
-		
+
 		JLabel lblMotherBoard = new JLabel("Motherboard:");
 		lblMotherBoard.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMotherBoard.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
 		lblMotherBoard.setBounds(0, 78, 158, 40);
 		panelCombosComponentes.add(lblMotherBoard);
-		
+
 		JLabel lblCpu = new JLabel("CPU:");
 		lblCpu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCpu.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
 		lblCpu.setBounds(380, 78, 158, 40);
 		panelCombosComponentes.add(lblCpu);
-		
+
 		JLabel lblRam = new JLabel("RAM:");
 		lblRam.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRam.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
 		lblRam.setBounds(0, 138, 158, 40);
 		panelCombosComponentes.add(lblRam);
-		
+
 		JLabel lblDiscoDuro = new JLabel("Disco Duro:");
 		lblDiscoDuro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDiscoDuro.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
 		lblDiscoDuro.setBounds(380, 138, 158, 40);
 		panelCombosComponentes.add(lblDiscoDuro);
-		
+
 		JComboBox cbxMotherboard = new JComboBox();
 		cbxMotherboard.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxMotherboard.setBounds(160, 90, 170, 23);
 		panelCombosComponentes.add(cbxMotherboard);
-		
+
 		JComboBox cbxRAM = new JComboBox();
 		cbxRAM.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxRAM.setBounds(160, 150, 170, 23);
 		panelCombosComponentes.add(cbxRAM);
-		
+
 		JComboBox cbxCPU = new JComboBox();
 		cbxCPU.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxCPU.setBounds(540, 90, 170, 23);
 		panelCombosComponentes.add(cbxCPU);
-		
+
 		JComboBox cbxDiscoDuro = new JComboBox();
 		cbxDiscoDuro.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxDiscoDuro.setBounds(540, 150, 170, 23);
 		panelCombosComponentes.add(cbxDiscoDuro);
-		
+
 		JSpinner spnMotherboard = new JSpinner();
 		spnMotherboard.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnMotherboard.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnMotherboard.setBounds(335, 90, 35, 23);
 		panelCombosComponentes.add(spnMotherboard);
-		
+
 		JSpinner spnRam = new JSpinner();
 		spnRam.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnRam.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnRam.setBounds(335, 150, 35, 23);
 		panelCombosComponentes.add(spnRam);
-		
+
 		JSpinner spnCpu = new JSpinner();
 		spnCpu.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnCpu.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnCpu.setBounds(715, 90, 35, 23);
 		panelCombosComponentes.add(spnCpu);
-		
+
 		JSpinner spnDiscoDuro = new JSpinner();
 		spnDiscoDuro.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnDiscoDuro.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		spnDiscoDuro.setBounds(715, 150, 35, 23);
 		panelCombosComponentes.add(spnDiscoDuro);
-		
+
 		JButton btnGenerarCombo = new JButton("Generar Combo");
 		btnGenerarCombo.setForeground(Color.WHITE);
 		btnGenerarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
@@ -1802,7 +1805,7 @@ public class DashboardHome extends JFrame {
 		};
 		Thread hiloCarritoCompra = new Thread(runnableCarritoCompra);
 		hiloCarritoCompra.start();
-		
+
 //		HILO PARA GENERAR ORDENES DE COMPRAS
 		Runnable runnableGenerarOrden = new Runnable() {
 			public void run() {
@@ -1818,7 +1821,7 @@ public class DashboardHome extends JFrame {
 		};
 		Thread hiloGenerarOrden = new Thread(runnableGenerarOrden);
 		hiloGenerarOrden.start();
-		
+
 //		HILO PARA REFRESCAR TABLAS 
 //		Runnable runnableLoadTables = new Runnable() {
 //			public void run() {
@@ -2028,10 +2031,9 @@ public class DashboardHome extends JFrame {
 	public static void load_orders() {
 		model_ordersPurchase.setRowCount(0);
 		rows = new Object[model_ordersPurchase.getColumnCount()];
-		
+
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
-		
 		for (PurchaseOrder orders : Store.getInstance().getOrders()) {
 			String ordenStatus = "";
 			if (orders.isDone()) {
@@ -2049,32 +2051,29 @@ public class DashboardHome extends JFrame {
 		}
 
 	}
-	
-    private PieDataset createDataset() {
-        DefaultPieDataset result = new DefaultPieDataset();
-        result.setValue("CPU", 29);
-        result.setValue("RAM", 20);
-        result.setValue("Motherboard", 51);
-        result.setValue("Drive", 51);
-        return result;
 
-    }
-    
-    private JFreeChart createChart(PieDataset dataset, String title) {
+	private PieDataset createDataset() {
+		DefaultPieDataset result = new DefaultPieDataset();
+		result.setValue("CPU", 29);
+		result.setValue("RAM", 20);
+		result.setValue("Motherboard", 51);
+		result.setValue("Drive", 51);
+		return result;
 
-        JFreeChart chart = ChartFactory.createPieChart3D(
-            title,                  // chart title
-            dataset,                // data
-            false,                   // include legend
-            true,
-            false
-        );
+	}
 
-        PiePlot3D plot = (PiePlot3D) chart.getPlot();
-        plot.setStartAngle(290);
-        plot.setDirection(Rotation.CLOCKWISE);
-        plot.setForegroundAlpha(0.5f);
-        return chart;
+	private JFreeChart createChart(PieDataset dataset, String title) {
 
-    }
+		JFreeChart chart = ChartFactory.createPieChart3D(title, // chart title
+				dataset, // data
+				false, // include legend
+				true, false);
+
+		PiePlot3D plot = (PiePlot3D) chart.getPlot();
+		plot.setStartAngle(290);
+		plot.setDirection(Rotation.CLOCKWISE);
+		plot.setForegroundAlpha(0.5f);
+		return chart;
+
+	}
 }

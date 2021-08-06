@@ -59,6 +59,7 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.demo.PieChartDemo1;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
@@ -66,6 +67,7 @@ import org.jfree.util.Rotation;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.ListSelectionModel;
+import javax.swing.RootPaneContainer;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerModel;
 import javax.swing.DefaultListModel;
@@ -161,6 +163,7 @@ public class DashboardHome extends JFrame {
 	private static JButton btnEliminarCombo;
 	private Combo selected_combo = null;
 	private JButton btnConfirmarOrden;
+	private JPanel grafica2;
 
 	/**
 	 * Launch the application.
@@ -709,7 +712,7 @@ public class DashboardHome extends JFrame {
 		table_combos.setModel(model_combos);
 		scrollPane_3.setViewportView(table_combos);
 
-		JPanel grafica2 = new JPanel();
+		grafica2 = new JPanel();
 		grafica2.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		grafica2.setBackground(Color.WHITE);
 		grafica2.setLayout(null);
@@ -718,13 +721,18 @@ public class DashboardHome extends JFrame {
 		{
 	        PieDataset dataset = createDataset();
 	        // based on the dataset we create the chart
-	        JFreeChart chart = createChart(dataset, "Prueba");
+	        JFreeChart chart = createChart(dataset, "");
+	        
+	        ChartPanel chartpanel = new ChartPanel(chart);
+	        chartpanel.setPreferredSize(new java.awt.Dimension(800, 870));
+	        //grafica2.add(chartpanel);
 	        // we put the chart into a panel
-	        ChartPanel chartPanel = new ChartPanel(chart);
+//	        ChartPanel chartPanel = new ChartPanel(chart);
 	        // default size
-	        chartPanel.setPreferredSize(new java.awt.Dimension(100, 170));
+//	        chartPanel.setPreferredSize(new java.awt.Dimension(800, 870));
 	        // add it to our application
-	        grafica2.add(chartPanel);
+//	        setContentPane(chartPanel);
+	        
 		}
 
 
@@ -749,7 +757,7 @@ public class DashboardHome extends JFrame {
 		panelGraficoSuperior2.setBounds(782, 366, 626, 63);
 		panelMenu.add(panelGraficoSuperior2);
 
-		JLabel Grafico2 = new JLabel("Grafico 2");
+		JLabel Grafico2 = new JLabel("Ventas por Componentes");
 		Grafico2.setHorizontalAlignment(SwingConstants.CENTER);
 		Grafico2.setForeground(Color.WHITE);
 		Grafico2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 17));
@@ -2044,9 +2052,10 @@ public class DashboardHome extends JFrame {
 	
     private PieDataset createDataset() {
         DefaultPieDataset result = new DefaultPieDataset();
-        result.setValue("Linux", 29);
-        result.setValue("Mac", 20);
-        result.setValue("Windows", 51);
+        result.setValue("CPU", 29);
+        result.setValue("RAM", 20);
+        result.setValue("Motherboard", 51);
+        result.setValue("Drive", 51);
         return result;
 
     }
@@ -2056,7 +2065,7 @@ public class DashboardHome extends JFrame {
         JFreeChart chart = ChartFactory.createPieChart3D(
             title,                  // chart title
             dataset,                // data
-            true,                   // include legend
+            false,                   // include legend
             true,
             false
         );

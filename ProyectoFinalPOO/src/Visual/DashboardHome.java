@@ -21,6 +21,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
@@ -46,6 +48,8 @@ import logico.RAM;
 
 import logico.Store;
 import logico.User;
+import javax.swing.JList;
+
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.border.SoftBevelBorder;
@@ -55,6 +59,7 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.demo.PieChartDemo1;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
@@ -62,7 +67,9 @@ import org.jfree.util.Rotation;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.ListSelectionModel;
+import javax.swing.RootPaneContainer;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -414,7 +421,6 @@ public class DashboardHome extends JFrame {
 				panelComponentes.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelTienda.setVisible(false);
-				
 
 				UsuariosOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				MenuOPC.setFont(new Font("Yu Gothic UI", Font.BOLD, 17));
@@ -713,7 +719,6 @@ public class DashboardHome extends JFrame {
 		grafica2.setBounds(782, 426, 626, 353);
 		panelMenu.add(grafica2);
 		{
-			
 	        PieDataset dataset = createDataset();
 	        // based on the dataset we create the chart
 	        JFreeChart chart = createChart(dataset, "");
@@ -729,10 +734,6 @@ public class DashboardHome extends JFrame {
 //	        setContentPane(chartPanel);
 	        
 		}
-		
-		JButton btnNewButton = new JButton("Ver grafica");
-		btnNewButton.setBounds(0, 0, 89, 23);
-		grafica2.add(btnNewButton);
 
 
 		JPanel panelComboSuperior1 = new JPanel();
@@ -2048,7 +2049,6 @@ public class DashboardHome extends JFrame {
 		}
 
 	}
-	
 	
     private PieDataset createDataset() {
         DefaultPieDataset result = new DefaultPieDataset();

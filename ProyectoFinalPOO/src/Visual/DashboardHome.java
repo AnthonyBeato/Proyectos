@@ -316,6 +316,7 @@ public class DashboardHome extends JFrame {
 				ClientesOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				TiendaOPC.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
 				AdministracionOPC.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 17));
+				load_all();
 			}
 		});
 		AdministracionOPC.setForeground(new Color(102, 102, 255));
@@ -2220,6 +2221,7 @@ public class DashboardHome extends JFrame {
 		 * load_users(); load_customers(); load_almacen(); etc.
 		 */
 	}
+	
 
 	public void load_all() {
 

@@ -1475,7 +1475,8 @@ public class DashboardHome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Combo combo = null;
 				
-				//String 
+				
+				String code = null; 
 			}
 		});
 		btnGenerarCombo.setForeground(Color.WHITE);
@@ -2262,3 +2263,5 @@ public class DashboardHome extends JFrame {
 
     }
 }
+
+

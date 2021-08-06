@@ -1473,10 +1473,40 @@ public class DashboardHome extends JFrame {
 		JButton btnGenerarCombo = new JButton("Generar Combo");
 		btnGenerarCombo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Combo combo = null;
+				String item = cbxMotherboard.getSelectedItem().toString();
+				String code = item.substring(0, item.indexOf('.'));
+				Motherboard motherboard = (Motherboard) Store.getInstance().search_component(code);
+				for (int i = 0; i < Integer.valueOf(spnMotherboard.getValue().toString()); i++) {
+					combo_components.add(motherboard);
+				}
 				
+				item = cbxCPU.getSelectedItem().toString();
+				code = item.substring(0, item.indexOf('.'));
+				CPU cpu = (CPU) Store.getInstance().search_component(code);
+				for (int i = 0; i < Integer.valueOf(spnCpu.getValue().toString()); i++) {
+					combo_components.add(cpu);
+				}
 				
-				String code = null; 
+				item = cbxRAM.getSelectedItem().toString();
+				code = item.substring(0, item.indexOf('.'));
+				RAM ram = (RAM) Store.getInstance().search_component(code);
+				for (int i = 0; i < Integer.valueOf(spnRam.getValue().toString()); i++) {
+					combo_components.add(ram);
+				}
+				
+				item = cbxDiscoDuro.getSelectedItem().toString();
+				code = item.substring(0, item.indexOf('.'));
+				Drive drive = (Drive) Store.getInstance().search_component(code);
+				for (int i = 0; i < Integer.valueOf(spnDiscoDuro.getValue().toString()); i++) {
+					combo_components.add(drive);
+				}
+				
+				Combo combo = new Combo(txtCodigoCombo.getText(), combo_components, Float.valueOf(spnDescuento.getValue().toString()));
+				Store.getInstance().addCombo(combo);
+				JOptionPane.showMessageDialog(null, "Combo creado satisfactoriamente.", "Creación de combo", JOptionPane.INFORMATION_MESSAGE);
+				combo_components.clear();
+				fill_comboboxes();
+				clean_combos();
 			}
 		});
 		btnGenerarCombo.setForeground(Color.WHITE);
@@ -2233,6 +2263,19 @@ public class DashboardHome extends JFrame {
 			model_ordersPurchase.addRow(rows);
 		}
 
+	}
+	
+	private void clean_combos() {
+		txtCodigoCombo.setText("");
+		spnDescuento.setValue(0);
+		cbxMotherboard.setSelectedIndex(0);
+		spnMotherboard.setValue(0);
+		cbxCPU.setSelectedIndex(0);
+		spnCpu.setValue(0);
+		cbxRAM.setSelectedIndex(0);
+		spnRam.setValue(0);
+		cbxDiscoDuro.setSelectedIndex(0);
+		spnDiscoDuro.setValue(0);
 	}
 	
     private PieDataset createDataset() {

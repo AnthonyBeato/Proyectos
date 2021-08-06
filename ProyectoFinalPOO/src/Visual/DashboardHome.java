@@ -757,34 +757,6 @@ public class DashboardHome extends JFrame {
 		grafica2.setBounds(782, 426, 626, 353);
 		panelMenu.add(grafica2);
 		grafica2.setLayout(new BorderLayout(0, 0));
-		
-		
-
-		
-		Date fechaActual = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(fechaActual);
-		XYSeries datos = new XYSeries("Ventas en Total");
-		
-		float montoXDia = 0;
-		
-		for(int i= 1 ; i <= calendar.get(Calendar.DAY_OF_MONTH); i++) {
-			montoXDia = 0;
-			for (Invoice invoice : Store.getInstance().getInvoices()) {
-				Calendar fechaFactura = Calendar.getInstance();
-				fechaFactura.setTime(invoice.getDate());
-				if (fechaFactura.get(Calendar.DAY_OF_MONTH) == i && (fechaFactura.get(Calendar.MONTH) == fechaActual.getMonth())) {
-					montoXDia += invoice.get_total();
-				}
-			}
-			datos.add(i, montoXDia);
-		}
-		
-		XYSeriesCollection datosCollection = new XYSeriesCollection();
-		datosCollection.addSeries(datos);
-		JFreeChart chart = ChartFactory.createXYLineChart("Ventas del Mes", getWarningString(), getName(), datosCollection);
-		ChartPanel chartpanel = new ChartPanel(chart);
-		chartpanel.setPreferredSize(new java.awt.Dimension(500, 550));
 
 //		PieDataset dataset = createDataset();
 //		JFreeChart chart = createChart(dataset, "");
@@ -796,12 +768,40 @@ public class DashboardHome extends JFrame {
 		btnVerGrafica.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnVerGrafica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				Date fechaActual = new Date();
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(fechaActual);
+				XYSeries datos = new XYSeries("Ventas en Total");
+
+				float montoXDia = 0;
+
+				for (int i = 1; i <= calendar.get(Calendar.DAY_OF_MONTH); i++) {
+					montoXDia = 0;
+					for (Invoice invoice : Store.getInstance().getInvoices()) {
+						Calendar fechaFactura = Calendar.getInstance();
+						fechaFactura.setTime(invoice.getDate());
+						if (fechaFactura.get(Calendar.DAY_OF_MONTH) == i
+								&& (fechaFactura.get(Calendar.MONTH) == fechaActual.getMonth())) {
+							montoXDia += invoice.get_total();
+						}
+					}
+					datos.add(i, montoXDia);
+				}
+
+				XYSeriesCollection datosCollection = new XYSeriesCollection();
+				datosCollection.addSeries(datos);
+				JFreeChart chart = ChartFactory.createXYLineChart("Ventas del Mes", getWarningString(), getName(),
+						datosCollection);
+
+				ChartPanel chartpanel = new ChartPanel(chart);
+				chartpanel.setPreferredSize(new java.awt.Dimension(500, 550));
 				JFrame informacion = new JFrame("Grafica");
 				informacion.getContentPane().add(chartpanel);
 				informacion.pack();
 				informacion.setLocationRelativeTo(null);
 				informacion.setVisible(true);
-				
+
 			}
 		});
 		btnVerGrafica.setForeground(Color.WHITE);
@@ -2120,21 +2120,46 @@ public class DashboardHome extends JFrame {
 		Thread hiloGenerarOrden = new Thread(runnableGenerarOrden);
 		hiloGenerarOrden.start();
 
-//		HILO PARA REFRESCAR TABLAS 
-//		Runnable runnableLoadTables = new Runnable() {
-//			public void run() {
-//				while (true) {
-//					try {
-//						Thread.sleep(4000);
-//						load_all();
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//		};
-//		Thread hiloLoadTables = new Thread(runnableLoadTables);
-//		hiloLoadTables.start();
+//		HILO PARA REFRESCAR GRAFICOS 
+		Runnable runnableGraficos = new Runnable() {
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(10000);
+						Date fechaActual = new Date();
+						Calendar calendar = Calendar.getInstance();
+						calendar.setTime(fechaActual);
+						XYSeries datos = new XYSeries("Ventas en Total");
+
+						float montoXDia = 0;
+
+						for (int i = 1; i <= calendar.get(Calendar.DAY_OF_MONTH); i++) {
+							montoXDia = 0;
+							for (Invoice invoice : Store.getInstance().getInvoices()) {
+								Calendar fechaFactura = Calendar.getInstance();
+								fechaFactura.setTime(invoice.getDate());
+								if (fechaFactura.get(Calendar.DAY_OF_MONTH) == i
+										&& (fechaFactura.get(Calendar.MONTH) == fechaActual.getMonth())) {
+									montoXDia += invoice.get_total();
+								}
+							}
+							datos.add(i, montoXDia);
+						}
+
+						XYSeriesCollection datosCollection = new XYSeriesCollection();
+						datosCollection.addSeries(datos);
+						JFreeChart chart = ChartFactory.createXYLineChart("Ventas del Mes", getWarningString(), getName(),
+								datosCollection);
+						ChartPanel chartpanel = new ChartPanel(chart);
+						chartpanel.setPreferredSize(new java.awt.Dimension(500, 550));
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		Thread hiloGraficos = new Thread(runnableGraficos);
+		hiloGraficos.start();
 
 		load_all();
 		/*
@@ -2420,6 +2445,7 @@ public class DashboardHome extends JFrame {
 
 	}
 
+
 	private void clean_combos() {
 		txtCodigoCombo.setText("");
 		spnDescuento.setValue(0);
@@ -2434,28 +2460,4 @@ public class DashboardHome extends JFrame {
 		btnGenerarCombo.setText("Generar Combo");
 	}
 
-	private PieDataset createDataset() {
-		DefaultPieDataset result = new DefaultPieDataset();
-		result.setValue("CPU", 29);
-		result.setValue("RAM", 20);
-		result.setValue("Motherboard", 51);
-		result.setValue("Drive", 51);
-		return result;
-
-	}
-
-	private JFreeChart createChart(PieDataset dataset, String title) {
-
-		JFreeChart chart = ChartFactory.createPieChart3D(title, // chart title
-				dataset, // data
-				false, // include legend
-				true, false);
-
-		PiePlot3D plot = (PiePlot3D) chart.getPlot();
-		plot.setStartAngle(290);
-		plot.setDirection(Rotation.CLOCKWISE);
-		plot.setForegroundAlpha(0.5f);
-		return chart;
-
-	}
 }

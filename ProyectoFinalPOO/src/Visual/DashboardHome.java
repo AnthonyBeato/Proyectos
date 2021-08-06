@@ -882,7 +882,7 @@ public class DashboardHome extends JFrame {
 		separator_1_2.setForeground(new Color(211, 211, 211));
 		separator_1_2.setBounds(0, 40, 1457, 11);
 		panelComponentes.add(separator_1_2);
-
+ 
 		JPanel panelTablaComponentes = new JPanel();
 		panelTablaComponentes.setBounds(25, 125, 1410, 700);
 		panelComponentes.add(panelTablaComponentes);

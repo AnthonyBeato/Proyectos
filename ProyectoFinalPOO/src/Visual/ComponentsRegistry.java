@@ -89,6 +89,8 @@ public class ComponentsRegistry extends JDialog {
 				}
 				{
 					txtSerial = new JTextField();
+					txtSerial.setEditable(false);
+					txtSerial.setText(""+Store.getInstance().autogenerateId());
 					txtSerial.setBounds(55, 23, 167, 23);
 					panel_1.add(txtSerial);
 					txtSerial.setColumns(10);
@@ -389,7 +391,7 @@ public class ComponentsRegistry extends JDialog {
 							String model = txtModelTarjeta.getText();
 							String socket = txtSocketTarjeta.getText();
 							String ramCompatible = cbxRAMCompatibles.getSelectedItem().toString();
-							String hddCompatible = cbxHDDcompatibles.getSelectedItem().toString();
+							String hddCompatible = cbxHDDcompatibles.getSelectedItem().toString(); 
 							//aux = new Motherboard(serial, disponibles, precio, marca, minimo, maximo, model, socket, ramCompatible, hddCompatible);
 						}
 						if(rdbtnCpu.isSelected()) {

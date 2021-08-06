@@ -224,7 +224,7 @@ public class UserRegistry extends JDialog {
 						}
 						DashboardHome.load_users();
 						dispose();
-					}
+					} 
 				});
 				btn_registrar.setActionCommand("OK");
 				buttonPane.add(btn_registrar);

@@ -84,7 +84,7 @@ public class ComponentsRegistry extends JDialog {
 		}else {
 			setTitle("Modificar componentes");
 		}
-		setBounds(100, 100, 568, 545);
+		setBounds(100, 100, 648, 545);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -97,7 +97,7 @@ public class ComponentsRegistry extends JDialog {
 			{
 				JPanel panel_1 = new JPanel();
 				panel_1.setBorder(new TitledBorder(null, "Informaci\u00F3n general", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel_1.setBounds(10, 11, 524, 179);
+				panel_1.setBounds(10, 11, 602, 179);
 				panel.add(panel_1);
 				panel_1.setLayout(null);
 				{
@@ -115,13 +115,13 @@ public class ComponentsRegistry extends JDialog {
 				}
 				{
 					JLabel lblNewLabel_1 = new JLabel("Disponibles:");
-					lblNewLabel_1.setBounds(266, 27, 99, 14);
+					lblNewLabel_1.setBounds(352, 27, 129, 14);
 					panel_1.add(lblNewLabel_1);
 				}
 				{
 					spnDisponibles = new JSpinner();
 					spnDisponibles.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-					spnDisponibles.setBounds(335, 23, 167, 23);
+					spnDisponibles.setBounds(425, 23, 167, 23);
 					panel_1.add(spnDisponibles);
 				}
 				{
@@ -136,42 +136,42 @@ public class ComponentsRegistry extends JDialog {
 				}
 				{
 					JLabel lblMarca = new JLabel("Marca:");
-					lblMarca.setBounds(292, 61, 123, 14);
+					lblMarca.setBounds(376, 56, 146, 14);
 					panel_1.add(lblMarca);
 				}
 				{
 					txtMarca = new JTextField();
 					txtMarca.setColumns(10);
-					txtMarca.setBounds(335, 57, 167, 23);
+					txtMarca.setBounds(425, 52, 167, 23);
 					panel_1.add(txtMarca);
 				}
 				{
 					JLabel lblCantidadMnima = new JLabel("Cantidad m\u00EDnima:");
-					lblCantidadMnima.setBounds(107, 98, 99, 14);
+					lblCantidadMnima.setBounds(160, 95, 123, 14);
 					panel_1.add(lblCantidadMnima);
 				}
 				{
 					spnCantMin = new JSpinner();
 					spnCantMin.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-					spnCantMin.setBounds(198, 94, 167, 23);
+					spnCantMin.setBounds(264, 91, 167, 23);
 					panel_1.add(spnCantMin);
 				}
 				{
 					JLabel lblCantidadMxima = new JLabel("Cantidad m\u00E1xima:");
-					lblCantidadMxima.setBounds(107, 134, 99, 14);
+					lblCantidadMxima.setBounds(160, 131, 129, 14);
 					panel_1.add(lblCantidadMxima);
 				}
 				{
 					spnCantMax = new JSpinner();
 					spnCantMax.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-					spnCantMax.setBounds(198, 130, 167, 23);
+					spnCantMax.setBounds(264, 127, 167, 23);
 					panel_1.add(spnCantMax);
 				}
 			}
 			{
 				JPanel panelOpciones = new JPanel();
 				panelOpciones.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panelOpciones.setBounds(10, 201, 524, 65);
+				panelOpciones.setBounds(10, 201, 602, 65);
 				panel.add(panelOpciones);
 				panelOpciones.setLayout(null);
 				
@@ -189,7 +189,7 @@ public class ComponentsRegistry extends JDialog {
 					}
 				});
 				rdbtnTarjetaMadre.setSelected(true);
-				rdbtnTarjetaMadre.setBounds(35, 19, 117, 23);
+				rdbtnTarjetaMadre.setBounds(50, 19, 117, 23);
 				panelOpciones.add(rdbtnTarjetaMadre);
 				
 				rdbtnCpu = new JRadioButton("CPU");
@@ -205,7 +205,7 @@ public class ComponentsRegistry extends JDialog {
 						panelDRIVE.setVisible(false);
 					}
 				});
-				rdbtnCpu.setBounds(187, 19, 62, 23);
+				rdbtnCpu.setBounds(217, 19, 62, 23);
 				panelOpciones.add(rdbtnCpu);
 				
 				rdbtnRam = new JRadioButton("RAM");
@@ -221,7 +221,7 @@ public class ComponentsRegistry extends JDialog {
 						panelDRIVE.setVisible(false);
 					}
 				});
-				rdbtnRam.setBounds(284, 19, 85, 23);
+				rdbtnRam.setBounds(329, 19, 85, 23);
 				panelOpciones.add(rdbtnRam);
 				
 				rdbtnDrive = new JRadioButton("Drive");
@@ -237,32 +237,32 @@ public class ComponentsRegistry extends JDialog {
 						panelDRIVE.setVisible(true);
 					}
 				});
-				rdbtnDrive.setBounds(404, 19, 85, 23);
+				rdbtnDrive.setBounds(464, 19, 85, 23);
 				panelOpciones.add(rdbtnDrive);
 			}
 			
 			panelTarjetaMadre = new JPanel();
 			panelTarjetaMadre.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panelTarjetaMadre.setBounds(10, 277, 524, 175);
+			panelTarjetaMadre.setBounds(10, 277, 602, 175);
 			panel.add(panelTarjetaMadre);
 			panelTarjetaMadre.setLayout(null);
 			
 			JLabel lblNewLabel_2 = new JLabel("Model:");
-			lblNewLabel_2.setBounds(51, 15, 68, 14);
+			lblNewLabel_2.setBounds(65, 15, 68, 14);
 			panelTarjetaMadre.add(lblNewLabel_2);
 			
 			txtModelTarjeta = new JTextField();
 			txtModelTarjeta.setColumns(10);
-			txtModelTarjeta.setBounds(93, 11, 158, 23);
+			txtModelTarjeta.setBounds(117, 11, 158, 23);
 			panelTarjetaMadre.add(txtModelTarjeta);
 			
 			JLabel lblSocket = new JLabel("Socket:");
-			lblSocket.setBounds(312, 15, 68, 14);
+			lblSocket.setBounds(385, 15, 68, 14);
 			panelTarjetaMadre.add(lblSocket);
 			
 			txtSocketTarjeta = new JTextField();
 			txtSocketTarjeta.setColumns(10);
-			txtSocketTarjeta.setBounds(352, 11, 158, 23);
+			txtSocketTarjeta.setBounds(434, 11, 158, 23);
 			panelTarjetaMadre.add(txtSocketTarjeta);
 			{
 				JLabel lblRamCompatible = new JLabel("Ram compatible:");
@@ -271,36 +271,51 @@ public class ComponentsRegistry extends JDialog {
 			}
 			{
 				JLabel lblHddsCompatible = new JLabel("HDD's compatible:");
-				lblHddsCompatible.setBounds(261, 52, 109, 14);
+				lblHddsCompatible.setBounds(285, 52, 144, 14);
 				panelTarjetaMadre.add(lblHddsCompatible);
 			}
 			
 			cbxRAMCompatibles = new JComboBox();
 			int cantRam = RAM.counter;
-			int i = 0;
+			int i = 1;
+			int k = 0;
 			String[] comboBoxItemsRam = new String[cantRam];
+			ArrayList<String> buffer = new ArrayList<String>();
+			comboBoxItemsRam[0] = "<Seleccione>";
 			for (logico.Component componentes : Store.getInstance().getComponents()) {
 				if (componentes instanceof RAM) {
-					comboBoxItemsRam[i] =  ((RAM) componentes).getType();
-					i++;
+					if(!(buffer.contains(((RAM) componentes).getType()))) {
+						buffer.add( ((RAM) componentes).getType() );
+					}
 				}
 			}
+			for (i = 1; i < buffer.size()+1; i++) {
+				comboBoxItemsRam[i] = buffer.get(k).toString();
+				k++;
+			}
 			cbxRAMCompatibles.setModel(new DefaultComboBoxModel(comboBoxItemsRam));
-			cbxRAMCompatibles.setBounds(93, 48, 158, 23);
+			cbxRAMCompatibles.setBounds(117, 48, 158, 23);
 			panelTarjetaMadre.add(cbxRAMCompatibles);
 			
 			cbxHDDcompatibles = new JComboBox();
 			int cantHDD = Drive.counter;
-			int j = 0;
-			String[] comboBoxItemsHDD = new String[cantRam];
+			String[] comboBoxItemsHDD = new String[cantHDD];
+			ArrayList<String> bufferHDD = new ArrayList<String>();
+			comboBoxItemsHDD[0] = "<Seleccione>";
 			for (logico.Component componentes : Store.getInstance().getComponents()) {
 				if (componentes instanceof Drive) {
-					comboBoxItemsHDD[i] =  ((Drive) componentes).getConnector();
-					i++;
+					if(!(bufferHDD.contains(((Drive) componentes).getConnector()))) {
+						bufferHDD.add( ((Drive) componentes).getConnector() );
+					}
 				}
 			}
+			int j = 0;
+			for (i = 1; i < bufferHDD.size()+1; i++) {
+				comboBoxItemsHDD[i] = bufferHDD.get(j).toString();
+				j++;
+			}
 			cbxHDDcompatibles.setModel(new DefaultComboBoxModel(comboBoxItemsHDD));
-			cbxHDDcompatibles.setBounds(352, 48, 74, 23);
+			cbxHDDcompatibles.setBounds(395, 48, 112, 23);
 			panelTarjetaMadre.add(cbxHDDcompatibles);
 			
 			JButton btnAgregar = new JButton("+");
@@ -310,7 +325,7 @@ public class ComponentsRegistry extends JDialog {
 					listModelDrive.addElement(aux);
 				}
 			});
-			btnAgregar.setBounds(433, 48, 41, 23);
+			btnAgregar.setBounds(509, 48, 41, 23);
 			panelTarjetaMadre.add(btnAgregar);
 			
 			btnBorrar = new JButton("-");
@@ -319,12 +334,12 @@ public class ComponentsRegistry extends JDialog {
 					listModelDrive.remove(listDisponible.getSelectedIndex());
 				}
 			});
-			btnBorrar.setBounds(473, 48, 41, 23);
+			btnBorrar.setBounds(551, 48, 41, 23);
 			panelTarjetaMadre.add(btnBorrar);
 			
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPane.setBounds(352, 82, 162, 82);
+			scrollPane.setBounds(394, 77, 198, 87);
 			panelTarjetaMadre.add(scrollPane);
 			
 			listDisponible = new JList();
@@ -346,29 +361,29 @@ public class ComponentsRegistry extends JDialog {
 			panelCPU = new JPanel();
 			panelCPU.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelCPU.setVisible(false);
-			panelCPU.setBounds(10, 277, 524, 175);
+			panelCPU.setBounds(10, 277, 602, 175);
 			panel.add(panelCPU);
 			panelCPU.setLayout(null);
 			{
 				JLabel label = new JLabel("Model:");
-				label.setBounds(51, 15, 68, 14);
+				label.setBounds(65, 15, 68, 14);
 				panelCPU.add(label);
 			}
 			{
 				txtModelCPU = new JTextField();
 				txtModelCPU.setColumns(10);
-				txtModelCPU.setBounds(93, 11, 158, 23);
+				txtModelCPU.setBounds(117, 11, 158, 23);
 				panelCPU.add(txtModelCPU);
 			}
 			{
 				JLabel label = new JLabel("Socket:");
-				label.setBounds(312, 15, 68, 14);
+				label.setBounds(385, 15, 68, 14);
 				panelCPU.add(label);
 			}
 			{
 				txtSocketCPU = new JTextField();
 				txtSocketCPU.setColumns(10);
-				txtSocketCPU.setBounds(352, 11, 158, 23);
+				txtSocketCPU.setBounds(434, 11, 158, 23);
 				panelCPU.add(txtSocketCPU);
 			}
 			{
@@ -378,14 +393,14 @@ public class ComponentsRegistry extends JDialog {
 			}
 			{
 				spnVelocidad = new JSpinner();
-				spnVelocidad.setBounds(93, 48, 158, 23);
+				spnVelocidad.setBounds(117, 48, 158, 23);
 				panelCPU.add(spnVelocidad);
 			}
 			
 			panelRAM = new JPanel();
 			panelRAM.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelRAM.setVisible(false);
-			panelRAM.setBounds(10, 277, 524, 175);
+			panelRAM.setBounds(10, 277, 602, 175);
 			panel.add(panelRAM);
 			panelRAM.setLayout(null);
 			{
@@ -396,7 +411,7 @@ public class ComponentsRegistry extends JDialog {
 			{
 				cbxTipo = new JComboBox();
 				cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3"}));
-				cbxTipo.setBounds(93, 11, 158, 23);
+				cbxTipo.setBounds(117, 11, 158, 23);
 				panelRAM.add(cbxTipo);
 			}
 			{
@@ -406,46 +421,46 @@ public class ComponentsRegistry extends JDialog {
 			}
 			{
 				spnCapacidad = new JSpinner();
-				spnCapacidad.setBounds(352, 11, 158, 23);
+				spnCapacidad.setBounds(434, 11, 158, 23);
 				panelRAM.add(spnCapacidad);
 			}
 			
 			panelDRIVE = new JPanel();
 			panelDRIVE.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelDRIVE.setVisible(false);
-			panelDRIVE.setBounds(10, 277, 524, 175);
+			panelDRIVE.setBounds(10, 277, 602, 175);
 			panel.add(panelDRIVE);
 			panelDRIVE.setLayout(null);
 			{
 				JLabel label = new JLabel("Model:");
-				label.setBounds(51, 15, 68, 14);
+				label.setBounds(95, 15, 68, 14);
 				panelDRIVE.add(label);
 			}
 			{
 				txtModelDrive = new JTextField();
 				txtModelDrive.setColumns(10);
-				txtModelDrive.setBounds(93, 11, 158, 23);
+				txtModelDrive.setBounds(140, 11, 158, 23);
 				panelDRIVE.add(txtModelDrive);
 			}
 			{
 				JLabel lblNewLabel_6 = new JLabel("Conector:");
-				lblNewLabel_6.setBounds(312, 15, 68, 14);
+				lblNewLabel_6.setBounds(373, 15, 80, 14);
 				panelDRIVE.add(lblNewLabel_6);
 			}
 			{
 				cbxConector = new JComboBox();
 				cbxConector.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "IDE", "SATA", "SATA-2", "SATA-3"}));
-				cbxConector.setBounds(352, 11, 158, 23);
+				cbxConector.setBounds(434, 11, 158, 23);
 				panelDRIVE.add(cbxConector);
 			}
 			{
 				JLabel lblNewLabel_7 = new JLabel("Almacenamiento: (GB)");
-				lblNewLabel_7.setBounds(10, 52, 109, 14);
+				lblNewLabel_7.setBounds(10, 52, 135, 14);
 				panelDRIVE.add(lblNewLabel_7);
 			}
 			{
 				spnAlmacenamiento = new JSpinner();
-				spnAlmacenamiento.setBounds(93, 48, 158, 23);
+				spnAlmacenamiento.setBounds(140, 48, 158, 23);
 				panelDRIVE.add(spnAlmacenamiento);
 			}
 		}
@@ -455,7 +470,7 @@ public class ComponentsRegistry extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnRegistrar = new JButton("");
+				JButton btnRegistrar = new JButton(""); 
 				if(selected == null) {
 					btnRegistrar.setText("Registrar");
 				}else {
@@ -497,7 +512,7 @@ public class ComponentsRegistry extends JDialog {
 								float capacidad = new Float(spnCapacidad.getValue().toString());
 								aux = new RAM(serial, disponibles, precio, marca, minimo, maximo, tipo, capacidad);
 							}
-							if(rdbtnDrive.isSelected()) {
+							if(rdbtnDrive.isSelected()) {  
 								String model = txtModelDrive.getText();
 								String conector = cbxConector.getSelectedItem().toString();
 								float almacenamiento = new Float(spnAlmacenamiento.getValue().toString());
@@ -546,6 +561,8 @@ public class ComponentsRegistry extends JDialog {
 							Store.getInstance().mod_components(index, selected);
 						}
 						DashboardHome.load_components();
+						DashboardHome.load_orders();
+						DashboardHome.load_invoices();
 						dispose();
 					}
 				});

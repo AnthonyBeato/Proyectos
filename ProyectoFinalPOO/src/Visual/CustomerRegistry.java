@@ -115,6 +115,7 @@ public class CustomerRegistry extends JDialog {
 							Customer aux = new Customer(txtID.getText(), txtNombres.getText(), Float.valueOf(spnCredito.getValue().toString()), Integer.valueOf(spnEdad.getValue().toString()));
 							Store.getInstance().addCustomer(aux);
 							JOptionPane.showMessageDialog(null, "Cliente registrado satisfactoriamente.", "Registro de cliente", JOptionPane.INFORMATION_MESSAGE);
+							DashboardHome.load_customers();
 							clean();
 						}else {
 							selected.setId(txtID.getText());

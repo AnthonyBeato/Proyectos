@@ -160,7 +160,8 @@ public class DashboardHome extends JFrame {
 	private JSpinner spnCantidad;
 
 	private ArrayList<logico.Component> components = new ArrayList<logico.Component>();
-
+	private ArrayList<logico.Combo> combos = new ArrayList<logico.Combo>();
+	
 	private JButton btnBuscarCliente;
 	private JTable table_combos;
 	private static DefaultTableModel model_combos;
@@ -842,7 +843,52 @@ public class DashboardHome extends JFrame {
 		btnFacturarCombo = new JButton("Facturar Combo");
 		btnFacturarCombo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String cedula = JOptionPane.showInputDialog("Cedula del Cliente");
 				
+				Date dateCombo = new Date();
+				Customer clienteCombo = Store.getInstance().search_customer(cedula);
+				User seller = Store.getLoggedUser();
+				boolean paid = false;
+				boolean suficiente = true;
+				Invoice invoice = new Invoice("" + Invoice.counter, dateCombo, seller, clienteCombo, paid);
+				for (logico.Combo combo : combos) {
+					combo.getComponents();
+					for(logico.Component component : components) {
+						invoice.addComponent(component);
+					}
+					
+				}
+
+				if (rdbtnCredito.isSelected()) {
+					if (clienteCombo.getCredit() < invoice.get_total()) {
+						JOptionPane.showMessageDialog(null,
+								"El cliente no posee suficiente crédito para la compra. Por favor pagar en efectivo.",
+								"Aviso", JOptionPane.WARNING_MESSAGE);
+						suficiente = false;
+					}
+				} else {
+					invoice.setPaid(true);
+				}
+
+				if (suficiente) {
+					Store.getInstance().addInvoice(invoice);
+					if (seller instanceof Seller) {
+						((Seller) seller).setSold_amount(((Seller) seller).getSold_amount() + invoice.get_total());
+					}
+					if (rdbtnCredito.isSelected()) {
+						clienteCombo.setCredit(clienteCombo.getCredit() - invoice.get_total());
+					}
+					for (logico.Component component : Store.getInstance().getComponents()) {
+						for (logico.Component bought : invoice.getComponents()) {
+							if (bought == component) {
+								component.setAvailable(component.getAvailable() - 1);
+							}
+						}
+					}
+					JOptionPane.showMessageDialog(null, "Factura generada exitosamente.", "Facturación",
+							JOptionPane.INFORMATION_MESSAGE);
+					load_all();
+				}
 			}
 		});
 		btnFacturarCombo.setForeground(Color.WHITE);
@@ -1666,6 +1712,7 @@ public class DashboardHome extends JFrame {
 					JOptionPane.showMessageDialog(null, "El combo ha sido modificado.", "Modificar Combo",
 							JOptionPane.INFORMATION_MESSAGE);
 					combo_components.clear();
+					load_all();
 					fill_comboboxes();
 					clean_combos();
 				}
@@ -2172,7 +2219,7 @@ public class DashboardHome extends JFrame {
 		 */
 	}
 
-	private void load_all() {
+	public void load_all() {
 
 		clean_tienda();
 		load_users();
@@ -2232,7 +2279,7 @@ public class DashboardHome extends JFrame {
 		cbxDiscoDuro.setModel(hdd_model);
 	}
 
-	private static void load_combos() {
+	public static void load_combos() {
 		model_combos.setRowCount(0);
 		rows = new Object[model_combos.getColumnCount()];
 		for (Combo combo : Store.getInstance().getCombos()) {

@@ -391,6 +391,7 @@ public class ComponentsRegistry extends JDialog {
 				lblNewLabel_3.setBounds(10, 52, 109, 14);
 				panelCPU.add(lblNewLabel_3);
 			}
+			
 			{
 				spnVelocidad = new JSpinner();
 				spnVelocidad.setBounds(117, 48, 158, 23);
@@ -562,6 +563,7 @@ public class ComponentsRegistry extends JDialog {
 						}
 						DashboardHome.load_components();
 						DashboardHome.load_orders();
+						DashboardHome.load_combos();
 						DashboardHome.load_invoices();
 						dispose();
 					}

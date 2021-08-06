@@ -840,6 +840,11 @@ public class DashboardHome extends JFrame {
 		panelGraficoSuperior2.add(Grafico2);
 
 		btnFacturarCombo = new JButton("Facturar Combo");
+		btnFacturarCombo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnFacturarCombo.setForeground(Color.WHITE);
 		btnFacturarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnFacturarCombo.setBorder(new LineBorder(new Color(102, 102, 255)));
@@ -1668,7 +1673,6 @@ public class DashboardHome extends JFrame {
 		});
 		btnGenerarCombo.setForeground(Color.WHITE);
 		btnGenerarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
-		btnGenerarCombo.setEnabled(false);
 		btnGenerarCombo.setBorder(new LineBorder(new Color(102, 102, 255)));
 		btnGenerarCombo.setBackground(new Color(102, 102, 255));
 		btnGenerarCombo.setAlignmentX(0.5f);
@@ -2448,7 +2452,7 @@ public class DashboardHome extends JFrame {
 
 
 	private void clean_combos() {
-		txtCodigoCombo.setText("");
+		txtCodigoCombo.setText(Store.getInstance().autogenerateId());
 		spnDescuento.setValue(0);
 		cbxMotherboard.setSelectedIndex(0);
 		spnMotherboard.setValue(0);

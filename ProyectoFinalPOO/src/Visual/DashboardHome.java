@@ -55,6 +55,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+import org.jfree.util.Rotation;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
@@ -703,9 +712,21 @@ public class DashboardHome extends JFrame {
 		JPanel grafica2 = new JPanel();
 		grafica2.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		grafica2.setBackground(Color.WHITE);
+		grafica2.setLayout(null);
 		grafica2.setBounds(782, 426, 626, 353);
 		panelMenu.add(grafica2);
-		grafica2.setLayout(null);
+		{
+	        PieDataset dataset = createDataset();
+	        // based on the dataset we create the chart
+	        JFreeChart chart = createChart(dataset, "Prueba");
+	        // we put the chart into a panel
+	        ChartPanel chartPanel = new ChartPanel(chart);
+	        // default size
+	        chartPanel.setPreferredSize(new java.awt.Dimension(100, 170));
+	        // add it to our application
+	        grafica2.add(chartPanel);
+		}
+
 
 		JPanel panelComboSuperior1 = new JPanel();
 		panelComboSuperior1.setLayout(null);
@@ -2020,4 +2041,31 @@ public class DashboardHome extends JFrame {
 		}
 
 	}
+	
+    private PieDataset createDataset() {
+        DefaultPieDataset result = new DefaultPieDataset();
+        result.setValue("Linux", 29);
+        result.setValue("Mac", 20);
+        result.setValue("Windows", 51);
+        return result;
+
+    }
+    
+    private JFreeChart createChart(PieDataset dataset, String title) {
+
+        JFreeChart chart = ChartFactory.createPieChart3D(
+            title,                  // chart title
+            dataset,                // data
+            true,                   // include legend
+            true,
+            false
+        );
+
+        PiePlot3D plot = (PiePlot3D) chart.getPlot();
+        plot.setStartAngle(290);
+        plot.setDirection(Rotation.CLOCKWISE);
+        plot.setForegroundAlpha(0.5f);
+        return chart;
+
+    }
 }

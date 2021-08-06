@@ -185,6 +185,7 @@ public class DashboardHome extends JFrame {
 	private ArrayList<CPU> cpus = new ArrayList<CPU>();
 	private ArrayList<RAM> rams = new ArrayList<RAM>();
 	private ArrayList<Drive> hdds = new ArrayList<Drive>();
+	private ArrayList<logico.Component> combo_components = new ArrayList<logico.Component>();
 
 	/**
 	 * Launch the application.
@@ -1344,37 +1345,33 @@ public class DashboardHome extends JFrame {
 		lblDiscoDuro.setBounds(380, 138, 158, 40);
 		panelCombosComponentes.add(lblDiscoDuro);
 		
-		for (logico.Component component : Store.getInstance().getComponents()) {
-			if(component instanceof Motherboard) {
-				if(!(motherboards.contains(component))) {
-					motherboards.add((Motherboard) component);
-				}
-			}
-			else if(component instanceof CPU) {
-				if(!(cpus.contains(component))) {
-					cpus.add((CPU) component);
-				}
-			}
-			else if(component instanceof RAM) {
-				if(!(rams.contains(component))) {
-					rams.add((RAM) component);
-				}
-			}
-			else if(component instanceof Drive) {
-				if(!(hdds.contains(component))) {
-					hdds.add((Drive) component);
-				}
-			}
-		}
-		String[] motherboard_items = new String[motherboards.size()];
-		for (int i = 0; i < motherboards.size(); i++) {
-			motherboard_items[i] = motherboards.get(i).getSerial() + " " + motherboards.get(i).getBrand() + " " + motherboards.get(i).getModel();
-		}
-		motherboard_model = new DefaultComboBoxModel(motherboard_items);
-		cbxMotherboard = new JComboBox(motherboard_model);
+		cbxMotherboard = new JComboBox();
 		cbxMotherboard.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
+					String item = (String) e.getItem();
+					String code = item.substring(0, item.indexOf('.'));
+					Motherboard motherboard = (Motherboard) Store.getInstance().search_component(code);
+					
+					for (CPU cpu : cpus) {
+						if(!(motherboard.getSocket().equalsIgnoreCase(cpu.getSocket()))) {
+							cpus.remove(cpu);
+						}
+					}
+					
+					for (RAM ram : rams) {
+						if(!(motherboard.getCompatible_RAM().equalsIgnoreCase(ram.getType()))) {
+							rams.remove(ram);
+						}
+					}
+					
+					for (Drive drive : hdds) {
+						if(!(motherboard.getCompatible_hdds().contains(drive.getConnector()))) {
+							hdds.remove(drive);
+						}
+					}
+					fill_comboboxes();
+					load_component_arrays();
 					
 				}
 			}
@@ -1383,34 +1380,68 @@ public class DashboardHome extends JFrame {
 		cbxMotherboard.setBounds(160, 90, 170, 23);
 		panelCombosComponentes.add(cbxMotherboard);
 		
-		String[] ram_items = new String[rams.size()];
-		for (int i = 0; i < rams.size(); i++) {
-			ram_items[i] = rams.get(i).getSerial() + " " + rams.get(i).getBrand() + " " + rams.get(i).getType() +
-					String.format(java.util.Locale.US,"%.2f", rams.get(i).getCapacity()) + " GB";
-		}
-		ram_model = new DefaultComboBoxModel(ram_items);
-		cbxRAM = new JComboBox(ram_model);
+		cbxRAM = new JComboBox();
+		cbxRAM.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					String item = (String) e.getItem();
+					String code = item.substring(0, item.indexOf('.'));
+					RAM ram = (RAM) Store.getInstance().search_component(code);
+					
+					for (Motherboard motherboard : motherboards) {
+						if(!(ram.getType().equalsIgnoreCase(motherboard.getCompatible_RAM()))) {
+							motherboards.remove(motherboard);
+						}
+					}
+					fill_comboboxes();
+					load_component_arrays();
+				}
+			}
+		});
 		cbxRAM.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxRAM.setBounds(160, 150, 170, 23);
 		panelCombosComponentes.add(cbxRAM);
 		
-		String[] cpu_items = new String[cpus.size()];
-		for (int i = 0; i < cpus.size(); i++) {
-			cpu_items[i] = cpus.get(i).getSerial() + " " + cpus.get(i).getBrand() + " " + cpus.get(i).getModel();
-		}
-		cpu_model = new DefaultComboBoxModel(cpu_items);
-		cbxCPU = new JComboBox(cpu_model);
+		cbxCPU = new JComboBox();
+		cbxCPU.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					String item = (String) e.getItem();
+					String code = item.substring(0, item.indexOf('.'));
+					CPU cpu = (CPU) Store.getInstance().search_component(code);
+					
+					for (Motherboard motherboard : motherboards) {
+						if(!(cpu.getSocket().equalsIgnoreCase(motherboard.getSocket()))) {
+							motherboards.remove(motherboard);
+						}
+					}
+					fill_comboboxes();
+					load_component_arrays();
+				}
+			}
+		});
 		cbxCPU.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxCPU.setBounds(540, 90, 170, 23);
 		panelCombosComponentes.add(cbxCPU);
 		
-		String[] hdd_items = new String[hdds.size()];
-		for (int i = 0; i < hdds.size(); i++) {
-			hdd_items[i] = hdds.get(i).getSerial() + " " + hdds.get(i).getBrand() + " " + 
-					String.format(java.util.Locale.US, "%.2f", hdds.get(i).getStorage()) + " GB";
-		}
-		hdd_model = new DefaultComboBoxModel(hdd_items);
-		cbxDiscoDuro = new JComboBox(hdd_model);
+		cbxDiscoDuro = new JComboBox();
+		cbxDiscoDuro.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					String item = (String) e.getItem();
+					String code = item.substring(0, item.indexOf('.'));
+					Drive drive = (Drive) Store.getInstance().search_component(code);
+					
+					for (Motherboard motherboard : motherboards) {
+						if(!(motherboard.getCompatible_hdds().contains(drive.getConnector()))) {
+							motherboards.remove(motherboard);
+						}
+					}
+					fill_comboboxes();
+					load_component_arrays();
+				}
+			}
+		});
 		cbxDiscoDuro.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		cbxDiscoDuro.setBounds(540, 150, 170, 23);
 		panelCombosComponentes.add(cbxDiscoDuro);
@@ -1440,6 +1471,13 @@ public class DashboardHome extends JFrame {
 		panelCombosComponentes.add(spnDiscoDuro);
 		
 		JButton btnGenerarCombo = new JButton("Generar Combo");
+		btnGenerarCombo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Combo combo = null;
+				
+				//String 
+			}
+		});
 		btnGenerarCombo.setForeground(Color.WHITE);
 		btnGenerarCombo.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		btnGenerarCombo.setEnabled(false);
@@ -1924,7 +1962,54 @@ public class DashboardHome extends JFrame {
 		load_invoices();
 		load_combos();
 		load_orders();
+		load_component_arrays();
+		fill_comboboxes();
 
+	}
+	
+	private void fill_comboboxes() {
+		fill_motherboards();
+		fill_cpus();
+		fill_rams();
+		fill_hdds();
+	}
+	
+	private void fill_rams() {
+		String[] ram_items = new String[rams.size()];
+		for (int i = 0; i < rams.size(); i++) {
+			ram_items[i] = rams.get(i).getSerial() + ". " + rams.get(i).getBrand() + " " + rams.get(i).getType() +
+					String.format(java.util.Locale.US,"%.2f", rams.get(i).getCapacity()) + " GB";
+		}
+		ram_model = new DefaultComboBoxModel(ram_items);
+		cbxRAM.setModel(ram_model);
+	}
+	
+	private void fill_motherboards() {
+		String[] motherboard_items = new String[motherboards.size()];
+		for (int i = 0; i < motherboards.size(); i++) {
+			motherboard_items[i] = motherboards.get(i).getSerial() + ". " + motherboards.get(i).getBrand() + " " + motherboards.get(i).getModel();
+		}
+		motherboard_model = new DefaultComboBoxModel(motherboard_items);
+		cbxMotherboard.setModel(motherboard_model);
+	}
+	
+	private void fill_cpus() {
+		String[] cpu_items = new String[cpus.size()];
+		for (int i = 0; i < cpus.size(); i++) {
+			cpu_items[i] = cpus.get(i).getSerial() + ". " + cpus.get(i).getBrand() + " " + cpus.get(i).getModel();
+		}
+		cpu_model = new DefaultComboBoxModel(cpu_items);
+		cbxCPU.setModel(cpu_model);
+	}
+	
+	private void fill_hdds() {
+		String[] hdd_items = new String[hdds.size()];
+		for (int i = 0; i < hdds.size(); i++) {
+			hdd_items[i] = hdds.get(i).getSerial() + ". " + hdds.get(i).getBrand() + " " + 
+					String.format(java.util.Locale.US, "%.2f", hdds.get(i).getStorage()) + " GB";
+		}
+		hdd_model = new DefaultComboBoxModel(hdd_items);
+		cbxDiscoDuro.setModel(hdd_model);
 	}
 
 	private static void load_combos() {
@@ -1975,6 +2060,31 @@ public class DashboardHome extends JFrame {
 		btnEliminarCombo.setEnabled(false);
 		btnModificarCombo.setEnabled(false);
 
+	}
+	
+	private void load_component_arrays() {
+		for (logico.Component component : Store.getInstance().getComponents()) {
+			if(component instanceof Motherboard) {
+				if(!(motherboards.contains(component))) {
+					motherboards.add((Motherboard) component);
+				}
+			}
+			else if(component instanceof CPU) {
+				if(!(cpus.contains(component))) {
+					cpus.add((CPU) component);
+				}
+			}
+			else if(component instanceof RAM) {
+				if(!(rams.contains(component))) {
+					rams.add((RAM) component);
+				}
+			}
+			else if(component instanceof Drive) {
+				if(!(hdds.contains(component))) {
+					hdds.add((Drive) component);
+				}
+			}
+		}
 	}
 
 	private void load_almacen() {
